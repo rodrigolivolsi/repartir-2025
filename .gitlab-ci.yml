@@ -58,7 +58,7 @@ integration-test:
 ui-test:
   stage: test
   script:
-    - export CHROME_OPTIONS='--headless --no-sandbox'
+    - export CHROME_OPTIONS="--headless, --no-sandbox"
     - export WDM_CACHEPATH=cache/webdriver/
     - ./gradlew uiTest --info
   artifacts:
@@ -72,7 +72,7 @@ ui-test:
 acceptance-test:
   stage: test
   script:
-    - export CHROME_OPTIONS='--headless --no-sandbox'
+    - export CHROME_OPTIONS='--headless, --no-sandbox'
     - export WDM_CACHEPATH=cache/webdriver/
     - |
       ./gradlew acceptanceTest --info || FAILED=true

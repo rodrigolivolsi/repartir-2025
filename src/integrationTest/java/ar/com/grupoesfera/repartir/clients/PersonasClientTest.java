@@ -1,9 +1,6 @@
 package ar.com.grupoesfera.repartir.clients;
 
-import feign.Contract;
-import feign.Feign;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,10 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import feign.Contract;
+import feign.Feign;
+import feign.codec.Decoder;
+import feign.codec.Encoder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integrationTest")
@@ -28,7 +28,6 @@ class PersonasClientTest {
     private final GenericContainer<?> personasServer = new GenericContainer<>("wiremock/wiremock:2.32.0-1")
             .withExposedPorts(8080)
             .withClasspathResourceMapping("wiremock", "/home/wiremock", BindMode.READ_ONLY);
-
 
     Feign.Builder builder;
     PersonasClient personasClient;
@@ -44,7 +43,7 @@ class PersonasClientTest {
 
     @BeforeEach
     public void configurarCliente() {
-
+        personasServer.start();
         personasClient = builder.target(PersonasClient.class, "http://localhost:" + personasServer.getMappedPort(8080));
     }
 

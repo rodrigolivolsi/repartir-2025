@@ -43,8 +43,7 @@ class PersonasClientTest {
 
     @BeforeEach
     public void configurarCliente() {
-        personasServer.start();
-        personasClient = builder.target(PersonasClient.class, "http://localhost:" + personasServer.getMappedPort(8080));
+        personasClient = builder.target(PersonasClient.class, personasServer.getHost() + personasServer.getMappedPort(8080));
     }
 
     @Test

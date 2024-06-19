@@ -43,7 +43,7 @@ class PersonasClientTest {
 
     @BeforeEach
     public void configurarCliente() {
-        personasClient = builder.target(PersonasClient.class, personasServer.getHost() + personasServer.getMappedPort(8080));
+        personasClient = builder.target(PersonasClient.class, construirUrl());
     }
 
     @Test
@@ -55,5 +55,14 @@ class PersonasClientTest {
         assertThat(persona.getNombre()).isEqualTo("Mariela Rios");
         assertThat(persona.getCorreo()).isEqualTo("mariela@repartir.com");
         assertThat(persona.getDocumento()).isEqualTo("47345624");
+    }
+
+    private String construirUrl() {
+        StringBuilder builder = new StringBuilder();
+        return builder.append("http://")
+                .append(personasServer.getHost())
+                .append(":")
+                .append(personasServer.getMappedPort(8080))
+                .toString();
     }
 }

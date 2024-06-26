@@ -20,7 +20,6 @@ cache:
     - cache/notifications/
     - cache/wrapper/
     - cache/build-cache/
-    - cache/webdriver/
 
 build:
   stage: build
@@ -59,7 +58,6 @@ ui-test:
   stage: test
   script:
     - export CHROME_OPTIONS="--headless, --no-sandbox"
-    - export WDM_CACHEPATH=cache/webdriver/
     - ./gradlew uiTest --info
   artifacts:
     when: always
@@ -73,16 +71,7 @@ acceptance-test:
   stage: test
   script:
     - export CHROME_OPTIONS='--headless, --no-sandbox'
-    - export WDM_CACHEPATH=cache/webdriver/
-    - |
-      ./gradlew acceptanceTest --info || FAILED=true
-      if [$FAILED]
-        echo "Ocurrió un error ejecutando las pruebas de aceptación."
-        then
-          ls -lR cache/webdriver/
-          cache/webdriver/chromedriver/linux64/121.0.6167.184/chromedriver -h
-          
-      fi
+    - ./gradlew acceptanceTest --info
   artifacts:
     when: always
     reports:

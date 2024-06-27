@@ -13,7 +13,7 @@ export PATH=${NODE_PATH}/bin:${PATH}
 Instalar angular
 
 ```
-npm install -g @angular/cli@12.2.0
+npm install -g @angular/cli@13.0.4
 ```
 
 ## Iniciar

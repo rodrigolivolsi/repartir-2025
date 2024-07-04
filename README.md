@@ -19,6 +19,19 @@ Para ejecutar todas las pruebas
 ```
 ./gradlew bootRun
 ```
+
+## Para levantar el frontend angular
+
+```
+./iniciar-frontend
+```
+
+## Para ejecutar pruebas ui-angular
+
+```
+./test-frontend
+```
+
 ## Acceso web
 
 http://localhost:8080/

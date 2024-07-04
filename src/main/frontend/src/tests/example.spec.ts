@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('visitar repartir', async ({ page }) => {
+  await page.goto('http://localhost:4200/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  await page.getByRole('textbox').fill('julian');
+  await page.locator('#iniciarBienvenidaButton').click()
+  await page.locator('#crearGruposButton').click()
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  await page.locator('#nombreGrupoNuevoInput').fill('Regalo de navidad');
+  await page.locator('#miembrosGrupoNuevoInput').fill('Victor');
+  await page.keyboard.press('Enter');
+  await page.locator('#miembrosGrupoNuevoInput').fill('Brenda');
+  await page.keyboard.press('Enter');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  await page.locator('#guardarGrupoNuevoButton').click()
+  
+  await expect(await page.getByRole('alert')).toContainText('Regalo de navidad\' creado');
 });

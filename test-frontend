@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+FRONTEND="./src/main/frontend"
+
+cd "$FRONTEND"
+
+if [ $? -ne 0 ]; then
+    echo "Error: No se pudo cambiar al directorio $FRONTEND"
+    exit 1
+fi
+
+npx playwright test
+
+if [ $? -ne 0 ]; then
+    echo "Error: Hubo un problema ejecutanddo 'npx playwright test'"
+    exit 1
+
+fi

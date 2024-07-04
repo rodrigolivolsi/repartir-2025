@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+FRONTEND="./src/main/frontend"
+
+cd "$FRONTEND"
+
+if [ $? -ne 0 ]; then
+    echo "Error: No se pudo cambiar al directorio $FRONTEND"
+    exit 1
+fi
+
+npm run start
+
+# Verificar si npm run start se ejecutó correctamente
+if [ $? -ne 0 ]; then
+    echo "Error: Hubo un problema ejecutanddo 'npm run start'"
+    exit 1

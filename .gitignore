@@ -40,3 +40,5 @@ out/
 ### Frontend ###
 src/main/frontend/node_modules
 src/main/frontend/dist
+src/main/frontend/.angular
+

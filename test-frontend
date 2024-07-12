@@ -9,7 +9,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-npx playwright test
+npm js-acceptance-test
 
 if [ $? -ne 0 ]; then
     echo "Error: Hubo un problema ejecutanddo 'npx playwright test'"

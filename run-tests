@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+
+if [ $# = 0 ]; then
+    echo "Error: Debe indicar si quiere ejecutar pruebas de frontend o backend"
+    exit 1
+fi
+
+runBackendTest(){
+  ./gradlew check --info
+}
+
+runFrontendTest(){
+  ./gradlew bootRun &
+
+  cd ./src/main/frontend || exit
+  npm run start &
+
+  while ! nc -z 'localhost' '8080' || ! nc -z 'localhost' '4200'; do
+      echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
+      sleep 3
+  done
+
+  npx playwright test
+  cd - || exit
+
+  kill -9 "$(lsof -t -i:8080)"
+  kill -9 "$(lsof -t -i:4200)"
+}
+
+if [ "$1" = "backend" ]; then
+    runBackendTest
+    exit 0
+elif [ "$1" = "frontend" ]; then
+    runFrontendTest
+    exit 0
+else
+  echo "Error: Solo se aceptan los paramentros backend y frontend"
+fi

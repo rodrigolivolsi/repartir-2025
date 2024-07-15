@@ -1,5 +1,5 @@
-const { Given, When, Then, After } = require('@cucumber/cucumber');
-const { expect, chromium} = require('@playwright/test');
+const { Given, When, Then, After } = require('../../main/frontend/node_modules/@cucumber/cucumber');
+const { expect, chromium} = require('../../main/frontend/node_modules/@playwright/test');
 const assert = require('assert');
 
 Given('el usuario accede a la aplicación', async function () {

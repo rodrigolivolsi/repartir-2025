@@ -1,7 +1,7 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-  testMatch: 'src/test/*',
+  testMatch: '../../jsAcceptanceTest/*',
   testIgnore: 'src/app/',
 };
 export default config;

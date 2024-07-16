@@ -20,11 +20,11 @@ runFrontendTest(){
       sleep 3
   done
 
-  npx playwright test
+  npm run js-acceptance-test
   cd - || exit
 
-  kill -9 "$(lsof -t -i:8080)"
-  kill -9 "$(lsof -t -i:4200)"
+  ./gradlew --stop
+  kill "$(lsof -t -i:4200)"
 }
 
 if [ "$1" = "backend" ]; then

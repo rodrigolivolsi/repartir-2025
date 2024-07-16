@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "js-acceptance-test": "cucumber-js --format null"
+    "js-acceptance-test": "cucumber-js --format progress"
   },
   "private": true,
   "dependencies": {

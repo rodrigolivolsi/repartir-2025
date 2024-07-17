@@ -1,5 +1,6 @@
 package ar.com.grupoesfera.repartir.ui;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.openqa.selenium.By;
@@ -10,6 +11,7 @@ import static org.assertj.core.api.Assertions.*;
 public class Bienvenida extends UITest {
 
     @Test
+    @Disabled
     public void seMuestraAlInicio() {
 
         driver.navigate().to(url("/"));

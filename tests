@@ -1,0 +1,56 @@
+#!/usr/bin/env sh
+
+if [ $# = 0 ]; then
+    echo "Error: Debe indicar si quiere ejecutar pruebas de java o js"
+    exit 1
+fi
+
+runJavaTest(){
+  if [ -z "$1" ] || [ "$1" = "all" ]; then
+    ./gradlew test check --info
+  elif [ "$1" = "unit" ]; then
+    ./gradlew test --info
+  else
+    ./gradlew "$1Test" --info
+  fi
+}
+
+runJsAcceptanceTest(){
+  ./gradlew bootRun &
+
+  cd ./src/main/frontend || exit
+  npm run start &
+
+  while ! nc -z 'localhost' '8080' || ! nc -z 'localhost' '4200'; do
+      echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
+      sleep 3
+  done
+
+  npm run acceptance-test
+  cd - || exit
+
+  ./gradlew --stop
+  kill "$(lsof -t -i:4200)"
+}
+
+runJSTest(){
+  if [ -z "$1" ] || [ "$1" = "all" ]; then
+    runJsAcceptanceTest
+  elif [ "$1" = "unit" ]; then
+    cd ./src/main/frontend || exit
+    npm run test
+  elif [ "$1" = "acceptance" ]; then
+    cd ./src/main/frontend || exit
+    runJsAcceptanceTest
+  fi
+}
+
+if [ "$1" = "java" ]; then
+    runJavaTest "$2"
+    exit 0
+elif [ "$1" = "js" ]; then
+    runJSTest "$2"
+    exit 0
+else
+  echo "Error: Solo se aceptan los paramentros backend y frontend"
+fi

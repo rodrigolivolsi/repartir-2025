@@ -29,7 +29,7 @@ Para ejecutar todas las pruebas
 ## Para ejecutar pruebas ui-angular
 
 ```
-./test-frontend
+./tests js unit
 ```
 
 ## Acceso web

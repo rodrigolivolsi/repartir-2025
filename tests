@@ -1,10 +1,5 @@
 #!/usr/bin/env sh
 
-if [ $# = 0 ]; then
-    echo "Error: Debe indicar si quiere ejecutar pruebas de java o js"
-    exit 1
-fi
-
 runJavaTest(){
   if [ -z "$1" ] || [ "$1" = "all" ]; then
     ./gradlew test check --info
@@ -40,10 +35,21 @@ runJSTest(){
     cd ./src/main/frontend || exit
     npm run test
   elif [ "$1" = "acceptance" ]; then
-    cd ./src/main/frontend || exit
     runJsAcceptanceTest
   fi
 }
+
+mostrarMensajeAyuda(){
+  echo "Se aceptan los paramentros java y js mas el tipo de prueba a ejecutar"
+  echo "./test java [ unit | acceptance | fastAcceptance | integration | all (corre todas) ] "
+  echo "./test js [ unit | acceptance | all (corre acceptance) ]"
+}
+
+if [ $# = 0 ]; then
+    echo "Error"
+    mostrarMensajeAyuda
+    exit 1
+fi
 
 if [ "$1" = "java" ]; then
     runJavaTest "$2"
@@ -52,5 +58,6 @@ elif [ "$1" = "js" ]; then
     runJSTest "$2"
     exit 0
 else
-  echo "Error: Solo se aceptan los paramentros backend y frontend"
+  echo "Error"
+  mostrarMensajeAyuda
 fi

@@ -23,7 +23,7 @@
     "playwright": "1.40",
     "primeflex": "^3.0.1",
     "primeicons": "^6.0.1",
-    "primeng": "^15.4.1",
+    "primeng": "^16.9.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.3"
@@ -34,7 +34,7 @@
     "@angular/cli": "^16.2.16",
     "@angular/compiler-cli": "^16.2.12",
     "@cucumber/cucumber": "^9.5.0",
-    "@ngtools/webpack": "^15.2.11",
+    "@ngtools/webpack": "^16.2.16",
     "@playwright/test": "1.40",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",

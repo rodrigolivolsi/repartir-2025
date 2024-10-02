@@ -5,6 +5,7 @@
  * JDK 17
  * Docker
  * Chrome
+ * Node 18
 
 ## Ejecutar pruebas
 

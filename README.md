@@ -41,4 +41,9 @@ http://localhost:8080/
 
 http://localhost:8080/swagger-ui.html
 
-##
+## IDE
+
+### Intellij
+
+Es recomendable instalar los siguientes plugins:
+* [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)

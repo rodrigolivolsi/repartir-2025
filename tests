@@ -16,7 +16,7 @@ runJsAcceptanceTest(){
   cd ./src/main/frontend || exit
   npm run start &
 
-  while ! nc -z 'localhost' '8080' || ! nc -z 'localhost' '4200'; do
+  while ! netstat -a -n | grep ":8080" || ! netstat -a -n | grep ":4200" ; do
       echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
       sleep 3
   done

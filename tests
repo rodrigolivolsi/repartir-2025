@@ -21,7 +21,7 @@ runJsAcceptanceTest(){
       sleep 3
   done
 
-  npm run acceptance-test
+  npm run acceptance-test -- "$@"
   cd - || exit
 
   ./gradlew --stop
@@ -30,12 +30,12 @@ runJsAcceptanceTest(){
 
 runJSTest(){
   if [ -z "$1" ] || [ "$1" = "all" ]; then
-    runJsAcceptanceTest
+    runJsAcceptanceTest "${@:2}"
   elif [ "$1" = "unit" ]; then
     cd ./src/main/frontend || exit
     npm run test
   elif [ "$1" = "acceptance" ]; then
-    runJsAcceptanceTest
+    runJsAcceptanceTest "${@:2}"
   fi
 }
 
@@ -43,6 +43,10 @@ mostrarMensajeAyuda(){
   echo "Se aceptan los paramentros java y js mas el tipo de prueba a ejecutar"
   echo "./test java [ unit | acceptance | fastAcceptance | integration | all (corre todas) ] "
   echo "./test js [ unit | acceptance | all (corre acceptance) ]"
+  echo ""
+  echo "Para ejecutar una o un subconjunto de pruebas de aceptación:"
+  echo "./test js acceptance --name 'Nombre del escenario a matchear'"
+  echo "El 'Nombre del escenario a matchear' se comporta como una regular expression."
 }
 
 if [ $# = 0 ]; then
@@ -55,7 +59,7 @@ if [ "$1" = "java" ]; then
     runJavaTest "$2"
     exit 0
 elif [ "$1" = "js" ]; then
-    runJSTest "$2"
+    runJSTest "${@:2}"
     exit 0
 else
   echo "Error"

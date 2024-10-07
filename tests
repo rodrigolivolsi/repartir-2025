@@ -16,7 +16,7 @@ runJsAcceptanceTest(){
   FRONTEND_PORT=4200
 
   OS="unix"
-  if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
       OS="windows"
   fi
 
@@ -25,7 +25,7 @@ runJsAcceptanceTest(){
   cd ./src/main/frontend || exit
   npm run start &
 
-  if [[ "$OS" == "windows" ]]; then
+  if [ "$OS" = "windows" ]; then
       while ! netstat -a -n | grep ":$BACKEND_PORT" || ! netstat -a -n | grep ":$FRONTEND_PORT" ; do
             echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
             sleep 3
@@ -45,15 +45,14 @@ runJsAcceptanceTest(){
 }
 
 runJSTest(){
-  if [ -z "$1" ] || [ "$1" = "all" ]; then
-    runJsAcceptanceTest "${@:2}"
+  if [ -z "$1" ] || [ "$1" = "acceptance" ] || [ "$1" = "all" ]; then
+    shift;  # will remove first arg from the "$@"
+    runJsAcceptanceTest "$@"
+  fi
+
+  if [ "$1" = "unit" ] || [ "$1" = "all" ]; then
     cd ./src/main/frontend || exit
     npm run test
-  elif [ "$1" = "unit" ]; then
-    cd ./src/main/frontend || exit
-    npm run test
-  elif [ "$1" = "acceptance" ]; then
-    runJsAcceptanceTest "${@:2}"
   fi
 }
 
@@ -78,7 +77,8 @@ if [ "$1" = "java" ]; then
     runJavaTest "$2"
     exit 0
 elif [ "$1" = "js" ]; then
-    runJSTest "$2" "$3" "$4" "$5" "$6"
+    shift;  # will remove first arg from the "$@"
+    runJSTest "$@"
     exit 0
 elif [ "$1" = "all" ]; then
     runJavaTest "all"

@@ -64,7 +64,8 @@ Then("debería visualizar dentro del listado el grupo creado con total {string}"
     row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
     total = await row.locator('td:nth-child(3)')
 
-    await expect(total.nth(1)).toContainText(monto);
+    // await expect(total.nth(1)).toContainText(monto);
+    await expect(total.nth(1)).toContainText("asd"); // FUERZO A QUE FALLE
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async function(){

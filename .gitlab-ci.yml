@@ -1,4 +1,4 @@
-image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
+image: mcr.microsoft.com/playwright/java
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
@@ -69,7 +69,6 @@ ui-test:
 
 acceptance-test:
   stage: test
-  image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
   script:
     - export CHROME_OPTIONS='--headless, --no-sandbox'
     - ./gradlew acceptanceTest --info

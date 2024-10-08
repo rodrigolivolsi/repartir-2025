@@ -1,4 +1,4 @@
-image: markhobson/maven-chrome:jdk-17
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"

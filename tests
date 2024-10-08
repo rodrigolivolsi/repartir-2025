@@ -37,7 +37,7 @@ runJsAcceptanceTest(){
       done
   fi
 
-  npm run acceptance-test -- "$@"
+  npm run acceptance-test -- "$@" || exit 1
   cd - || exit
 
   ./gradlew --stop

@@ -1,6 +1,5 @@
 const { Given, When, Then, After } = require('../../main/frontend/node_modules/@cucumber/cucumber');
 const { expect, chromium} = require('../../main/frontend/node_modules/@playwright/test');
-const assert = require('assert');
 
 let nombreIndicado;
 let miembroUno;
@@ -43,6 +42,8 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
 })
 
 When("el usuario crea un grupo", async function(){
+    const gruposAntesDeCrearUnoNuevo = await page.locator('app-grupos table tr').count();
+
     await page.locator("#crearGruposButton").click();
 
     await page.locator("#nombreGrupoNuevoInput").fill("Grupo de 4");
@@ -57,14 +58,19 @@ When("el usuario crea un grupo", async function(){
     await page.keyboard.press('Enter');
 
     await page.locator("#guardarGrupoNuevoButton").click();
+
+    await page.waitForFunction(
+        (gruposAntesDeCrearUnoNuevo) => {
+          const gruposAhora = document.querySelectorAll('app-grupos table tr').length;
+          return gruposAhora > gruposAntesDeCrearUnoNuevo;
+        },
+        gruposAntesDeCrearUnoNuevo
+      );
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async function(monto){
-    nombreGrupo = 'Grupo de 4'
-    row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
-    total = await row.locator('td:nth-child(3)')
-
-    await expect(total.nth(1)).toContainText(monto);
+Then("debería visualizar dentro del listado el grupo creado con total {string}", async function(montoEsperado){
+    monto = await page.locator('app-grupos table tbody tr:last-child td:nth-child(3)');
+    await expect(monto).toContainText(montoEsperado);
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async function(){

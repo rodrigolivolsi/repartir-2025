@@ -1,4 +1,4 @@
-image: mcr.microsoft.com/playwright/java
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"

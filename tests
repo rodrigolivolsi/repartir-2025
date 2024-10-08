@@ -11,38 +11,60 @@ runJavaTest(){
 }
 
 runJsAcceptanceTest(){
+
+  BACKEND_PORT=8080
+  FRONTEND_PORT=4200
+
+  OS="unix"
+  if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
+      OS="windows"
+  fi
+
   ./gradlew bootRun &
 
   cd ./src/main/frontend || exit
   npm run start &
 
-  while ! nc -z 'localhost' '8080' || ! nc -z 'localhost' '4200'; do
-      echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
-      sleep 3
-  done
+  if [ "$OS" = "windows" ]; then
+      while ! netstat -a -n | grep ":$BACKEND_PORT" || ! netstat -a -n | grep ":$FRONTEND_PORT" ; do
+            echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
+            sleep 3
+      done
+  else
+      while ! nc -z 'localhost' "$BACKEND_PORT" || ! nc -z 'localhost' "$FRONTEND_PORT" ; do
+             echo "Esperando a que el back y el front estén levantados en los puertos 8080 y 4200..."
+             sleep 3
+      done
+  fi
 
-  npm run acceptance-test
+  npm run acceptance-test -- "$@" || exit 1
   cd - || exit
 
   ./gradlew --stop
-  kill "$(lsof -t -i:4200)"
+  npx kill-port 4200
 }
 
 runJSTest(){
-  if [ -z "$1" ] || [ "$1" = "all" ]; then
-    runJsAcceptanceTest
-  elif [ "$1" = "unit" ]; then
+  if [ -z "$1" ] || [ "$1" = "acceptance" ] || [ "$1" = "all" ]; then
+    shift;  # will remove first arg from the "$@"
+    runJsAcceptanceTest "$@"
+  fi
+
+  if [ "$1" = "unit" ] || [ "$1" = "all" ]; then
     cd ./src/main/frontend || exit
     npm run test
-  elif [ "$1" = "acceptance" ]; then
-    runJsAcceptanceTest
   fi
 }
 
 mostrarMensajeAyuda(){
-  echo "Se aceptan los paramentros java y js mas el tipo de prueba a ejecutar"
-  echo "./test java [ unit | acceptance | fastAcceptance | integration | all (corre todas) ] "
-  echo "./test js [ unit | acceptance | all (corre acceptance) ]"
+  echo "Se aceptan los paramentros java y js mas el tipo de prueba a ejecutar o el parametro all para ejecutar todas"
+  echo "./tests java [ unit | acceptance | fastAcceptance | integration | all (corre todas) ] "
+  echo "./tests js [ unit | acceptance | all (corre todas) ]"
+  echo "./tests all (lo mismo que hacer './tests java all && ./tests js all'"
+  echo ""
+  echo "Para ejecutar una o un subconjunto de pruebas de aceptación:"
+  echo "./tests js acceptance --name 'Nombre del escenario a matchear'"
+  echo "El 'Nombre del escenario a matchear' se comporta como una regular expression."
 }
 
 if [ $# = 0 ]; then
@@ -55,7 +77,12 @@ if [ "$1" = "java" ]; then
     runJavaTest "$2"
     exit 0
 elif [ "$1" = "js" ]; then
-    runJSTest "$2"
+    shift;  # will remove first arg from the "$@"
+    runJSTest "$@"
+    exit 0
+elif [ "$1" = "all" ]; then
+    runJavaTest "all"
+    runJSTest "all"
     exit 0
 else
   echo "Error"

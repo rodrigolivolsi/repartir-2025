@@ -1,4 +1,4 @@
-image: markhobson/maven-chrome:jdk-17
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
@@ -72,6 +72,10 @@ acceptance-test:
   script:
     - export CHROME_OPTIONS='--headless, --no-sandbox'
     - ./gradlew acceptanceTest --info
+    - cd src/main/frontend
+    - npm ci
+    - cd -
+    - ./tests js acceptance
   artifacts:
     when: always
     reports:

@@ -69,6 +69,7 @@ ui-test:
 
 acceptance-test:
   stage: test
+  image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
   script:
     - export CHROME_OPTIONS='--headless, --no-sandbox'
     - ./gradlew acceptanceTest --info

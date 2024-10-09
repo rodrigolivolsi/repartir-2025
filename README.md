@@ -50,11 +50,12 @@
 ```
 ./tests js acceptance
 ```
-Se pueden sumistrar parámetros opcionales a la ejecución. Por ejemplo, el nombre de una prueba a ejecutar:
-* Frontend
+Se pueden sumistrar parámetros opcionales a la ejecución a continuación de la palabra "acceptance". (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
 ```
-./tests js acceptance --name "Nombre del escenario"
+./tests js acceptance -g "Nombre del escenario"
 ```
+
+También se puede levantar la interfaz gráfica de Playwright. Ver [README en proyecto frontend](./src/main/frontend/README.md).
 
 ## Acceso web
 

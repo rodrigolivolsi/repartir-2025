@@ -1,7 +1,14 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
 
-const config: PlaywrightTestConfig = {
-  testMatch: '../../jsAcceptanceTest/*',
-  testIgnore: 'src/app/',
-};
-export default config;
+const testDir = defineBddConfig({
+  features: '../../jsAcceptanceTest/features/*',
+  steps: '../../jsAcceptanceTest/steps/*',
+  featuresRoot:'../../jsAcceptanceTest/',
+  
+});
+
+export default defineConfig({
+  testDir,
+  reporter: 'html',
+});

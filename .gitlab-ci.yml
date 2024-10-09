@@ -4,6 +4,7 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
 
 stages:
+  - instalar_dependencias
   - build
   - analyze
   - test
@@ -21,6 +22,19 @@ cache:
     - cache/wrapper/
     - cache/build-cache/
 
+instalar_dependencias:
+  stage: instalar_dependencias
+  script:
+    - cd src/main/frontend
+    - npm ci --prefer-offline
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+    paths:
+      - src/main/frontend/node_modules
+    policy: pull-push
+
 build:
   stage: build
   script:
@@ -29,6 +43,7 @@ build:
     when: on_success
     paths:
       - build/classes
+
 
 unit-test:
   stage: test
@@ -84,10 +99,14 @@ acceptance-test:
 acceptance-test-js:
   stage: test
   script:
-    - cd src/main/frontend
-    - npm ci
-    - cd -
     - ./tests js acceptance
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+    paths:
+      - src/main/frontend/node_modules
+    policy: pull
 
 package:
   stage: package

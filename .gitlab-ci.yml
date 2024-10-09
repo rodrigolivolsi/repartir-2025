@@ -88,6 +88,11 @@ acceptance-test-js:
     - npm ci
     - cd -
     - ./tests js acceptance
+  artifacts:
+    when: always
+    paths:
+      - playwright-report
+    expire_in: 2 days
 
 package:
   stage: package

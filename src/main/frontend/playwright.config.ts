@@ -11,4 +11,8 @@ const testDir = defineBddConfig({
 export default defineConfig({
   testDir,
   reporter: 'html',
+  use: {
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure'
+  }
 });

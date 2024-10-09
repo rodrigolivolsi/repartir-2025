@@ -30,6 +30,18 @@ build:
     paths:
       - build/classes
 
+build-frontend:
+  stage: build
+  script:
+    - cd src/main/frontend
+    - npm ci
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+    paths:
+      - src/main/frontend/node_modules
+
 unit-test:
   stage: test
   script:
@@ -84,9 +96,6 @@ acceptance-test:
 acceptance-test-js:
   stage: test
   script:
-    - cd src/main/frontend
-    - npm ci
-    - cd -
     - ./tests js acceptance
 
 package:

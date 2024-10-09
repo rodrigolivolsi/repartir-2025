@@ -4,6 +4,7 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
 
 stages:
+  - instalar_dependencias
   - build
   - analyze
   - test
@@ -21,15 +22,6 @@ cache:
     - cache/wrapper/
     - cache/build-cache/
 
-build:
-  stage: build
-  script:
-    - ./gradlew --build-cache assemble --info
-  artifacts:
-    when: on_success
-    paths:
-      - build/classes
-
 instalar_dependencias:
   stage: instalar_dependencias
   script:
@@ -42,6 +34,16 @@ instalar_dependencias:
     paths:
       - src/main/frontend/node_modules
     policy: pull-push
+
+build:
+  stage: build
+  script:
+    - ./gradlew --build-cache assemble --info
+  artifacts:
+    when: on_success
+    paths:
+      - build/classes
+
 
 unit-test:
   stage: test

@@ -26,13 +26,13 @@ instalar_dependencias:
   stage: instalar_dependencias
   script:
     - cd src/main/frontend
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --prefer-offline
   cache:
     key:
       files:
         - src/main/frontend/package-lock.json
     paths:
-      - .npm/
+      - src/main/frontend/node_modules
     policy: pull-push
 
 build:
@@ -105,7 +105,7 @@ acceptance-test-js:
       files:
         - src/main/frontend/package-lock.json
     paths:
-      - .npm/
+      - src/main/frontend/node_modules
     policy: pull
 
 package:

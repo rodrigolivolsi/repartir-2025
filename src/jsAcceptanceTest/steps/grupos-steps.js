@@ -1,20 +1,29 @@
-const { Given, When, Then, After } = require('../../main/frontend/node_modules/@cucumber/cucumber');
-const { expect, chromium} = require('../../main/frontend/node_modules/@playwright/test');
-const assert = require('assert');
+const { expect } = require('../../main/frontend/node_modules/@playwright/test');
+const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd');
+
+const { Given, When, Then } = createBdd();
+
+//setDefaultTimeout(60 * 1000);
+
+// let page, browser;
+
+// Before(async function () {
+//     browser = await chromium.launch({ headless: false });
+//     const context = await browser.newContext();
+//     page = await context.newPage();
+// });
 
 let nombreIndicado;
 let miembroUno;
 let miembroDos;
 
-Given('que el usuario inició Repartir', async function () {
-    browser = await chromium.launch();
-    page = await browser.newPage();
+Given('que el usuario inició Repartir', async ({ page }) => {
     await page.goto('http://localhost:4200/');
     await page.getByRole('textbox').fill('julian');
     await page.locator('#iniciarBienvenidaButton').click()
 });
 
-When("el usuario crea un grupo indicando el nombre {string}", async function (nombre) {
+When("el usuario crea un grupo indicando el nombre {string}", async ({ page }, nombre) => {
 
     nombreIndicado = nombre;
     await page.locator('#crearGruposButton').click()
@@ -26,7 +35,7 @@ When("el usuario crea un grupo indicando el nombre {string}", async function (no
     await page.locator('#guardarGrupoNuevoButton').click();
 });
 
-When("el usuario crea un grupo indicando que sus miembros son {string} y {string}", async function(miembro1, miembro2){
+When("el usuario crea un grupo indicando que sus miembros son {string} y {string}", async ({ page }, miembro1, miembro2) => {
     miembroUno = miembro1;
     miembroDos = miembro2;
 
@@ -42,7 +51,7 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
     await page.locator("#guardarGrupoNuevoButton").click();
 })
 
-When("el usuario crea un grupo", async function(){
+When("el usuario crea un grupo", async ({ page }) => {
     await page.locator("#crearGruposButton").click();
 
     await page.locator("#nombreGrupoNuevoInput").fill("Grupo de 4");
@@ -59,15 +68,15 @@ When("el usuario crea un grupo", async function(){
     await page.locator("#guardarGrupoNuevoButton").click();
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async function(monto){
-    nombreGrupo = 'Grupo de 4'
-    row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
-    total = await row.locator('td:nth-child(3)')
+Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ page }, monto) => {
+    let nombreGrupo = 'Grupo de 4'
+    let row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
+    let total = await row.locator('td:nth-child(3)')
 
     await expect(total.nth(1)).toContainText(monto);
 })
 
-When("el usuario intenta crear un grupo indicando un único miembro", async function(){
+When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {
     await page.locator("#crearGruposButton").click();
 
     await page.locator("#nombreGrupoNuevoInput").fill("After Office");
@@ -78,7 +87,7 @@ When("el usuario intenta crear un grupo indicando un único miembro", async func
     await page.locator("#guardarGrupoNuevoButton").click();
 })
 
-Then("debería ser informado que necesita tener al menos dos miembros", async function (){
+Then("debería ser informado que necesita tener al menos dos miembros", async ({ page }) => {
 
     let mensajesToast = page.getByRole('alert');
     await mensajesToast.waitFor({ state: 'visible', timeout: 2000 });
@@ -90,25 +99,25 @@ Then("debería ser informado que necesita tener al menos dos miembros", async fu
     await expect(mensajesToast).toContainText('No se puede guardar');
 })
 
-Then('no debería crear el grupo con un único miembro', async function () {
+Then('no debería crear el grupo con un único miembro', async ({ page }) => {
 });
 
-Then('debería visualizar dentro del listado el grupo con el nombre indicado', async function () {
+Then('debería visualizar dentro del listado el grupo con el nombre indicado', async ({ page }) => {
     await expect(await page.getByRole('alert')).toContainText(nombreIndicado);
 });
 
-Then('visualiza dentro del listado el grupo con los miembros indicados', async function () {
-    nombreGrupo = 'After Office'
-    row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
-    miembros = await row.locator('td:nth-child(4)')
+Then('visualiza dentro del listado el grupo con los miembros indicados', async ({ page }) => {
+    let nombreGrupo = 'After Office'
+    let row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
+    let miembros = await row.locator('td:nth-child(4)')
 
     await expect(miembros.nth(1)).toContainText(miembroUno);
     await expect(miembros.nth(1)).toContainText(miembroDos);
     
 });
 
-After(async function () {
-    if (browser) {
-        await browser.close();
-      }
-  });
+// After(async function () {
+//     if (browser) {
+//         await browser.close();
+//       }
+//  });

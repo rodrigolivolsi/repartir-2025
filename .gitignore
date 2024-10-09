@@ -42,3 +42,8 @@ src/main/frontend/node_modules
 src/main/frontend/dist
 src/main/frontend/.angular
 
+src/main/frontend/cucumber-report.html
+src/main/frontend/cucumber-report.json
+src/main/frontend/.features-gen/
+src/main/frontend/playwright-report/index.html
+nul

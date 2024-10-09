@@ -3,16 +3,6 @@ const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd')
 
 const { Given, When, Then } = createBdd();
 
-//setDefaultTimeout(60 * 1000);
-
-// let page, browser;
-
-// Before(async function () {
-//     browser = await chromium.launch({ headless: false });
-//     const context = await browser.newContext();
-//     page = await context.newPage();
-// });
-
 let nombreIndicado;
 let miembroUno;
 let miembroDos;
@@ -115,9 +105,3 @@ Then('visualiza dentro del listado el grupo con los miembros indicados', async (
     await expect(miembros.nth(1)).toContainText(miembroDos);
     
 });
-
-// After(async function () {
-//     if (browser) {
-//         await browser.close();
-//       }
-//  });

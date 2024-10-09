@@ -72,10 +72,6 @@ acceptance-test:
   script:
     - export CHROME_OPTIONS='--headless, --no-sandbox'
     - ./gradlew acceptanceTest --info
-    - cd src/main/frontend
-    - npm ci
-    - cd -
-    - ./tests js acceptance
   artifacts:
     when: always
     reports:
@@ -84,6 +80,14 @@ acceptance-test:
       - build/jacoco
       - build/reports/tests/acceptanceTest
       - build/reports/acceptance.html
+
+acceptance-test-js:
+  stage: test
+  script:
+    - cd src/main/frontend
+    - npm ci
+    - cd -
+    - ./tests js acceptance
 
 package:
   stage: package

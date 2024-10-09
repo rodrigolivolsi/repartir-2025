@@ -42,6 +42,8 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
 })
 
 When("el usuario crea un grupo", async ({ page }) => {
+    const gruposAntesDeCrearUnoNuevo = await page.locator('app-grupos table tr').count();
+
     await page.locator("#crearGruposButton").click();
 
     await page.locator("#nombreGrupoNuevoInput").fill("Grupo de 4");
@@ -56,14 +58,19 @@ When("el usuario crea un grupo", async ({ page }) => {
     await page.keyboard.press('Enter');
 
     await page.locator("#guardarGrupoNuevoButton").click();
+
+    await page.waitForFunction(
+        (gruposAntesDeCrearUnoNuevo) => {
+          const gruposAhora = document.querySelectorAll('app-grupos table tr').length;
+          return gruposAhora > gruposAntesDeCrearUnoNuevo;
+        },
+        gruposAntesDeCrearUnoNuevo
+      );
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ page }, monto) => {
-    let nombreGrupo = 'Grupo de 4'
-    let row = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
-    let total = await row.locator('td:nth-child(3)')
-
-    await expect(total.nth(1)).toContainText(monto);
+Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ page }, montoEsperado) => {
+    let monto = await page.locator('app-grupos table tbody tr:last-child td:nth-child(3)');
+    await expect(monto).toContainText(montoEsperado);
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {

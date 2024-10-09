@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "acceptance-test": "npx playwright install && cucumber-js --format progress"
+    "acceptance-test": "npx playwright install && npx bddgen && npx playwright test"
   },
   "private": true,
   "dependencies": {
@@ -33,7 +33,6 @@
     "@angular-devkit/core": "^16.2.16",
     "@angular/cli": "^16.2.16",
     "@angular/compiler-cli": "^16.2.12",
-    "@cucumber/cucumber": "^9.5.0",
     "@ngtools/webpack": "^16.2.16",
     "@playwright/test": "1.40",
     "@types/jasmine": "~3.8.0",

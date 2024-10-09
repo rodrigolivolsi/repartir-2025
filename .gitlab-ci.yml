@@ -20,7 +20,6 @@ cache:
     - cache/notifications/
     - cache/wrapper/
     - cache/build-cache/
-    - .npm/
 
 build:
   stage: build
@@ -31,17 +30,18 @@ build:
     paths:
       - build/classes
 
-build-frontend:
-  stage: build
+instalar_dependencias:
+  stage: instalar_dependencias
   script:
     - cd src/main/frontend
-    - npm ci --cache .npm --prefer-offline
+    - npm ci --prefer-offline
   cache:
     key:
       files:
         - src/main/frontend/package-lock.json
     paths:
-      - .npm/
+      - src/main/frontend/node_modules
+    policy: pull-push
 
 unit-test:
   stage: test
@@ -98,6 +98,13 @@ acceptance-test-js:
   stage: test
   script:
     - ./tests js acceptance
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+    paths:
+      - src/main/frontend/node_modules
+    policy: pull
 
 package:
   stage: package

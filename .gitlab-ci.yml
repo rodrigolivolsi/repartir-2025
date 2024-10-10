@@ -26,7 +26,7 @@ instalar_dependencias:
   stage: instalar_dependencias
   script:
     - cd src/main/frontend
-    - ls -lRa node_modules/playwright-core/.local-browsers
+    - ls -lRa node_modules/playwright-core
     - npm ci --prefer-offline
     - PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install --with-deps chromium
   cache:

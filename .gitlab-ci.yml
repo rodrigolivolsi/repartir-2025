@@ -21,6 +21,7 @@ cache:
     - cache/notifications/
     - cache/wrapper/
     - cache/build-cache/
+    - cache/ms-playwright/
 
 instalar_dependencias:
   stage: instalar_dependencias

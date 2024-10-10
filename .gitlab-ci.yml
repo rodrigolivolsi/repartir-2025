@@ -91,7 +91,7 @@ acceptance-test-js:
   artifacts:
     when: always
     paths:
-      - playwright-report
+      - src/main/frontend/playwright-report
     expire_in: 2 days
 
 package:

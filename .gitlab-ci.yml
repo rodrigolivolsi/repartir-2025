@@ -21,7 +21,6 @@ cache:
     - cache/notifications/
     - cache/wrapper/
     - cache/build-cache/
-    - cache/ms-playwright/
 
 instalar_dependencias:
   stage: instalar_dependencias
@@ -38,7 +37,7 @@ instalar_dependencias:
       policy: pull-push
     - key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
       paths:
-        - .cache/ms-playwright
+        - ~/.cache/ms-playwright
       policy: pull-push
 
 build:

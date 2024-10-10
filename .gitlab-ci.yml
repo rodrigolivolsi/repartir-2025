@@ -27,17 +27,13 @@ instalar_dependencias:
   script:
     - cd src/main/frontend
     - npm ci --prefer-offline
-    - npx playwright install-deps chromium
+    - PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install-deps chromium
   cache:
     - key:
         files:
           - src/main/frontend/package-lock.json
       paths:
         - src/main/frontend/node_modules
-      policy: pull-push
-    - key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
-      paths:
-        - ~/.cache/ms-playwright
       policy: pull-push
 
 build:

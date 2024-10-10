@@ -37,7 +37,7 @@
 
 ### Para ejecutar pruebas especificas en java
 
-> Sirve para pruebas que no usas cucumber (hoy, todas menos las de aceptación)
+> Sirve para pruebas que no usan cucumber (hoy, todas menos las de aceptación)
 
 ```
 ./gradlew <task> --tests "<filter>"
@@ -72,6 +72,18 @@ gradle test --tests '*ParameterizedTest.foo*'
 # the second iteration of a parameterized test
 gradle test --tests '*ParameterizedTest.*[2]'
 ```
+
+### Para ejecutar pruebas especificas en java
+
+> Sirve para pruebas que usan cucumber (hoy, las de aceptacion)
+
+```
+./gradlew acceptanceTest -Dcucumber.filter.name="<regex>"
+```
+
+El comando matchea la regex con los textos dentro de cada archivo .feature, tanto escenarios como reglas como características.
+
+> IMPORTANTE: La regex no puede tener un '\*' ni al principio ni al final.
 
 ### Para ejecutar pruebas ui-angular
 

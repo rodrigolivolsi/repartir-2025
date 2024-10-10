@@ -89,6 +89,7 @@ acceptanceTest {
 	useJUnitPlatform()
 	mustRunAfter uiTest
 	systemProperties = System.properties
+	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
 }
 
 check {

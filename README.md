@@ -49,28 +49,28 @@ Donde task es "test", "integrationTest", etc... y filter la regex a evaluar.
 
 ```
 # specific class
-gradle test --tests org.gradle.SomeTestClass
+./gradlew test --tests org.gradle.SomeTestClass
 
 # specific class and method
-gradle test --tests org.gradle.SomeTestClass.someSpecificMethod
+./gradlew test --tests org.gradle.SomeTestClass.someSpecificMethod
 
 # method name containing spaces
-gradle test --tests "org.gradle.SomeTestClass.some method containing spaces"
+./gradlew test --tests "org.gradle.SomeTestClass.some method containing spaces"
 
 # all classes at specific package (recursively)
-gradle test --tests 'all.in.specific.package*'
+./gradlew test --tests 'all.in.specific.package*'
 
 # specific method at specific package (recursively)
-gradle test --tests 'all.in.specific.package*.someSpecificMethod'
+./gradlew test --tests 'all.in.specific.package*.someSpecificMethod'
 
-gradle test --tests '*IntegTest'
+./gradlew test --tests '*IntegTest'
 
-gradle test --tests '*IntegTest*ui*'
+./gradlew test --tests '*IntegTest*ui*'
 
-gradle test --tests '*ParameterizedTest.foo*'
+./gradlew test --tests '*ParameterizedTest.foo*'
 
 # the second iteration of a parameterized test
-gradle test --tests '*ParameterizedTest.*[2]'
+./gradlew test --tests '*ParameterizedTest.*[2]'
 ```
 
 ### Para ejecutar pruebas especificas en java
@@ -110,7 +110,7 @@ Se pueden sumistrar parámetros opcionales a la ejecución. (Estos son [todos lo
 - Frontend
 
 ```
-./tests js acceptance --name "Nombre del escenario"
+./tests js acceptance -g "Nombre del escenario"
 ```
 
 También se puede levantar la interfaz gráfica de Playwright. Ver [README en proyecto frontend](./src/main/frontend/README.md).

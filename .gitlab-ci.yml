@@ -27,13 +27,18 @@ instalar_dependencias:
   script:
     - cd src/main/frontend
     - npm ci --prefer-offline
+    - npx playwright install
   cache:
-    key:
-      files:
-        - src/main/frontend/package-lock.json
-    paths:
-      - src/main/frontend/node_modules
-    policy: pull-push
+    - key:
+        files:
+          - src/main/frontend/package-lock.json
+      paths:
+        - src/main/frontend/node_modules
+      policy: pull-push
+    - key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+      paths:
+        - .cache/ms-playwright
+      policy: pull-push
 
 build:
   stage: build

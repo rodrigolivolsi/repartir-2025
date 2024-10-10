@@ -35,6 +35,7 @@ instalar_dependencias:
       paths:
         - src/main/frontend/node_modules
       policy: pull-push
+      prefix: "$CI_COMMIT_REF_SLUG"
 
 build:
   stage: build
@@ -108,6 +109,7 @@ acceptance-test-js:
     paths:
       - src/main/frontend/node_modules
     policy: pull
+    prefix: "$CI_COMMIT_REF_SLUG"
 
 package:
   stage: package

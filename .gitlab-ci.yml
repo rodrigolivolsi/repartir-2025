@@ -27,7 +27,7 @@ instalar_dependencias:
   script:
     - cd src/main/frontend
     - npm ci --prefer-offline
-    - npx playwright install
+    - npx playwright install-deps chromium
   cache:
     - key:
         files:

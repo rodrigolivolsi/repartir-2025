@@ -46,4 +46,5 @@ src/main/frontend/.features-gen/
 src/main/frontend/playwright-report/
 src/main/frontend/test-results/
 src/main/frontend/monocart-report/
+src/main/frontend/coverage-reports/
 nul

@@ -115,8 +115,7 @@ acceptance-test-js:
     reports:
       junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
     paths:
-      - build/jacoco
-      - build/reports/tests/acceptanceTestJs
+      - src/main/frontend/coverage-reports
 
 package:
   stage: package

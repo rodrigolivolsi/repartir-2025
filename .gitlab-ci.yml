@@ -110,6 +110,12 @@ acceptance-test-js:
     paths:
       - src/main/frontend/node_modules
     policy: pull
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
+    paths:
+      - src/main/frontend/coverage-reports
 
 package:
   stage: package

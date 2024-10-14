@@ -1,7 +1,8 @@
 const { expect } = require('../../main/frontend/node_modules/@playwright/test');
 const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd');
 
-const { Given, When, Then } = createBdd();
+const { test } = require('../../main/frontend/fixtures');
+const { Given, When, Then } = createBdd(test);
 
 let nombreIndicado;
 let miembroUno;

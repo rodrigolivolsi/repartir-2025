@@ -4,6 +4,7 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
 
 stages:
+  - instalar_dependencias
   - build
   - analyze
   - test
@@ -21,6 +22,21 @@ cache:
     - cache/wrapper/
     - cache/build-cache/
 
+instalar_dependencias:
+  stage: instalar_dependencias
+  script:
+    - cd src/main/frontend
+    - npm ci --prefer-offline
+    - PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install --with-deps chromium
+  cache:
+    - key:
+        files:
+          - src/main/frontend/package-lock.json
+        prefix: "$CI_COMMIT_REF_SLUG"
+      paths:
+        - src/main/frontend/node_modules
+      policy: pull-push
+
 build:
   stage: build
   script:
@@ -29,6 +45,7 @@ build:
     when: on_success
     paths:
       - build/classes
+
 
 unit-test:
   stage: test
@@ -84,15 +101,20 @@ acceptance-test:
 acceptance-test-js:
   stage: test
   script:
-    - cd src/main/frontend
-    - npm ci
-    - cd -
-    - ./tests js acceptance
+    - PLAYWRIGHT_BROWSERS_PATH=node_modules/playwright-core/.local-browsers ./tests js acceptance
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+      prefix: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - src/main/frontend/node_modules
+    policy: pull
   artifacts:
     when: always
     paths:
       - src/main/frontend/playwright-report
-    expire_in: 2 days
+    expire_in: 7 days
 
 package:
   stage: package

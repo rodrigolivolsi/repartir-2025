@@ -112,9 +112,11 @@ acceptance-test-js:
     policy: pull
   artifacts:
     when: always
+    reports:
+      junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
     paths:
-      - src/main/frontend/monocart-report/index.html
-    expire_in: 7 days
+      - build/jacoco
+      - build/reports/tests/acceptanceTestJs
 
 package:
   stage: package

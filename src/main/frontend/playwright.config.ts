@@ -10,7 +10,9 @@ const testDir = defineBddConfig({
 
 export default defineConfig({
   testDir,
-  reporter: [['list'],
+  reporter: [['junit', {
+    outputFile: '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml'
+  }],
   ['monocart-reporter', {  
       name: "Repartir Acceptance Test Report",
       outputFile: './monocart-report/index.html',

@@ -89,6 +89,12 @@ acceptance-test-js:
     - npx --prefix src/main/frontend playwright install --with-deps chromium
   script:
     - ./tests js acceptance
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
+    paths:
+      - src/main/frontend/coverage-reports
 
 package:
   stage: package

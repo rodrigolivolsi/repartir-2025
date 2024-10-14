@@ -86,7 +86,7 @@ acceptance-test-js:
   stage: test
   before_script:
     - npm ci --prefix src/main/frontend
-    - npx playwright install --with-deps chromium
+    - npx --prefix src/main/frontend playwright install --with-deps chromium
   script:
     - ./tests js acceptance
 

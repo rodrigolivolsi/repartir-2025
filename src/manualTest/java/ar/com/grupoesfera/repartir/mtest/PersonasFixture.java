@@ -40,7 +40,7 @@ public class PersonasFixture {
     @Autowired
     public PersonasClient personasClient(Encoder encoder, Decoder decoder, Contract contract) {
 
-        String url = "http://localhost:" + personasServer.getMappedPort(8080);
+        String url = "http://" + personasServer.getHost() + ":" + personasServer.getMappedPort(8080);
         logger.info("Personas Mock Server Started: {}", url);
 
         return Feign.builder()

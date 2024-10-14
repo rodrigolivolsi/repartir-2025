@@ -26,15 +26,15 @@ instalar_dependencias:
   stage: instalar_dependencias
   script:
     - cd src/main/frontend
-    - npm ci --prefer-offline
-    - PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install --with-deps chromium
+    - npm ci --cache .npm --prefer-offline
+    - PLAYWRIGHT_BROWSERS_PATH=.npm/ npx playwright install --with-deps chromium
   cache:
     - key:
         files:
           - src/main/frontend/package-lock.json
         prefix: $CI_COMMIT_REF_SLUG
       paths:
-        - src/main/frontend/node_modules
+        - src/main/frontend/.npm
       policy: pull-push
 
 build:
@@ -101,14 +101,14 @@ acceptance-test:
 acceptance-test-js:
   stage: test
   script:
-    - PLAYWRIGHT_BROWSERS_PATH=node_modules/playwright-core/.local-browsers ./tests js acceptance
+    - PLAYWRIGHT_BROWSERS_PATH=.npm/ ./tests js acceptance
   cache:
     key:
       files:
         - src/main/frontend/package-lock.json
       prefix: $CI_COMMIT_REF_SLUG
     paths:
-      - src/main/frontend/node_modules
+      - src/main/frontend/.npm
     policy: pull
 
 package:

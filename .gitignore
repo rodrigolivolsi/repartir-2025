@@ -45,4 +45,5 @@ src/main/frontend/.angular
 src/main/frontend/.features-gen/
 src/main/frontend/playwright-report/
 src/main/frontend/test-results/
+src/main/frontend/monocart-report/
 nul

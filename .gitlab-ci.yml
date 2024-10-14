@@ -113,7 +113,7 @@ acceptance-test-js:
   artifacts:
     when: always
     paths:
-      - src/main/frontend/playwright-report
+      - src/main/frontend/monocart-report/index.html
     expire_in: 7 days
 
 package:

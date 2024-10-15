@@ -9,7 +9,7 @@ let miembroUno;
 let miembroDos;
 
 Given('que el usuario inició Repartir', async ({ page }) => {
-    await page.goto('http://localhost:4200/');
+    await page.goto('/');
     await page.getByRole('textbox').fill('julian');
     await page.locator('#iniciarBienvenidaButton').click()
 });

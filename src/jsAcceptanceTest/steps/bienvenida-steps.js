@@ -5,7 +5,7 @@ const { test } = require('../../main/frontend/fixtures');
 const { Given, When, Then } = createBdd(test);
 
 Given('el usuario accede a la aplicación', async ({ page }) => {
-    await page.goto('http://localhost:4200/');
+    await page.goto('/');
 });
 
 Then('se muestra el mensaje de bienvenida', async ({ page }) => {

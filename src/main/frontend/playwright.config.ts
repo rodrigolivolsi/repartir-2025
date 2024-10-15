@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
+const baseURL = process.env.BASE_URL ? process.env.BASE_URL : 'http://localhost:4200'
+
 const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
   steps: [
@@ -35,6 +37,7 @@ export default defineConfig({
   globalTeardown: './global-teardown.ts',
   use: {
     screenshot: 'only-on-failure',
-    trace: 'retain-on-failure'
+    trace: 'retain-on-failure',
+    baseURL: baseURL
   }
 });

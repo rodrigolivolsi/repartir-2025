@@ -84,7 +84,6 @@ acceptance-test:
 
 acceptance-test-js:
   stage: test
-  image: mcr.microsoft.com/playwright:v1.48.0-noble
   before_script:
     - npm ci --prefix src/main/frontend
   script:

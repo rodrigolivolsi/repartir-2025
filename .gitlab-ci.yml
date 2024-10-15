@@ -84,9 +84,9 @@ acceptance-test:
 
 acceptance-test-js:
   stage: test
+  image: mcr.microsoft.com/playwright:v1.48.0-noble
   before_script:
     - npm ci --prefix src/main/frontend
-    - npx --prefix src/main/frontend playwright install --with-deps chromium
   script:
     - ./tests js acceptance
   artifacts:

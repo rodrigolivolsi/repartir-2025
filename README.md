@@ -2,14 +2,15 @@
 
 ## Ambiente
 
- * JDK 17
- * Docker
- * Chrome
- * Node 18
+- JDK 17
+- Docker
+- Chrome
+- Node 18
 
 ## Build & Run
 
 ### Build del proyecto
+
 ```
 ./gradlew build
 ```
@@ -34,6 +35,56 @@
 ./gradlew check --info
 ```
 
+### Para ejecutar pruebas especificas en java
+
+> Sirve para pruebas que no usan cucumber (hoy, todas menos las de aceptación)
+
+```
+./gradlew <task> --tests "<filter>"
+```
+
+Donde task es "test", "integrationTest", etc... y filter la regex a evaluar.
+
+#### [Guia](https://docs.gradle.org/current/userguide/java_testing.html#test_filtering) para filters:
+
+```
+# specific class
+./gradlew test --tests org.gradle.SomeTestClass
+
+# specific class and method
+./gradlew test --tests org.gradle.SomeTestClass.someSpecificMethod
+
+# method name containing spaces
+./gradlew test --tests "org.gradle.SomeTestClass.some method containing spaces"
+
+# all classes at specific package (recursively)
+./gradlew test --tests 'all.in.specific.package*'
+
+# specific method at specific package (recursively)
+./gradlew test --tests 'all.in.specific.package*.someSpecificMethod'
+
+./gradlew test --tests '*IntegTest'
+
+./gradlew test --tests '*IntegTest*ui*'
+
+./gradlew test --tests '*ParameterizedTest.foo*'
+
+# the second iteration of a parameterized test
+./gradlew test --tests '*ParameterizedTest.*[2]'
+```
+
+### Para ejecutar pruebas especificas en java
+
+> Sirve para pruebas que usan cucumber (hoy, las de aceptacion)
+
+```
+./gradlew acceptanceTest -Dcucumber.filter.name="<regex>"
+```
+
+El comando matchea la regex con los textos dentro de cada archivo .feature, tanto escenarios como reglas como características.
+
+> IMPORTANTE: La regex no puede tener un '\*' ni al principio ni al final.
+
 ### Para ejecutar pruebas ui-angular
 
 ```
@@ -42,15 +93,22 @@
 
 ### Para ejecutar pruebas de aceptación
 
-* Backend:
+- Backend:
+
 ```
 ./tests java acceptance
 ```
-* Frontend
+
+- Frontend
+
 ```
 ./tests js acceptance
 ```
-Se pueden sumistrar parámetros opcionales a la ejecución a continuación de la palabra "acceptance". (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
+
+Se pueden sumistrar parámetros opcionales a la ejecución. (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
+
+- Frontend
+
 ```
 ./tests js acceptance -g "Nombre del escenario"
 ```
@@ -70,4 +128,5 @@ http://localhost:8080/swagger-ui.html
 ### Intellij
 
 Es recomendable instalar los siguientes plugins:
-* [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
+
+- [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)

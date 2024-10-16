@@ -33,6 +33,7 @@
     "@angular/cli": "^16.2.16",
     "@angular/compiler-cli": "^16.2.12",
     "@ngtools/webpack": "^16.2.16",
+    "playwright": "1.48.1",
     "@playwright/test": "1.48.1",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",

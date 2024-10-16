@@ -19,7 +19,7 @@ npm install -g @angular/cli@16.2.12
 Instalar drivers para playright
 
 ```
-npx playwright@1.40 install
+npx playwright@1.48.1 install
 ```
 
 ## Iniciar

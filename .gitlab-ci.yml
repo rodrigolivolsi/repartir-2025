@@ -86,11 +86,11 @@ acceptance-test-js:
   stage: test
   variables:
     CI: "true"
-    GRADLEW_PATH: $CI_BUILDS_DIR
+    GRADLEW_PATH: $CI_PROJECT_DIR
   before_script:
     - npm ci --prefix src/main/frontend
   script:
-    - ls $CI_BUILDS_DIR
+    - ls $CI_PROJECT_DIR
     - npm run acceptance-test --prefix=src/main/frontend
   artifacts:
     when: always

@@ -87,7 +87,7 @@ acceptance-test-js:
   before_script:
     - npm ci --prefix src/main/frontend
   script:
-    - ./tests js acceptance
+    - CI=true npm run acceptance-test --prefix=src/main/frontend
   artifacts:
     when: always
     reports:

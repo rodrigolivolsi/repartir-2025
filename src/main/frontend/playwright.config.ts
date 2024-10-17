@@ -3,6 +3,21 @@ import { defineBddConfig } from 'playwright-bdd';
 
 const baseURL = process.env.BASE_URL ? process.env.BASE_URL : 'http://localhost:4200'
 
+const frontend = {
+  command: 'npm run start',
+  url: baseURL,
+  timeout: 120 * 1000,
+  reuseExistingServer: !process.env.CI,
+}
+
+const backend = {
+  command: 'gradlew bootRun',
+  url: 'http://localhost:8080',
+  cwd: '../../../',
+  timeout: 120 * 1000,
+  reuseExistingServer: !process.env.CI,
+}
+
 const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
   steps: [
@@ -39,5 +54,6 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     baseURL: baseURL
-  }
+  },
+  webServer:[frontend, backend]
 });

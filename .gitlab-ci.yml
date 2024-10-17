@@ -91,6 +91,8 @@ acceptance-test-js:
     - npm ci --prefix src/main/frontend
     - echo $GRADLEW_PATH
   script:
+    - echo $GRADLEW_PATH
+    - echo $CI_BUILDS_DIR
     - npm run acceptance-test --prefix=src/main/frontend
   artifacts:
     when: always

@@ -3,7 +3,7 @@ import { defineBddConfig } from 'playwright-bdd';
 
 const baseURL = process.env.BASE_URL ? process.env.BASE_URL : 'http://localhost:4200'
 const gradlewPath = process.env.GRADLEW_PATH ? process.env.GRADLEW_PATH : '../../../'
-const gradlewCommand = process.env.GRADLEW_COMMAND ? process.env.GRADLE_COMMAND : './gradlew bootRun'
+const gradlewCommand = process.env.GRADLEW_COMMAND ? process.env.GRADLEW_COMMAND : './gradlew bootRun'
 
 const frontend = {
   command: 'npm run start',

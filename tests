@@ -16,10 +16,11 @@ runJsAcceptanceTest(){
       OS="windows"
   fi
 
+  COMMAND="./gradlew bootRun"
   if [ "$OS" = "windows" ]; then
-      export GRADLEW_COMMAND="gradlew.bat bootRun"
+      COMMAND="gradlew.bat bootRun"
   fi
-
+  export GRADLEW_COMMAND=$COMMAND
   npm run acceptance-test --prefix=src/main/frontend
 }
 

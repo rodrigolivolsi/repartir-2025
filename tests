@@ -11,6 +11,15 @@ runJavaTest(){
 }
 
 runJsAcceptanceTest(){
+  OS="unix"
+  if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
+      OS="windows"
+  fi
+
+  if [ "$OS" = "windows" ]; then
+      export GRADLEW_COMMAND="gradlew.bat bootRun"
+  fi
+
   npm run acceptance-test --prefix=src/main/frontend
 }
 

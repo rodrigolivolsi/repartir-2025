@@ -2,7 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
 const baseURL = process.env.BASE_URL ? process.env.BASE_URL : 'http://localhost:4200'
-const gradlew_path = process.env.GRADLEW_PATH ? process.env.GRADLEW_PATH : '../../../'
+const gradlewPath = process.env.GRADLEW_PATH ? process.env.GRADLEW_PATH : '../../../'
+const gradlewCommand = process.env.GRADLEW_COMMAND ? process.env.GRADLE_COMMAND : './gradlew bootRun'
 
 const frontend = {
   command: 'npm run start',
@@ -12,9 +13,9 @@ const frontend = {
 }
 
 const backend = {
-  command: './gradlew bootRun',
+  command: gradlewCommand,
   url: 'http://localhost:8080',
-  cwd: gradlew_path,
+  cwd: gradlewPath,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 }

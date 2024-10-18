@@ -30,11 +30,26 @@ npm run start
 ```
 
 ## Ejecutar pruebas de aceptación JS implementadas con Playwright
-Tener iniciado el front
-Iniciar el backend y la BD con ./gradlew bootRun en la raiz del proyecto
-Luego ejecutar npx playwright test | npm playwright test --ui
+
+__Precondición__
+
+Antes de ejecutar los test de aceptación es necesario instalar los browsers que va a utilizar Playwright:
+
+```
+npx -y playwright@1.48.1 install --with-deps
+```
+
+*Nota: La versión usada en este comando debe __coincidir__ con la versión definida en el package.json*
+
+Para correr los test:
+
 ```
 npm run acceptance-test
+```
+
+*Nota: Si estás usando Windows ejecutá:*
+```
+npm run acceptance-test-windows
 ```
 
 ### Recompilar los escenarios

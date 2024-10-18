@@ -90,7 +90,7 @@ acceptance-test-js:
   before_script:
     - npm ci --prefix src/main/frontend
   script:
-    - ls $CI_PROJECT_DIR
+    - ls GRADLEW_PATH
     - npm run acceptance-test --prefix=src/main/frontend
   artifacts:
     when: always

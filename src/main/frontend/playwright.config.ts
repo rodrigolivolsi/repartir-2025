@@ -12,7 +12,7 @@ const frontend = {
 }
 
 const backend = {
-  command: 'gradlew bootRun',
+  command: './gradlew bootRun',
   url: 'http://localhost:8080',
   cwd: gradlew_path,
   timeout: 120 * 1000,

@@ -31,8 +31,7 @@ runJSTest(){
   fi
 
   if [ "$1" = "unit" ] || [ "$1" = "all" ]; then
-    cd ./src/main/frontend || exit
-    npm run test
+    npm run test --prefix=src/main/frontend
   fi
 }
 

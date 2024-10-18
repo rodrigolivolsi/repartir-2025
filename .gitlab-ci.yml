@@ -90,8 +90,6 @@ acceptance-test-js:
   before_script:
     - npm ci --prefix src/main/frontend
   script:
-    - echo "PATH '$GRADLEW_PATH'"
-    - ls $GRADLEW_PATH
     - npm run acceptance-test --prefix=src/main/frontend
   artifacts:
     when: always

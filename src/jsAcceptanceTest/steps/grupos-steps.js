@@ -1,11 +1,7 @@
-const { expect } = require('../../main/frontend/node_modules/@playwright/test');
 const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd');
 
 const { test } = require('../../main/frontend/fixtures');
 const { Given, When, Then } = createBdd(test);
-
-let miembroUno;
-let miembroDos;
 
 Given('que el usuario inició Repartir', async ({ grupos }) => {
     await grupos.iniciar();
@@ -16,9 +12,6 @@ When("el usuario crea un grupo indicando el nombre {string}", async ({ grupos },
 });
 
 When("el usuario crea un grupo indicando que sus miembros son {string} y {string}", async ({ grupos }, miembro1, miembro2) => {
-    miembroUno = miembro1;
-    miembroDos = miembro2;
-
     await grupos.crearConMiembros([miembro1, miembro2]);
 })
 

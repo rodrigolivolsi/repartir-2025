@@ -3,11 +3,11 @@
 ## Ambiente
 
 - JDK 17
-- Docker
+- Docker (Opcional)
 - Chrome
 - Node 18
 
-## Build & Run
+## Build & Run (Java y JS)
 
 ### Build del proyecto
 
@@ -20,6 +20,8 @@
 ```
 ./gradlew bootRun
 ```
+
+> Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar (con una base de datos in-memory) y ejecutarlo localmente. Para esto, ejecutar `./gradlew bootJar` y luego `java -jar build/libs/repartir-0.0.1-SNAPSHOT.jar`
 
 ### Para levantar el frontend angular
 
@@ -128,13 +130,13 @@ http://localhost:8080/swagger-ui.html
 ### Intellij
 
 Es recomendable instalar los siguientes plugins:
-* [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
+- [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
 ### Visual Studio Code
 
 Es recomendable instalar los siguientes plugins:
-* [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
-* [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
-* [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
 
+- [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
+- [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
+- [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)

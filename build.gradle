@@ -8,6 +8,12 @@ plugins {
 	id 'pmd'
 }
 
+jar {
+	enabled = true
+	archiveBaseName = 'repartir'
+	archiveVersion = '1.0'
+}
+
 group = 'ar.com.grupoesfera'
 version = '1.0'
 sourceCompatibility = '17'

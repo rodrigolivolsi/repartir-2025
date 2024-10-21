@@ -7,7 +7,7 @@
 - Chrome
 - Node 18
 
-## Build & Run (Java y JS)
+## Build & Run
 
 ### Build del proyecto
 
@@ -21,9 +21,35 @@
 ./gradlew bootRun
 ```
 
-> Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar (con una base de datos in-memory) y ejecutarlo localmente. Para esto, ejecutar `./gradlew bootJar` y luego `java -jar build/libs/repartir-0.0.1-SNAPSHOT.jar`
-
 ### Para levantar el frontend angular
+
+```
+./iniciar-frontend
+```
+
+## Build & Run (Sin Docker)
+
+Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar (con una base de datos in-memory) y ejecutarlo localmente.
+
+1. Empaquetar el backend
+
+```
+./gradlew bootJar
+```
+
+2. Ejecutar el backend
+
+```
+java -jar build/libs/repartir-0.0.1-SNAPSHOT.jar
+```
+
+3. Levantar la API de Personas
+
+```
+npx wiremock --port 8081 --root-dir src/test/resources/wiremock/personas
+```
+
+4. Levantar el frontend angular
 
 ```
 ./iniciar-frontend

@@ -37,16 +37,16 @@ Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar
 ./gradlew bootJar
 ```
 
-2. Ejecutar el backend
-
-```
-java -jar build/libs/repartir-1.0.jar
-```
-
-3. Levantar la API de Personas
+2. Levantar la API de Personas
 
 ```
 npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
+```
+
+3. Ejecutar el backend
+
+```
+java -jar build/libs/repartir-1.0.jar
 ```
 
 4. Levantar el frontend angular

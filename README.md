@@ -40,7 +40,7 @@ Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar
 2. Ejecutar el backend
 
 ```
-java -jar build/libs/repartir-0.0.1-SNAPSHOT.jar
+java -jar build/libs/repartir-1.0.jar
 ```
 
 3. Levantar la API de Personas

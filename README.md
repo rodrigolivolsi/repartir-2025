@@ -7,7 +7,7 @@
 - Chrome
 - Node 18
 
-## Build & Run
+## Build & Run (Con Docker)
 
 ### Build del proyecto
 

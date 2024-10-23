@@ -46,7 +46,7 @@ java -jar build/libs/repartir-0.0.1-SNAPSHOT.jar
 3. Levantar la API de Personas
 
 ```
-npx wiremock --port 8081 --root-dir src/test/resources/wiremock/personas
+npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
 ```
 
 4. Levantar el frontend angular

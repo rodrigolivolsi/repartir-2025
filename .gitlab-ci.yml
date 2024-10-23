@@ -97,7 +97,7 @@ acceptance-test-js:
       junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
     name: acceptance-test-js-coverage
     paths:
-      - src/main/frontend/coverage-reports
+      - src/main/frontend/coverage-reports/
 
 package:
   stage: package

@@ -3,11 +3,11 @@
 ## Ambiente
 
 - JDK 17
-- Docker
+- Docker (Opcional)
 - Chrome
 - Node 18
 
-## Build & Run
+## Build & Run (Con Docker)
 
 ### Build del proyecto
 
@@ -22,6 +22,34 @@
 ```
 
 ### Para levantar el frontend angular
+
+```
+./iniciar-frontend
+```
+
+## Build & Run (Sin Docker)
+
+Si no queremos levantar el backend usando docker, podemos empaquetarlo en un jar (con una base de datos in-memory) y ejecutarlo localmente.
+
+1. Empaquetar el backend
+
+```
+./gradlew bootJar
+```
+
+2. Levantar la API de Personas
+
+```
+npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
+```
+
+3. Ejecutar el backend
+
+```
+java -jar build/libs/repartir-1.0.jar
+```
+
+4. Levantar el frontend angular
 
 ```
 ./iniciar-frontend
@@ -128,13 +156,13 @@ http://localhost:8080/swagger-ui.html
 ### Intellij
 
 Es recomendable instalar los siguientes plugins:
-* [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
+- [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
 ### Visual Studio Code
 
 Es recomendable instalar los siguientes plugins:
-* [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
-* [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
-* [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
 
+- [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
+- [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
+- [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)

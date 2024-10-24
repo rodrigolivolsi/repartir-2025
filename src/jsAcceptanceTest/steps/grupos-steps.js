@@ -69,7 +69,7 @@ When("el usuario crea un grupo", async ({ page }) => {
       );
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ page }, montoEsperado) => {
+Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
     let monto = await page.locator('app-grupos table tbody tr:last-child td:nth-child(3)');
     await expect(monto).toContainText(montoEsperado);
 })

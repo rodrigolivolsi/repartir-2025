@@ -102,6 +102,8 @@ El proyecto cuenta con una demo que levanta la aplicación en un entorno Dockeri
 
 * [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
 * [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
+
+
 ## IDE
 
 ### Intellij

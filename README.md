@@ -47,6 +47,8 @@ Ya que la API de personas es un servicio externo, antes de poder correr la aplic
 npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
 ```
 
+Esto levantará un servicio en http://localhost:8081. Podemos inspeccionar sus endpoints y demás características en http://localhost:8081/\_\_admin.
+
 #### Voy a desarrollar únicamente backend (Java)
 
 Si lo que queremos es trabajar únicamente con el backend, podemos usar la task `bootRun` de Gradle:

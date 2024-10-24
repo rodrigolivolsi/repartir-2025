@@ -65,7 +65,7 @@ Esto levantará la aplicación en http://localhost:8080, con una base de datos i
 
 ### Voy a desarrollar únicamente frontend (Angular)
 
-Para trabajar únicamente con el frontend, debemos de todos modos tener una instancia del backend corriendo en http://localhost:8080 ya que el frontend depende de la API REST que provee el backend.
+Para trabajar únicamente con el frontend, debemos de todos modos tener una instancia del backend corriendo en http://localhost:8080 ya que el frontend depende de la API REST que provee el backend. Podemos correr el backend como se indicó en el paso anterior.
 
 Luego, para levantar el frontend angular podemos seguir los pasos indicados en el [README del frontend](./src/main/frontend/README.md) o correr el siguiente comando:
 

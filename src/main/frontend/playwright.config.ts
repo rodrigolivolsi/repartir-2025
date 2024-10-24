@@ -1,16 +1,25 @@
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-const baseURL = process.env.BASE_URL ? process.env.BASE_URL : 'http://localhost:4200'
-const gradlewPath = process.env.GRADLEW_PATH ? process.env.GRADLEW_PATH : '../../../'
-const gradlewCommand = process.env.GRADLEW_COMMAND ? process.env.GRADLEW_COMMAND : './gradlew bootRun'
+const baseURL = process.env.BASE_URL
+  ? process.env.BASE_URL
+  : 'http://localhost:4200';
+const gradlewPath = process.env.GRADLEW_PATH
+  ? process.env.GRADLEW_PATH
+  : '../../../';
+const gradlewCommand = process.env.GRADLEW_COMMAND
+  ? process.env.GRADLEW_COMMAND
+  : './gradlew bootRun';
+const personasCommand = process.env.PERSONAS_COMMAND
+  ? process.env.PERSONAS_COMMAND
+  : 'npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating';
 
 const frontend = {
   command: 'npm run start',
   url: baseURL,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
-}
+};
 
 const backend = {
   command: gradlewCommand,
@@ -18,44 +27,53 @@ const backend = {
   cwd: gradlewPath,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
-}
+};
+
+const personas = {
+  command: personasCommand,
+  url: 'http://localhost:8081',
+  cwd: gradlewPath,
+  timeout: 120 * 1000,
+  reuseExistingServer: !process.env.CI,
+};
 
 const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
-  steps: [
-    '../../jsAcceptanceTest/steps/*',
-    './fixtures.ts'
-  ],
-  featuresRoot:'../../jsAcceptanceTest/',
-  
+  steps: ['../../jsAcceptanceTest/steps/*', './fixtures.ts'],
+  featuresRoot: '../../jsAcceptanceTest/',
 });
 
 export default defineConfig({
   testDir,
-  reporter: [['junit', {
-    outputFile: '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml'
-  }],
-  // ['monocart-reporter', {  
-  //     name: "Repartir Acceptance Test Report",
-  //     outputFile: './monocart-report/index.html',
-  //     coverage: {
-  //       entryFilter: (entry: any) => true,
-  //       sourceFilter: (sourcePath: any) => sourcePath.search(/src\/.+/) !== -1,
-  //     }
-  // }]
+  reporter: [
+    [
+      'junit',
+      {
+        outputFile:
+          '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
+      },
+    ],
+    // ['monocart-reporter', {
+    //     name: "Repartir Acceptance Test Report",
+    //     outputFile: './monocart-report/index.html',
+    //     coverage: {
+    //       entryFilter: (entry: any) => true,
+    //       sourceFilter: (sourcePath: any) => sourcePath.search(/src\/.+/) !== -1,
+    //     }
+    // }]
   ],
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    }
+    },
   ],
   globalSetup: './global-setup.ts',
   globalTeardown: './global-teardown.ts',
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    baseURL: baseURL
+    baseURL: baseURL,
   },
-  webServer:[frontend, backend]
+  webServer: [frontend, backend, personas],
 });

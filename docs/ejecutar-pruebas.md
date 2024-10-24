@@ -2,7 +2,7 @@
 
 ## Ejecutar pruebas
 
-### Para ejecutar todas las pruebas
+### Para ejecutar todas las pruebas unitarias y de integración en java
 
 ```
 ./gradlew check --info
@@ -46,7 +46,7 @@ Donde task es "test", "integrationTest", etc... y filter la regex a evaluar.
 ./gradlew test --tests '*ParameterizedTest.*[2]'
 ```
 
-### Para ejecutar pruebas especificas en java
+### Para ejecutar pruebas de aceptación especificas en java
 
 > Sirve para pruebas que usan cucumber (hoy, las de aceptacion)
 
@@ -58,13 +58,13 @@ El comando matchea la regex con los textos dentro de cada archivo .feature, tant
 
 > IMPORTANTE: La regex no puede tener un '\*' ni al principio ni al final.
 
-### Para ejecutar pruebas ui-angular
+### Para ejecutar pruebas unitarias del frontend
 
 ```
 ./tests js unit
 ```
 
-### Para ejecutar pruebas de aceptación
+### Para ejecutar pruebas de aceptación 
 
 - Backend:
 

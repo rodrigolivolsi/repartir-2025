@@ -47,8 +47,6 @@ Ya que la API de personas es un servicio externo, antes de poder correr la aplic
 npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
 ```
 
-> **Nota**: Si la API Personas se levanta en otro puerto o en otra URL que no sea localhost, debes actualizar la variable `personas.api.url` en el archivo [`src/main/resources/application.properties`](./src/main/resources/application.properties)
-
 #### Voy a desarrollar únicamente backend (Java)
 
 Si lo que queremos es trabajar únicamente con el backend, podemos usar la task `bootRun` de Gradle:
@@ -58,6 +56,8 @@ Si lo que queremos es trabajar únicamente con el backend, podemos usar la task 
 ```
 
 > También se puede ejecutar esa task desde la sección de Gradle el IDE.
+
+> **Nota**: Si la API Personas se levanta en otro puerto o en otra URL que no sea localhost, debes actualizar la variable `personas.api.url` en el archivo [`src/main/resources/application.properties`](./src/main/resources/application.properties) antes de correr el backend.
 
 Esto levantará la aplicación en http://localhost:8080, con una base de datos in-memory (H2) y un build del frontend angular embebido. Podemos inspeccionar la base de datos en http://localhost:8080/h2-console así como la API REST en http://localhost:8080/swagger-ui.html.
 

@@ -1,17 +1,15 @@
 {
-    "files.watcherExclude": {
-      "**/target": true
-    },
-    "cucumberautocomplete.steps": [
-      "features/step_definitions/*.js"
-    ],
-    "cucumberautocomplete.syncfeatures": "features/*feature",
-    "extensions": {
-      "recommendations": [
-        "alexkrechik.cucumberautocomplete",
-        "richardwillis.vscode-gradle",
-        "angular.ng-template"
-      ]
-    }
-  }
-  
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "cucumberautocomplete.steps": ["features/step_definitions/*.js"],
+  "cucumberautocomplete.syncfeatures": "features/*feature",
+  "extensions": {
+    "recommendations": [
+      "alexkrechik.cucumberautocomplete",
+      "richardwillis.vscode-gradle",
+      "angular.ng-template"
+    ]
+  },
+  "java.configuration.updateBuildConfiguration": "automatic"
+}

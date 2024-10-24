@@ -2,7 +2,7 @@
   "priority": 10,
   "request": {
     "method": "GET",
-    "urlPathPattern": "/personas/([a-zA-Z]*)"
+    "urlPathPattern": "/personas/([a-zA-Z0-9]*)"
   },
   "response": {
     "status": 200,

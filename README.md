@@ -102,6 +102,7 @@ El proyecto cuenta con una demo que levanta la aplicación en un entorno Dockeri
 
 * [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
 * [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
+* [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
 
 
 ## IDE

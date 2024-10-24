@@ -86,4 +86,4 @@ El comando matchea la regex con los textos dentro de cada archivo .feature, tant
 ./tests js acceptance -g "Nombre del escenario"
 ```
 
-También se puede levantar la interfaz gráfica de Playwright. Ver [README en proyecto frontend](./src/main/frontend/README.md).
+También se puede levantar la interfaz gráfica de Playwright. Ver [README en proyecto frontend](../src/main/frontend/README.md).

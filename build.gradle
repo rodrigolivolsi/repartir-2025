@@ -80,7 +80,7 @@ test {
 fastAcceptanceTest {
 	useJUnitPlatform()
 	mustRunAfter test
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
+	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
 integrationTest {
@@ -98,7 +98,7 @@ acceptanceTest {
 	useJUnitPlatform()
 	mustRunAfter uiTest
 	systemProperties = System.properties
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
+	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
 check {

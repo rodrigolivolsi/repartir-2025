@@ -8,6 +8,8 @@ let nombreIndicado;
 let miembroUno;
 let miembroDos;
 
+let context = {};
+
 Given('que el usuario inició Repartir', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('textbox').fill('julian');
@@ -67,11 +69,19 @@ When("el usuario crea un grupo", async ({ page }) => {
         },
         gruposAntesDeCrearUnoNuevo
       );
+      let ultimaFila = page.locator('app-grupos table tr').last();
+
+      let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
+
+      context.grupoId = grupoId;
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ page }, montoEsperado) => {
-    let monto = await page.locator('app-grupos table tbody tr:last-child td:nth-child(3)');
+Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
+    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${context.grupoId}"))`);
+    let monto = await filaConGrupoId.locator('td:nth-child(3)');
+
     await expect(monto).toContainText(montoEsperado);
+
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {

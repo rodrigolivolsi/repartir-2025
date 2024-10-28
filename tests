@@ -12,20 +12,20 @@ runJavaTest(){
 
 runJsAcceptanceTest(){
   if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
-    npm run acceptance-test-windows --prefix=src/main/frontend
+    npm run acceptance-test-windows --prefix=src/main/frontend || exit 1
   else
-    npm run acceptance-test --prefix=src/main/frontend
+    npm run acceptance-test --prefix=src/main/frontend || exit 1
   fi
 }
 
 runJSTest(){
   if [ -z "$1" ] || [ "$1" = "acceptance" ] || [ "$1" = "all" ]; then
     shift;  # will remove first arg from the "$@"
-    runJsAcceptanceTest "$@" 
+    runJsAcceptanceTest "$@"  || exit 1
   fi
 
   if [ "$1" = "unit" ] || [ "$1" = "all" ]; then
-    npm run test --prefix=src/main/frontend
+    npm run test --prefix=src/main/frontend || exit 1
   fi
 }
 

@@ -21,7 +21,7 @@ runJsAcceptanceTest(){
 runJSTest(){
   if [ -z "$1" ] || [ "$1" = "acceptance" ] || [ "$1" = "all" ]; then
     shift;  # will remove first arg from the "$@"
-    runJsAcceptanceTest "$@"
+    runJsAcceptanceTest "$@" 
   fi
 
   if [ "$1" = "unit" ] || [ "$1" = "all" ]; then
@@ -48,15 +48,12 @@ fi
 
 if [ "$1" = "java" ]; then
     runJavaTest "$2"
-    exit 0
 elif [ "$1" = "js" ]; then
     shift;  # will remove first arg from the "$@"
     runJSTest "$@"
-    exit 0
 elif [ "$1" = "all" ]; then
     runJavaTest "all"
     runJSTest "all"
-    exit 0
 else
   echo "Error"
   mostrarMensajeAyuda

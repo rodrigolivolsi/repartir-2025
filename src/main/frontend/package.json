@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "acceptance-test": "npx bddgen && npx playwright test",
-    "acceptance-test-windows": "set GRADLEW_COMMAND=gradlew.bat bootRun && npm run acceptance-test"
+    "acceptance-test-windows": "set GRADLEW_COMMAND=gradlew.bat bootRun && npm run acceptance-test",
+    "wiremock": "wiremock"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +49,7 @@
     "monocart-reporter": "^2.9.6",
     "playwright-bdd": "^7.5.0",
     "ts-node": "^10.0.0",
-    "typescript": "~4.9.3"
+    "typescript": "~4.9.3",
+    "wiremock": "^3.9.1"
   }
 }

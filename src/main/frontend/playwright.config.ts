@@ -30,12 +30,12 @@ const backend = {
 };
 
 const personas = {
-  command: personasCommand,
+  command: 'npm run wiremock -- --port 8081',
   url: 'http://localhost:8081',
-  cwd: gradlewPath,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };
+
 
 const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',

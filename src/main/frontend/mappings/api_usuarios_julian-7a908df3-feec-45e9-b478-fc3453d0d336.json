@@ -1,0 +1,19 @@
+{
+    "priority": 1,
+    "request": {
+      "method": "GET",
+      "url": "/personas/julian"
+    },
+    "response": {
+      "status": 200,
+      "jsonBody": {
+        "id": "julian",
+        "correo": "julian@repartir.com",
+        "nombre": "Julian Alvarez",
+        "documento": "56786543"
+      },
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }

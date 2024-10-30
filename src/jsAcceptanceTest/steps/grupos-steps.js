@@ -5,8 +5,6 @@ const { Given, When, Then } = createBdd(test);
 
 Given('que el usuario inició Repartir', async ({ grupos }) => {
     await grupos.iniciar();
-let context = {};
-
 });
 
 When("el usuario crea un grupo indicando el nombre {string}", async ({ grupos }, nombre) => {
@@ -19,14 +17,9 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
 
 When("el usuario crea un grupo", async ({ grupos }) => {
     await grupos.crear();
-      let ultimaFila = page.locator('app-grupos table tr').last();
-
-      let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
-
-      context.grupoId = grupoId;
 })
 
-Then("debería visualizar dentro del listado el grupo creado con total {string}", async ({ grupos }, montoEsperado) => {
+Then("debería visualizar dentro del listado el grupo con total {string}", async ({ grupos }, montoEsperado) => {
     await grupos.validarMontoTotal(montoEsperado);
 })
 

@@ -16,7 +16,7 @@ export class GruposPlaywright implements GruposDriver {
     nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
     miembrosDeGrupoEsperados: Array<string> = []
     page: Page;
-    context: any;
+    context: any = {};
     constructor(page: Page) {
         this.page = page;
     }
@@ -88,6 +88,12 @@ export class GruposPlaywright implements GruposDriver {
             },
             gruposAntesDeCrearUnoNuevo
         );
+        let ultimaFila = this.page.locator('app-grupos table tr').last();
+
+        let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
+
+        this.context.grupoId = grupoId;
+
     }
 
     async validarNombreDeGrupo(): Promise<void> {

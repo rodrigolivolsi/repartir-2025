@@ -2,9 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
 const baseURL = 'http://localhost:8080';
-const gradlewPath = process.env.GRADLEW_PATH
-  ? process.env.GRADLEW_PATH
-  : '../../../';
+const gradlewPath = '../../../';
 const gradlewCommand = process.platform === 'win32'
   ? 'gradlew.bat bootRun'
   : './gradlew bootRun';
@@ -40,14 +38,6 @@ export default defineConfig({
           '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
       },
     ],
-    // ['monocart-reporter', {
-    //     name: "Repartir Acceptance Test Report",
-    //     outputFile: './monocart-report/index.html',
-    //     coverage: {
-    //       entryFilter: (entry: any) => true,
-    //       sourceFilter: (sourcePath: any) => sourcePath.search(/src\/.+/) !== -1,
-    //     }
-    // }]
   ],
   projects: [
     {

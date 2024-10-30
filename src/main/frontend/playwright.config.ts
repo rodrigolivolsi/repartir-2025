@@ -53,8 +53,6 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

@@ -17,6 +17,15 @@ La aplicación está compuesta por 3 componentes principales:
 
 ## Desarrollo Local (TL;DR instrucciones resumidas)
 
+### Setup del proyecto
+
+```
+cd src/main/frontend
+npm install
+```
+
+### Ejecutar la aplicación
+
 _(Todos los comandos se deben ejecutar desde la raíz del proyecto)_
 
 1. API Personas:
@@ -103,6 +112,7 @@ El proyecto cuenta con una demo que levanta la aplicación en un entorno Dockeri
 * [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
 * [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
 * [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
+* [Instrucciones específicas para el frontend de esta aplicación](./src/main/frontend/README.md)
 
 
 ## IDE

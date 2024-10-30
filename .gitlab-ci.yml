@@ -93,7 +93,7 @@ acceptance-test-js:
     - echo -e "\e[0Ksection_end:`date +%s`:npm_ci\r\e[0K"
   script:
     - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests\r\e[0KJS acceptance tests"
-    - ./tests js acceptance
+    - npm run acceptance-test --prefix=src/main/frontend -- -c playwright.config.ci.ts
     - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests\r\e[0K"
   artifacts:
     when: always

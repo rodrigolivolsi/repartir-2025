@@ -1,18 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-const baseURL = 'http://localhost:4200';
+const baseURL = 'http://localhost:8080';
 const gradlewPath = '../../../';
 const gradlewCommand = process.platform === 'win32'
   ? 'gradlew.bat bootRun'
   : './gradlew bootRun';
-
-const frontend = {
-  command: 'npm run start',
-  url: baseURL,
-  timeout: 120 * 1000,
-  reuseExistingServer: !process.env.CI,
-};
 
 const backend = {
   command: gradlewCommand,
@@ -28,7 +21,6 @@ const personas = {
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };
-
 
 const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
@@ -60,5 +52,5 @@ export default defineConfig({
     trace: 'retain-on-failure',
     baseURL: baseURL,
   },
-  webServer: [frontend, backend, personas],
+  webServer: [backend, personas],
 });

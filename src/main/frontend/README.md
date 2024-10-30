@@ -47,11 +47,6 @@ Para correr los test:
 npm run acceptance-test
 ```
 
-*Nota: Si estás usando Windows ejecutá:*
-```
-npm run acceptance-test-windows
-```
-
 ### Recompilar los escenarios
 Se está utilizando el plugin de [Playwright BDD](https://github.com/vitalets/playwright-bdd) para compilar los escenarios escritos en Gherkin en código que Playwright puede ejecutar. Esto permite aprovechar todas las ventajas del runner de Playwright en lugar de utilizar el de cucumberJS.
 

@@ -11,11 +11,7 @@ runJavaTest(){
 }
 
 runJsAcceptanceTest(){
-  if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
-    npm run acceptance-test-windows --prefix=src/main/frontend || exit 1
-  else
-    npm run acceptance-test --prefix=src/main/frontend || exit 1
-  fi
+  npm run acceptance-test --prefix=src/main/frontend || exit 1
 }
 
 runJSTest(){

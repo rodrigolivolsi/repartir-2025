@@ -88,15 +88,20 @@ acceptance-test-js:
     CI: 'true'
     GRADLEW_PATH: '$CI_PROJECT_DIR'
   before_script:
+    - echo -e "\e[0Ksection_start:`date +%s`:npm_ci\r\e[0KNPM CI"
     - npm ci --prefix src/main/frontend
+    - echo -e "\e[0Ksection_end:`date +%s`:npm_ci\r\e[0K"
   script:
-    - ./tests js acceptance
+    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests\r\e[0KJS acceptance tests"
+    - npm run acceptance-test --prefix=src/main/frontend -- -c playwright.config.ci.ts
+    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests\r\e[0K"
   artifacts:
     when: always
     reports:
       junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
+    name: acceptance-test-js-coverage
     paths:
-      - src/main/frontend/coverage-reports
+      - src/main/frontend/coverage-reports/
 
 package:
   stage: package

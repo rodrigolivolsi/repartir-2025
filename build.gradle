@@ -8,6 +8,12 @@ plugins {
 	id 'pmd'
 }
 
+jar {
+	enabled = true
+	archiveBaseName = 'repartir'
+	archiveVersion = '1.0'
+}
+
 group = 'ar.com.grupoesfera'
 version = '1.0'
 sourceCompatibility = '17'
@@ -26,6 +32,8 @@ testSets {
 }
 
 dependencies {
+	runtimeOnly 'com.h2database:h2'
+	
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
@@ -72,7 +80,7 @@ test {
 fastAcceptanceTest {
 	useJUnitPlatform()
 	mustRunAfter test
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
+	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
 integrationTest {
@@ -90,7 +98,7 @@ acceptanceTest {
 	useJUnitPlatform()
 	mustRunAfter uiTest
 	systemProperties = System.properties
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name")
+	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
 check {
@@ -127,9 +135,10 @@ pmd {
 	]
 }
 
-bootRun {
+task demo(type: org.springframework.boot.gradle.tasks.run.BootRun) {
 	systemProperty "spring.profiles.active", "manualTest"
 	classpath = sourceSets.manualTest.runtimeClasspath
+	main = "ar.com.grupoesfera.repartir.RepartirApplication"
 }
 
 // https://stackoverflow.com/a/36130467

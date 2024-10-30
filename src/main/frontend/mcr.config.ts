@@ -15,17 +15,22 @@ const coverageOptions: CoverageReportOptions = {
     //     '**/webpack/**': false,
     //     './src/**': true
     // },
+    filter: {
+      '**/node_modules/**': false,
+      '**/webpack/**': false,
+      '**/*': true
+    },
 
     all: {
         dir: ['./src'],
         filter: {
             // exclude files
-            '**/node_modules/**': false,
             '**/*.html': false,
             '**/*.css': false,
             '**/*.png': false,
             '**/*.ico': false,
             '**/*.spec.ts': false,
+            '**/test.ts': false,
 
             // empty files coverage
             '**/*': true

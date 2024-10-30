@@ -1,140 +1,132 @@
 # Repartir
 
-## Ambiente
+## Prerequisitos
 
 - JDK 17
-- Docker
+- Docker (Solo para correr la demo)
 - Chrome
 - Node 18
 
-## Build & Run
+## Arquitectura general
 
-### Build del proyecto
+La aplicación está compuesta por 3 componentes principales:
+
+- **Frontend**: Aplicación Angular que permite a los usuarios interactuar con la aplicación.
+- **Backend**: Aplicación Spring Boot que provee una API REST para el frontend.
+- **API Personas**: API externa a la que el backend se conecta para obtener información de personas.
+
+## Desarrollo Local (TL;DR instrucciones resumidas)
+
+### Setup del proyecto
 
 ```
-./gradlew build
+cd src/main/frontend
+npm install
 ```
 
-### Para levantar el ambiente local
+### Ejecutar la aplicación
+
+_(Todos los comandos se deben ejecutar desde la raíz del proyecto)_
+
+1. API Personas:
+
+```
+npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
+```
+
+2. Backend:
 
 ```
 ./gradlew bootRun
 ```
 
-### Para levantar el frontend angular
+3. Frontend:
 
 ```
 ./iniciar-frontend
 ```
 
-## Ejecutar pruebas
+## Desarrollo Local (Instrucciones detalladas)
 
-### Para ejecutar todas las pruebas
+_(Todos los comandos se deben ejecutar desde la raíz del proyecto)_
 
-```
-./gradlew check --info
-```
-
-### Para ejecutar pruebas especificas en java
-
-> Sirve para pruebas que no usan cucumber (hoy, todas menos las de aceptación)
+Ya que la API de personas es un servicio externo, antes de poder correr la aplicación en un entorno local es necesario levantar un servicio que haga las veces de API Personas. Para facilitar esto, se provee un mock de la API Personas que se puede levantar con Wiremock corriendo el siguiente comando:
 
 ```
-./gradlew <task> --tests "<filter>"
+npx wiremock --port 8081 --root-dir src/manualTest/resources/wiremock --global-response-templating
 ```
 
-Donde task es "test", "integrationTest", etc... y filter la regex a evaluar.
+Esto levantará un servicio en http://localhost:8081. Podemos inspeccionar sus endpoints y demás características en http://localhost:8081/\_\_admin.
 
-#### [Guia](https://docs.gradle.org/current/userguide/java_testing.html#test_filtering) para filters:
+### Voy a desarrollar únicamente backend (Java)
 
-```
-# specific class
-./gradlew test --tests org.gradle.SomeTestClass
-
-# specific class and method
-./gradlew test --tests org.gradle.SomeTestClass.someSpecificMethod
-
-# method name containing spaces
-./gradlew test --tests "org.gradle.SomeTestClass.some method containing spaces"
-
-# all classes at specific package (recursively)
-./gradlew test --tests 'all.in.specific.package*'
-
-# specific method at specific package (recursively)
-./gradlew test --tests 'all.in.specific.package*.someSpecificMethod'
-
-./gradlew test --tests '*IntegTest'
-
-./gradlew test --tests '*IntegTest*ui*'
-
-./gradlew test --tests '*ParameterizedTest.foo*'
-
-# the second iteration of a parameterized test
-./gradlew test --tests '*ParameterizedTest.*[2]'
-```
-
-### Para ejecutar pruebas especificas en java
-
-> Sirve para pruebas que usan cucumber (hoy, las de aceptacion)
+Si lo que queremos es trabajar únicamente con el backend, podemos usar la task `bootRun` de Gradle:
 
 ```
-./gradlew acceptanceTest -Dcucumber.filter.name="<regex>"
+./gradlew bootRun
 ```
 
-El comando matchea la regex con los textos dentro de cada archivo .feature, tanto escenarios como reglas como características.
+_(También se puede ejecutar esta task desde la sección de Gradle el IDE)_
 
-> IMPORTANTE: La regex no puede tener un '\*' ni al principio ni al final.
+> **Nota**: Si la API Personas se levanta en otro puerto o en otra URL que no sea localhost, debes actualizar la variable `personas.api.url` en el archivo [`src/main/resources/application.properties`](./src/main/resources/application.properties) antes de correr el backend.
 
-### Para ejecutar pruebas ui-angular
+Esto levantará la aplicación en http://localhost:8080, con una base de datos in-memory (H2) y un build del frontend angular embebido. Podemos inspeccionar la base de datos en http://localhost:8080/h2-console así como la API REST en http://localhost:8080/swagger-ui.html.
 
-```
-./tests js unit
-```
+### Voy a desarrollar únicamente frontend (Angular)
 
-### Para ejecutar pruebas de aceptación
+Para trabajar únicamente con el frontend, debemos de todos modos tener una instancia del backend corriendo en http://localhost:8080 ya que el frontend depende de la API REST que provee el backend. Podemos correr el backend como se indicó en el paso anterior.
 
-- Backend:
+Luego, para levantar el frontend angular podemos seguir los pasos indicados en el [README del frontend](./src/main/frontend/README.md) o correr el siguiente comando:
 
 ```
-./tests java acceptance
+./iniciar-frontend
 ```
 
-- Frontend
+### Voy a desarrollar todo (Java y Angular)
+
+Si queremos desarrollar tanto el backend como el frontend, podemos levantar ambos componentes de la aplicación como se indica en los pasos anteriores.
+
+Además, si queremos ver nuestros cambios de frontend reflejados en http://localhost:8080 mientras los desarrollamos, debemos correr el script `watch` del frontend:
 
 ```
-./tests js acceptance
+cd src/main/frontend
+npm run watch
 ```
 
-Se pueden sumistrar parámetros opcionales a la ejecución. (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
+## Ejecutar la demo
 
-- Frontend
+El proyecto cuenta con una demo que levanta la aplicación en un entorno Dockerizado usando testcontainers, incluyendo una base de datos MariaDB populada y un mock de la API Personas. Para correr la demo, ejecutar el siguiente comando desde la raíz del proyecto:
 
 ```
-./tests js acceptance -g "Nombre del escenario"
+./gradlew demo
 ```
 
-También se puede levantar la interfaz gráfica de Playwright. Ver [README en proyecto frontend](./src/main/frontend/README.md).
+> **Recordatorio**: Para levantar la demo, es necesario tener Docker instalado en la máquina.
 
-## Acceso web
+> **Nota**: Así como cuando se corre la aplicación en un entorno local, se puede inspeccionar la API REST en http://localhost:8080/swagger-ui.html. Sin embargo, la base de datos no estará disponible en http://localhost:8080/h2-console ya que la base de datos es MariaDB y se encuentra en un contenedor Docker.
 
-http://localhost:8080/
 
-## Open API
 
-http://localhost:8080/swagger-ui.html
+## Links de interés
+
+* [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
+* [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
+* [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
+* [Instrucciones específicas para el frontend de esta aplicación](./src/main/frontend/README.md)
+
 
 ## IDE
 
 ### Intellij
 
 Es recomendable instalar los siguientes plugins:
-* [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
+- [Cucumber for Java](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java)
 
 ### Visual Studio Code
 
 Es recomendable instalar los siguientes plugins:
-* [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
-* [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
-* [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
 
+- [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
+- [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
+- [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)

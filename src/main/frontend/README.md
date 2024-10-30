@@ -1,4 +1,4 @@
-# Repartir
+# Repartir Frontend
 
 
 ## Ambiente:
@@ -45,11 +45,6 @@ Para correr los test:
 
 ```
 npm run acceptance-test
-```
-
-*Nota: Si estás usando Windows ejecutá:*
-```
-npm run acceptance-test-windows
 ```
 
 ### Recompilar los escenarios

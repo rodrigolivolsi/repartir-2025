@@ -16,6 +16,7 @@ export class GruposPlaywright implements GruposDriver {
     nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
     miembrosDeGrupoEsperados: Array<string> = []
     page: Page;
+    context: any;
     constructor(page: Page) {
         this.page = page;
     }
@@ -110,7 +111,9 @@ export class GruposPlaywright implements GruposDriver {
     }
 
     async validarMontoTotal(montoEsperado: string): Promise<void> {
-        let monto = await this.page.locator('app-grupos table tbody tr:last-child td:nth-child(3)');
+        let filaConGrupoId = this.page.locator(`app-grupos table tr:has(td:nth-child(1):text("${this.context.grupoId}"))`);
+        let monto = await filaConGrupoId.locator('td:nth-child(3)');
+
         await expect(monto).toContainText(montoEsperado);
     }
 }

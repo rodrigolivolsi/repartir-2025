@@ -41,14 +41,7 @@ export class GruposE2E implements GruposDriver {
     }
 
     async crearConUnUnicoMiembro(): Promise<void> {
-        await this.page.locator("#crearGruposButton").click();
-
-        await this.page.locator("#nombreGrupoNuevoInput").fill("After Office");
-
-        await this.page.locator('#miembrosGrupoNuevoInput').fill("Oscar");
-        await this.page.keyboard.press('Enter');
-
-        await this.page.locator("#guardarGrupoNuevoButton").click();
+        this.crearConMiembros(["Oscar"]);
     }
 
     async crear(): Promise<void> {

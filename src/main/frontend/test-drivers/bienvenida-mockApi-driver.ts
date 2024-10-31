@@ -12,6 +12,7 @@ export class BienvenidaMockApi extends BienvenidaE2E {
 
 
     async iniciar(): Promise<void> {
+
         await this.page.route('**/api/usuarios/**', route => route.fulfill({
             status: 200,
             contentType: "application/json"
@@ -24,6 +25,5 @@ export class BienvenidaMockApi extends BienvenidaE2E {
         }));
 
         await super.iniciar();
-
     }
 }

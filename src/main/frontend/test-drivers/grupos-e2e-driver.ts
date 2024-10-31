@@ -21,7 +21,7 @@ export class GruposE2E implements GruposDriver {
     }
 
     async crearConMiembros(miembros: Array<string>): Promise<void> {
-        await this.crearConNombreYMiembros("After Office", miembros);
+        await this.crearConNombreYMiembros("Grupo de Prueba", miembros);
     }
 
     async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
@@ -69,10 +69,10 @@ export class GruposE2E implements GruposDriver {
 
     async validarMiembrosDeGrupo(): Promise<void> {
         let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`);
-        let miembros = await row.locator('td:nth-child(4)')
+        let miembros = await row.locator('td:nth-child(4)');
 
         for (let index = 0; index < this.miembrosDeGrupoEsperados.length; index++) {
-            await expect(miembros.nth(1)).toContainText(this.miembrosDeGrupoEsperados[index]);
+            await expect(miembros).toContainText(this.miembrosDeGrupoEsperados[index]);
         }
     }
 

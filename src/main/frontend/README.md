@@ -47,6 +47,17 @@ Para correr los test:
 npm run acceptance-test
 ```
 
+Estos tests son de punta a punta, es decir, van a levantar el backend y la API de personas mockeada antes de comenzar a ejecutarse. Si se desea una ejecución más rápida, que mockee todo el backend, se puede ejecutar:
+
+```
+npm run fast-acceptance-test
+```
+
+Las implementaciones de estos tests pueden encontrarse en:
+- [Definición de los escenarios en Gherkin](../../jsAcceptanceTest/features/)
+- [Implementación de los steps, delegando la ejecución en un driver](../../jsAcceptanceTest/steps/)
+- [Interfaz de los drivers e implementaciones para ejecución de punta a punta y contra mocks](./test-drivers)
+
 ### Recompilar los escenarios
 Se está utilizando el plugin de [Playwright BDD](https://github.com/vitalets/playwright-bdd) para compilar los escenarios escritos en Gherkin en código que Playwright puede ejecutar. Esto permite aprovechar todas las ventajas del runner de Playwright en lugar de utilizar el de cucumberJS.
 

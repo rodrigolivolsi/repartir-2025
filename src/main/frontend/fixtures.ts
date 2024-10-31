@@ -1,8 +1,10 @@
 import { test as base } from 'playwright-bdd';
 import MCR from 'monocart-coverage-reports';
 import coverageOptions from './mcr.config';
-import { BienvenidaDriver, BienvenidaPlaywright } from 'test-drivers/bienvenida-driver';
-import { GruposDriver, GruposPlaywright } from 'test-drivers/grupos-driver';
+import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
+import { GruposDriver } from 'test-drivers/grupos-driver';
+import { GruposMockApi } from 'test-drivers/grupos-mockApi-driver';
+import { BienvenidaMockApi } from 'test-drivers/bienvenida-mockApi-driver';
 
 export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaDriver, grupos: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
@@ -38,9 +40,9 @@ export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaD
 
   }, { auto: true }],
   bienvenida: async({page}, use) => {
-    use(new BienvenidaPlaywright(page))
+    use(new BienvenidaMockApi(page))
   },
   grupos: async({page}, use) => {
-    use(new GruposPlaywright(page))
+    use(new GruposMockApi(page))
   },
 });

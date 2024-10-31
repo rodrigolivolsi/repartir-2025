@@ -17,19 +17,17 @@ export class GruposE2E implements GruposDriver {
     }
 
     async crearCon(nombre: string): Promise<void> {
-        this.nombreDeGrupoEsperado = nombre;
-        await this.page.locator('#crearGruposButton').click()
-        await this.page.locator('#nombreGrupoNuevoInput').fill(nombre);
-        await this.page.locator('#miembrosGrupoNuevoInput').fill('Victor');
-        await this.page.keyboard.press('Enter');
-        await this.page.locator('#miembrosGrupoNuevoInput').fill('Brenda');
-        await this.page.keyboard.press('Enter');
-        await this.page.locator('#guardarGrupoNuevoButton').click();
+        await this.crearConNombreYMiembros(nombre, ["Victor", "Brenda"]);
     }
 
     async crearConMiembros(miembros: Array<string>): Promise<void> {
+        await this.crearConNombreYMiembros("After Office", miembros);
+    }
+
+    async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
+        this.nombreDeGrupoEsperado = nombre;
         await this.page.locator("#crearGruposButton").click();
-        await this.page.locator("#nombreGrupoNuevoInput").fill("After Office");
+        await this.page.locator("#nombreGrupoNuevoInput").fill(nombre);
 
         for(let i = 0; i < miembros.length; i++) {
             await this.page.locator('#miembrosGrupoNuevoInput').fill(miembros[i]);
@@ -48,20 +46,7 @@ export class GruposE2E implements GruposDriver {
 
         const gruposAntesDeCrearUnoNuevo = await this.page.locator('app-grupos table tr').count();
 
-        await this.page.locator("#crearGruposButton").click();
-
-        await this.page.locator("#nombreGrupoNuevoInput").fill("Grupo de 4");
-
-        await this.page.locator('#miembrosGrupoNuevoInput').fill("Guido");
-        await this.page.keyboard.press('Enter');
-        await this.page.locator('#miembrosGrupoNuevoInput').fill("Laura");
-        await this.page.keyboard.press('Enter');
-        await this.page.locator('#miembrosGrupoNuevoInput').fill("Mariano");
-        await this.page.keyboard.press('Enter');
-        await this.page.locator('#miembrosGrupoNuevoInput').fill("Juan Cruz");
-        await this.page.keyboard.press('Enter');
-
-        await this.page.locator("#guardarGrupoNuevoButton").click();
+        await this.crearConNombreYMiembros("Grupo de 4", ["Guido", "Laura", "Mariano", "Juan Cruz"]);
 
         await this.page.waitForFunction(
             (gruposAntesDeCrearUnoNuevo) => {
@@ -83,12 +68,12 @@ export class GruposE2E implements GruposDriver {
     }
 
     async validarMiembrosDeGrupo(): Promise<void> {
-        let nombreGrupo = 'After Office'
-        let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`);
+        let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`);
         let miembros = await row.locator('td:nth-child(4)')
 
-        await expect(miembros.nth(1)).toContainText(this.miembrosDeGrupoEsperados[0]);
-        await expect(miembros.nth(1)).toContainText(this.miembrosDeGrupoEsperados[1]);
+        for (let index = 0; index < this.miembrosDeGrupoEsperados.length; index++) {
+            await expect(miembros.nth(1)).toContainText(this.miembrosDeGrupoEsperados[index]);
+        }
     }
 
     async validarMensajeDeAlMenosDosMiembros(): Promise<void> {

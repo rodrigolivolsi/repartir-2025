@@ -13,7 +13,7 @@ export class GruposMockApi extends GruposE2E {
 
     private grupoCreado: Grupo = {
         miembros: ["laura", "lucia"],
-        nombre: "",
+        nombre: "Grupo creado",
         id: 2,
         total: 0
     };
@@ -37,7 +37,13 @@ export class GruposMockApi extends GruposE2E {
     async crearCon(nombre: string): Promise<void> {
 
         this.grupoCreado.nombre = nombre;
-        await this.page.route('**/api/grupos', async route => {
+        await this.setupGuardarGrupo();
+
+        await super.crearCon(nombre);
+    }
+
+    private async setupGuardarGrupo() {
+        await this.page.route('**/api/grupos', async (route) => {
 
             if (route.request().method() == 'POST') {
                 await route.fulfill({
@@ -51,10 +57,39 @@ export class GruposMockApi extends GruposE2E {
                     status: 200,
                     contentType: "application/json",
                     json: [this.grupoEjemplo, this.grupoCreado]
-                })
+                });
             }
-          });
+        });
+    }
 
-        await super.crearCon(nombre);
+    async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
+
+        this.grupoCreado.nombre = nombre;
+        this.grupoCreado.miembros = miembros;
+        this.setupGuardarGrupo();
+
+        await super.crearConNombreYMiembros(nombre, miembros);
+    }
+
+    async crearConUnUnicoMiembro(): Promise<void> {
+
+        await this.page.route('**/api/grupos', async (route) => {
+
+            if (route.request().method() == 'POST') {
+                await route.fulfill({
+                    status: 400,
+                    contentType: "application/json"
+                });
+
+            } else {
+                await route.fulfill({
+                    status: 200,
+                    contentType: "application/json",
+                    json: [this.grupoEjemplo]
+                });
+            }
+        });
+
+        await super.crearConNombreYMiembros("After Office", ["Oscar"]);
     }
 }

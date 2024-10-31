@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "acceptance-test": "npx bddgen && npx playwright test",
+    "fast-acceptance-test": "npx bddgen && API=mock npx playwright test",
     "wiremock": "wiremock"
   },
   "private": true,

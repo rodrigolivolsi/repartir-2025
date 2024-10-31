@@ -5,6 +5,8 @@ import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
 import { GruposDriver } from 'test-drivers/grupos-driver';
 import { GruposMockApi } from 'test-drivers/grupos-mockApi-driver';
 import { BienvenidaMockApi } from 'test-drivers/bienvenida-mockApi-driver';
+import { BienvenidaE2E } from 'test-drivers/bienvenida-e2e-driver';
+import { GruposE2E } from 'test-drivers/grupos-e2e-driver';
 
 export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaDriver, grupos: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
@@ -40,9 +42,22 @@ export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaD
 
   }, { auto: true }],
   bienvenida: async({page}, use) => {
-    use(new BienvenidaMockApi(page))
+
+    if (process.env.API == 'mock') {
+      console.log("Using mocks for the API");
+      use(new BienvenidaMockApi(page));
+
+    } else {
+      use(new BienvenidaE2E(page));
+    }
   },
   grupos: async({page}, use) => {
-    use(new GruposMockApi(page))
+    if (process.env.API == 'mock') {
+      console.log("Using mocks for the API");
+      use(new GruposMockApi(page));
+
+    } else {
+      use(new GruposE2E(page));
+    }
   },
 });

@@ -36,6 +36,12 @@ const testDir = defineBddConfig({
   featuresRoot: '../../jsAcceptanceTest/',
 });
 
+let webServerConfiguration = [frontend];
+if (process.env.API != 'mock'){
+  webServerConfiguration.push(backend);
+  webServerConfiguration.push(personas);
+}
+
 export default defineConfig({
   testDir,
   reporter: [
@@ -58,5 +64,5 @@ export default defineConfig({
     trace: 'retain-on-failure',
     baseURL: baseURL,
   },
-  webServer: [frontend, backend, personas],
+  webServer: webServerConfiguration,
 });

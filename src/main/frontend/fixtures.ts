@@ -8,11 +8,11 @@ import { BienvenidaMockApi } from 'test-drivers/bienvenida-mockApi-driver';
 
 export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaDriver, grupos: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
-    
-    const isChromium = test.info().project.name === 'chromium';
+
+    const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
 
     // coverage API is chromium only
-    if (isChromium) {
+    if (medirCobertura) {
         await Promise.all([
             page.coverage.startJSCoverage({
                 resetOnNavigation: false
@@ -26,7 +26,7 @@ export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaD
 
     await use();
 
-    if (isChromium) {
+    if (medirCobertura) {
         const [jsCoverage/*, cssCoverage*/] = await Promise.all([
             page.coverage.stopJSCoverage(),
             //page.coverage.stopCSSCoverage()

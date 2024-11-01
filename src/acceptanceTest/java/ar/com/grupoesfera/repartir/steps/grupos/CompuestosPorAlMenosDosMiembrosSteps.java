@@ -43,6 +43,9 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
     public void visualizaDentroDelListadoElGrupoConLosMiembrosIndicados() {
 
         var grupoTR = driver.findElements(By.cssSelector("app-grupos table tr"));
+        grupoTR.stream().forEach((elemento) -> {
+            System.out.println(elemento.getText());
+        });
         assertThat(grupoTR).hasSizeGreaterThan(1);
 
         var campoTDs = grupoTR.get(1).findElements(By.tagName("td"));

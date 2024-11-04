@@ -25,6 +25,7 @@ repositories {
 testSets {
 	fastAcceptanceTest
 	integrationTest
+	dbTest
 	uiTest
 	fastAcceptanceTest
 	acceptanceTest
@@ -52,6 +53,12 @@ dependencies {
 	integrationTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
 	integrationTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
 	integrationTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
+
+	dbTestImplementation 'org.flywaydb:flyway-core:7.11.3'
+	dbTestImplementation 'io.rest-assured:rest-assured:4.4.0'
+	dbTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
+	dbTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
+	dbTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 	uiTestImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	uiTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
@@ -88,9 +95,14 @@ integrationTest {
 	mustRunAfter fastAcceptanceTest
 }
 
+dbTest {
+	useJUnitPlatform()
+	mustRunAfter fastAcceptanceTest
+}
+
 uiTest {
 	useJUnitPlatform()
-	mustRunAfter integrationTest
+	mustRunAfter integrationTest // TODO: Change to dbTest, personasTest
 	systemProperties = System.properties
 }
 
@@ -104,6 +116,7 @@ acceptanceTest {
 check {
 	dependsOn fastAcceptanceTest
 	dependsOn integrationTest
+	dependsOn dbTest
 	dependsOn uiTest
 	dependsOn acceptanceTest
 }

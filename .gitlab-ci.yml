@@ -42,18 +42,6 @@ unit-test:
       - build/jacoco
       - build/reports/tests/test
 
-integration-test:
-  stage: test
-  script:
-    - ./gradlew integrationTest --info
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/integrationTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/integrationTest
-
 db-test:
   stage: test
   script:

@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/personas/mariela"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": "mariela",
+      "correo": "mariela@repartir.com",
+      "nombre": "Mariela Rios",
+      "documento": "47345624"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

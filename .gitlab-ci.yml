@@ -66,6 +66,18 @@ db-test:
       - build/jacoco
       - build/reports/tests/dbTest
 
+personas-test:
+  stage: test
+  script:
+    - ./gradlew personasTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/personasTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/personasTest
+
 ui-test:
   stage: test
   script:

@@ -8,7 +8,7 @@ import { BienvenidaMockApi } from 'test-drivers/bienvenida-mockApi-driver';
 import { BienvenidaE2E } from 'test-drivers/bienvenida-e2e-driver';
 import { GruposE2E } from 'test-drivers/grupos-e2e-driver';
 
-export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaDriver, grupos: GruposDriver }>({
+export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: BienvenidaDriver, gruposDriver: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
 
     const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
@@ -41,7 +41,7 @@ export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaD
 
 
   }, { auto: true }],
-  bienvenida: async({page}, use) => {
+  bienvenidaDriver: async({page}, use) => {
 
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
@@ -51,7 +51,7 @@ export const test = base.extend<{ autoTestFixture: void, bienvenida: BienvenidaD
       use(new BienvenidaE2E(page));
     }
   },
-  grupos: async({page}, use) => {
+  gruposDriver: async({page}, use) => {
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
       use(new GruposMockApi(page));

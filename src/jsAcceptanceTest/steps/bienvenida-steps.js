@@ -4,19 +4,19 @@ const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd')
 const { test } = require('../../main/frontend/fixtures');
 const { Given, When, Then } = createBdd(test);
 
-Given('el usuario accede a la aplicación', async ({ bienvenida }) => {
-    await bienvenida.acceder();
+Given('el usuario accede a la aplicación', async ({ bienvenidaDriver }) => {
+    await bienvenidaDriver.acceder();
 });
 
-Then('se muestra el mensaje de bienvenida', async ({ bienvenida }) => {
-    await bienvenida.validarMensajeDeBienvenida();
+Then('se muestra el mensaje de bienvenida', async ({ bienvenidaDriver }) => {
+    await bienvenidaDriver.validarMensajeDeBienvenida();
 });
 
-When('decidió iniciar', async ({ bienvenida }) => {
-    await bienvenida.iniciar();
+When('decidió iniciar', async ({ bienvenidaDriver }) => {
+    await bienvenidaDriver.iniciar();
 })
 
-Then('puede empezar a usarla', async ({ bienvenida }) => {
-    await bienvenida.validarQueSePuedeUsar();
+Then('puede empezar a usarla', async ({ bienvenidaDriver }) => {
+    await bienvenidaDriver.validarQueSePuedeUsar();
 });
 

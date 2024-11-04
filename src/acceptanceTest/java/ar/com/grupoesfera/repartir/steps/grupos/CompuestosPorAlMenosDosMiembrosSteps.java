@@ -6,13 +6,14 @@ import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
 
     private List<String> miembros;
@@ -42,7 +43,10 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
     @Entonces("visualiza dentro del listado el grupo con los miembros indicados")
     public void visualizaDentroDelListadoElGrupoConLosMiembrosIndicados() {
 
-        var grupoTR = driver.findElements(By.cssSelector("app-grupos table tr"));
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        var grupoTR = wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("app-grupos table tr"))
+        );
         assertThat(grupoTR).hasSizeGreaterThan(1);
 
         var campoTDs = grupoTR.get(1).findElements(By.tagName("td"));

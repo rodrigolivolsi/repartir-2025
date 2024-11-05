@@ -100,10 +100,7 @@ Then("debería ser informado que necesita tener al menos dos miembros", async ({
     let mensajesToast = page.getByRole('alert');
     await mensajesToast.waitFor({ state: 'visible', timeout: 2000 });
 
-    // Esperar a que el texto del toast contenga "Error"
     await expect(mensajesToast).toContainText('Error');
-
-    // Verificar que el texto del toast contenga "No se puede guardar"
     await expect(mensajesToast).toContainText('No se puede guardar');
 })
 
@@ -122,4 +119,95 @@ Then('visualiza dentro del listado el grupo con los miembros indicados', async (
     await expect(miembros.nth(1)).toContainText(miembroUno);
     await expect(miembros.nth(1)).toContainText(miembroDos);
     
+});
+
+When("el usuario intenta crear un grupo sin indicar su nombre", async ({ page }) => {
+    await page.locator("#crearGruposButton").click();
+
+    await page.locator('#miembrosGrupoNuevoInput').fill("Maria");
+    await page.keyboard.press('Enter');
+    await page.locator('#miembrosGrupoNuevoInput').fill("Oscar");
+    await page.keyboard.press('Enter');
+
+    await page.locator("#guardarGrupoNuevoButton").click();
+})
+
+Then("no debería crear el grupo sin nombre", async ({page}) => {
+// TODO
+})
+
+Then("debería ser informado que no puede crear un grupo sin nombre", async ({ page }) => {
+    const toast = await page.waitForSelector('#mensajesToast', { timeout: 2000 });
+    
+    const toastText = await toast.textContent();
+    expect(toastText).toContain("Error");
+    expect(toastText).toContain("No se puede guardar");
+});
+
+Given('no existe ningún grupo', async ({ page }) => {
+    //baseDeDatos.estaVacia();
+    //TODO revisasr como
+});
+   
+When('el usuario selecciona crear grupo', async ({ page }) => {
+    const crearGruposButton = page.locator('#crearGruposButton');
+    await crearGruposButton.click();
+});
+
+
+
+When('completa con el nombre {string}', async ({ page }, nombre) => {
+    const nombreGrupoInput = page.locator('#nombreGrupoNuevoInput');
+    await nombreGrupoInput.fill(nombre);
+});
+
+
+When('indica que los miembros son {string}, {string} y {string}', async ({ page }, miembro1, miembro2, miembro3) => {
+    const miembrosInput = page.locator('#miembrosGrupoNuevoInput');
+    
+    await miembrosInput.fill(miembro1.trim()); 
+    await miembrosInput.press('Enter');
+    
+    await miembrosInput.fill(miembro2.trim()); 
+    await miembrosInput.press('Enter'); 
+
+    await miembrosInput.fill(miembro3.trim());
+    await miembrosInput.press('Enter'); 
+});
+
+
+When('guarda el grupo', async ({ page }) => {
+    const guardarButton = page.locator('#guardarGrupoNuevoButton');
+    await guardarButton.click();
+});
+
+
+Given('existe un grupo', async({ page }) => {
+    //baseDeDatos.existeUnUnicoGrupo();
+    //TODO ver como hacer
+})
+
+Then('se muestra {int}° el grupo {string} con total {string}', async ({ page }, posicion, nombre, total) => {
+    const waitForMessage = page.locator('#mensajesToast');
+    await waitForMessage.waitFor({ timeout: 2000 });
+
+    const grupoTR = await page.locator('app-grupos table tr').elementHandles();
+    assert(grupoTR.length).to.be.greaterThan(posicion);
+
+    const campoTDs = await grupoTR[posicion].$('td');
+    const campoTexto = await campoTDs.evaluateAll(td => td.map(t => t.textContent)); // Extraer el texto de cada td
+
+    assert(campoTexto[0]).to.not.be.empty;
+    assert(campoTexto[1]).to.equal(nombre);
+    assert(campoTexto[2]).to.equal(total);
+});
+
+
+When('indica que los miembros son:', async({page},table) => {
+    const miembrosInput = this.page.locator('#miembrosGrupoNuevoInput');
+    
+    for (const { miembros } of table.hashes()) {
+      await miembrosInput.fill(miembros);
+      await miembrosInput.press('Enter');
+    }
 });

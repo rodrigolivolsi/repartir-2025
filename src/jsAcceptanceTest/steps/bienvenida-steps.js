@@ -15,7 +15,6 @@ Then('se muestra el mensaje de bienvenida', async ({ page }) => {
 
 When('decidió iniciar', async ({ page }) => {
     await page.getByRole('textbox').fill('julian');
-    await page.locator('#iniciarBienvenidaButton').click()
 })
 
 Then('puede empezar a usarla', async ({ page }) => {
@@ -25,3 +24,7 @@ Then('puede empezar a usarla', async ({ page }) => {
     await expect(nuevoGrupoDialog).toContainText('Nuevo Grupo');
 });
 
+When('el usuario inicia la aplicación',async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#iniciarBienvenidaButton').click()
+});

@@ -4,11 +4,11 @@ Característica: Experiencia al agregar gastos a los grupos
 
   @journey
   Escenario: Agregar gasto a un grupo nuevo
-    * existe el grupo #21 'Picnic en Palermo' sin gastos
+    * existe el grupo #1 'Picnic en Palermo' sin gastos
     * el usuario inicia la aplicación
-    * el usuario selecciona agregar gasto al grupo #21
+    * el usuario selecciona agregar gasto al grupo #1
     * completa con el monto de $ '4000'
     * guarda el gasto
     * ve la confirmación 'Gasto agregado al grupo'
-    * ve el total del grupo #21 actualizado a '$  4.000,00'
+    * ve el total del grupo #1 actualizado a '$  4.000,00'
 

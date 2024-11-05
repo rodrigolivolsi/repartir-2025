@@ -43,7 +43,6 @@ public class GruposController {
 
     @PostMapping
     public ResponseEntity<Grupo> crear(@RequestBody Grupo grupo) {
-
         ResponseEntity<Grupo> response;
 
         try {

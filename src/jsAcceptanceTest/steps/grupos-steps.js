@@ -183,8 +183,21 @@ When('guarda el grupo', async ({ page }) => {
 
 
 Given('existe un grupo', async({ page }) => {
-    //baseDeDatos.existeUnUnicoGrupo();
-    //TODO ver como hacer
+    try {
+        const response = await fetch('http://localhost:4200/api/grupos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: 'Fiesta Esferica',
+            miembros: ['JUan', 'Maria']
+          })
+        });
+        
+        await response.json();
+    
+    } catch (error) {
+        throw new Error('Error en la llamada al backend al crear el grupo');
+    }
 })
 
 Then('se muestra {int}° el grupo {string} con total {string}', async ({ page }, posicion, nombre, total) => {

@@ -15,6 +15,7 @@ Then('se muestra el mensaje de bienvenida', async ({ page }) => {
 
 When('decidió iniciar', async ({ page }) => {
     await page.getByRole('textbox').fill('julian');
+    await page.locator('#iniciarBienvenidaButton').click()
 })
 
 Then('puede empezar a usarla', async ({ page }) => {

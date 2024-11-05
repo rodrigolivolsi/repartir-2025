@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/api/grupos")
 public class GruposController {
 
+    private GruposService grupos;
+
     @Autowired
-    GruposService grupos;
+    public void setGruposService(GruposService gruposService) {
+        this.grupos = gruposService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Grupo>> listar() {

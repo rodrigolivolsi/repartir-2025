@@ -137,16 +137,20 @@ Then("no debería crear el grupo sin nombre", async ({page}) => {
 })
 
 Then("debería ser informado que no puede crear un grupo sin nombre", async ({ page }) => {
-    const toast = await page.waitForSelector('#mensajesToast', { timeout: 2000 });
     
-    const toastText = await toast.textContent();
-    expect(toastText).toContain("Error");
-    expect(toastText).toContain("No se puede guardar");
+    
+    const alertaError = page.locator('.p-toast-message-error');
+
+    await alertaError.waitFor({ state: 'visible', timeout: 2000 });
+
+    await expect(alertaError).toContainText('Error');
+
+    await expect(alertaError).toContainText('No se puede guardar');
 });
 
 Given('no existe ningún grupo', async ({ page }) => {
     //baseDeDatos.estaVacia();
-    //TODO revisasr como
+    //TODO 
 });
    
 When('el usuario selecciona crear grupo', async ({ page }) => {

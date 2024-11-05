@@ -3,10 +3,9 @@ import MCR from 'monocart-coverage-reports';
 import coverageOptions from './mcr.config';
 import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
 import { GruposDriver } from 'test-drivers/grupos-driver';
-import { GruposMockApi } from 'test-drivers/grupos-mockApi-driver';
-import { BienvenidaMockApi } from 'test-drivers/bienvenida-mockApi-driver';
-import { BienvenidaE2E } from 'test-drivers/bienvenida-e2e-driver';
-import { GruposE2E } from 'test-drivers/grupos-e2e-driver';
+import { BienvenidaPlaywrightDriver } from 'test-drivers/bienvenida-playwright-driver';
+import { MockApiAdapter } from 'test-drivers/mockApi-adapter';
+import { GruposPlaywrightDriver } from 'test-drivers/grupos-playwright-driver';
 
 export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: BienvenidaDriver, gruposDriver: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
@@ -45,19 +44,19 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
 
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
-      use(new BienvenidaMockApi(page));
+      use(new BienvenidaPlaywrightDriver(page, new MockApiAdapter(page)));
 
     } else {
-      use(new BienvenidaE2E(page));
+      use(new BienvenidaPlaywrightDriver(page, undefined));
     }
   },
   gruposDriver: async({page}, use) => {
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
-      use(new GruposMockApi(page));
+      use(new GruposPlaywrightDriver(page, new MockApiAdapter(page)));
 
     } else {
-      use(new GruposE2E(page));
+      use(new GruposPlaywrightDriver(page, undefined));
     }
   },
 });

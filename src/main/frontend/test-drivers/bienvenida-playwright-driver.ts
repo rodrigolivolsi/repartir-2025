@@ -1,18 +1,23 @@
-import { Page, expect } from "playwright/test";
+import { BackendAdapter } from "./backend-adapter";
 import { BienvenidaDriver } from "./bienvenida-driver";
+import { Page, expect } from "playwright/test";
 
-export class BienvenidaE2E implements BienvenidaDriver {
-    page: Page;
-    constructor(page: Page) {
-        this.page = page;
+export class BienvenidaPlaywrightDriver implements BienvenidaDriver {
+
+    constructor(
+        private page: Page, 
+        private adapter: BackendAdapter | undefined) {
     }
+
     async acceder(): Promise<void> {
         await this.page.goto('/');
     }
 
     async iniciar(): Promise<void> {
+        await this.adapter?.prepararIniciar();
+
         await this.page.getByRole('textbox').fill('julian');
-        await this.page.locator('#iniciarBienvenidaButton').click()
+        await this.page.locator('#iniciarBienvenidaButton').click();
     }
 
     async validarMensajeDeBienvenida(): Promise<void> {
@@ -25,4 +30,5 @@ export class BienvenidaE2E implements BienvenidaDriver {
         let nuevoGrupoDialog = this.page.locator('#nuevoGrupoDialog');
         await expect(nuevoGrupoDialog).toContainText('Nuevo Grupo');
     }
+
 }

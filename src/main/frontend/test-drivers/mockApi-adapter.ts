@@ -1,8 +1,8 @@
 import { Grupo } from "src/app/model/grupo";
-import { GruposE2E } from "./grupos-e2e-driver";
-import { Page, expect } from "playwright/test";
+import { BackendAdapter } from "./backend-adapter";
+import { Page } from "playwright/test";
 
-export class GruposMockApi extends GruposE2E {
+export class MockApiAdapter implements BackendAdapter {
 
     private grupoEjemplo: Grupo = {
         miembros: ["nico", "toni"],
@@ -18,8 +18,11 @@ export class GruposMockApi extends GruposE2E {
         total: 0
     };
 
-    async iniciar(): Promise<void> {
+    constructor(private page: Page) {
+    }
 
+    async prepararIniciar(): Promise<void> {
+        
         await this.page.route('**/api/usuarios/**', route => route.fulfill({
             status: 200,
             contentType: "application/json"
@@ -30,19 +33,13 @@ export class GruposMockApi extends GruposE2E {
             contentType: "application/json",
             json: [this.grupoEjemplo]
         }), { times: 1 });
-
-        await super.iniciar();
     }
 
-    async crearCon(nombre: string): Promise<void> {
-
+    async prepararGuardarGrupo(nombre: string, miembros: string[]): Promise<void> {
+        
         this.grupoCreado.nombre = nombre;
-        await this.setupGuardarGrupo();
+        this.grupoCreado.miembros = miembros;
 
-        await super.crearCon(nombre);
-    }
-
-    private async setupGuardarGrupo() {
         await this.page.route('**/api/grupos', async (route) => {
 
             if (route.request().method() == 'POST') {
@@ -62,17 +59,9 @@ export class GruposMockApi extends GruposE2E {
         });
     }
 
-    async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
 
-        this.grupoCreado.nombre = nombre;
-        this.grupoCreado.miembros = miembros;
-        this.setupGuardarGrupo();
-
-        await super.crearConNombreYMiembros(nombre, miembros);
-    }
-
-    async crearConUnUnicoMiembro(): Promise<void> {
-
+    async prepararFalloAlGuardarGrupo(nombre: string, miembros: string[]): Promise<void> {
+        
         await this.page.route('**/api/grupos', async (route) => {
 
             if (route.request().method() == 'POST') {
@@ -89,7 +78,6 @@ export class GruposMockApi extends GruposE2E {
                 });
             }
         });
-
-        await super.crearConNombreYMiembros("After Office", ["Oscar"]);
     }
+
 }

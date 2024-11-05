@@ -1,6 +1,7 @@
 export interface GruposDriver {
+    
     iniciar(): void;
-    crearCon(nombre: String): void;
+    crearCon(nombre: string): void;
     crearConMiembros(miembros: Array<string>): void;
     crearConUnUnicoMiembro(): void;
     crear(): void;

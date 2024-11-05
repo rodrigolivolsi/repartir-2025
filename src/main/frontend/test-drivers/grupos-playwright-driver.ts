@@ -1,30 +1,49 @@
 import { Page, expect } from "playwright/test";
 import { GruposDriver } from "./grupos-driver";
+import { BackendAdapter } from "./backend-adapter";
 
-export class GruposE2E implements GruposDriver {
-    nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
-    miembrosDeGrupoEsperados: Array<string> = []
-    page: Page;
-    context: any = {};
-    constructor(page: Page) {
-        this.page = page;
+export class GruposPlaywrightDriver implements GruposDriver {
+
+    private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
+    private miembrosDeGrupoEsperados: Array<string> = []
+    private context: any = {};
+
+    constructor(
+        private page: Page, 
+        private adapter: BackendAdapter | undefined) {
     }
 
     async iniciar(): Promise<void> {
+        this.adapter?.prepararIniciar();
+
         await this.page.goto('/');
         await this.page.getByRole('textbox').fill('julian');
-        await this.page.locator('#iniciarBienvenidaButton').click()
+        await this.page.locator('#iniciarBienvenidaButton').click();
     }
-
+    
     async crearCon(nombre: string): Promise<void> {
-        await this.crearConNombreYMiembros(nombre, ["Victor", "Brenda"]);
-    }
+        let miembros = ["Victor", "Brenda"];
+        this.adapter?.prepararGuardarGrupo(nombre, miembros);
 
+        await this.crearConNombreYMiembros(nombre, miembros);
+    }
+    
     async crearConMiembros(miembros: Array<string>): Promise<void> {
-        await this.crearConNombreYMiembros("Grupo de Prueba", miembros);
+        let nombre = "Grupo de Prueba";
+        this.adapter?.prepararGuardarGrupo(nombre, miembros);
+
+        await this.crearConNombreYMiembros(nombre, miembros);
+    }
+    
+    async crearConUnUnicoMiembro(): Promise<void> {
+        let nombre = "Grupo de Prueba";
+        let miembros = ["Oscar"];
+        this.adapter?.prepararFalloAlGuardarGrupo(nombre, miembros);
+
+        await this.crearConNombreYMiembros(nombre, miembros);
     }
 
-    async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
+    private async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
         this.nombreDeGrupoEsperado = nombre;
         await this.page.locator("#crearGruposButton").click();
         await this.page.locator("#nombreGrupoNuevoInput").fill(nombre);
@@ -38,15 +57,16 @@ export class GruposE2E implements GruposDriver {
         await this.page.locator("#guardarGrupoNuevoButton").click();
     }
 
-    async crearConUnUnicoMiembro(): Promise<void> {
-        this.crearConMiembros(["Oscar"]);
-    }
 
     async crear(): Promise<void> {
 
         const gruposAntesDeCrearUnoNuevo = await this.page.locator('app-grupos table tr').count();
 
-        await this.crearConNombreYMiembros("Grupo de 4", ["Guido", "Laura", "Mariano", "Juan Cruz"]);
+        let nombre = "Grupo de 4";
+        let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
+        this.adapter?.prepararGuardarGrupo(nombre, miembros);
+
+        await this.crearConNombreYMiembros(nombre, miembros);
 
         await this.page.waitForFunction(
             (gruposAntesDeCrearUnoNuevo) => {
@@ -89,4 +109,5 @@ export class GruposE2E implements GruposDriver {
 
         await expect(monto).toContainText(montoEsperado);
     }
+
 }

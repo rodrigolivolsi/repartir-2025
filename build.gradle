@@ -25,6 +25,7 @@ repositories {
 testSets {
 	fastAcceptanceTest
 	dbTest
+	apiControllersTest
 	personasTest
 	uiTest
 	fastAcceptanceTest
@@ -54,6 +55,12 @@ dependencies {
 	dbTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
 	dbTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
+	apiControllersTestImplementation 'org.flywaydb:flyway-core:7.11.3'
+	apiControllersTestImplementation 'io.rest-assured:rest-assured:4.4.0'
+	apiControllersTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
+	apiControllersTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
+	apiControllersTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
+
 	personasTestImplementation 'io.rest-assured:rest-assured:4.4.0'
 	personasTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
 	personasTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
@@ -63,6 +70,7 @@ dependencies {
 	uiTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 	uiTestImplementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 	uiTestImplementation sourceSets.dbTest.output
+	uiTestImplementation sourceSets.apiControllersTest.output
 	uiTestImplementation sourceSets.personasTest.output
 
 	acceptanceTestImplementation 'io.cucumber:cucumber-java:6.10.4'
@@ -96,6 +104,11 @@ dbTest {
 	mustRunAfter fastAcceptanceTest
 }
 
+apiControllersTest {
+	useJUnitPlatform()
+	mustRunAfter fastAcceptanceTest
+}
+
 personasTest {
 	useJUnitPlatform()
 	mustRunAfter fastAcceptanceTest
@@ -103,8 +116,7 @@ personasTest {
 
 uiTest {
 	useJUnitPlatform()
-	mustRunAfter dbTest
-	mustRunAfter personasTest
+	mustRunAfter dbTest, personasTest, apiControllersTest
 	systemProperties = System.properties
 }
 
@@ -118,6 +130,7 @@ acceptanceTest {
 check {
 	dependsOn fastAcceptanceTest
 	dependsOn dbTest
+	dependsOn apiControllersTest
 	dependsOn personasTest
 	dependsOn uiTest
 	dependsOn acceptanceTest

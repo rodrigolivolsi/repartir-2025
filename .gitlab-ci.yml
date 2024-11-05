@@ -54,17 +54,29 @@ db-test:
       - build/jacoco
       - build/reports/tests/dbTest
 
-personas-test:
+apiControllers-test:
   stage: test
   script:
-    - ./gradlew personasTest --info
+    - ./gradlew apiControllersTest --info
   artifacts:
     when: always
     reports:
-      junit: build/test-results/personasTest/**/TEST-*.xml
+      junit: build/test-results/apiControllersTest/**/TEST-*.xml
     paths:
       - build/jacoco
-      - build/reports/tests/personasTest
+      - build/reports/tests/apiControllersTest
+
+apiExterna-test:
+  stage: test
+  script:
+    - ./gradlew apiExternaTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/apiExternaTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/apiExternaTest
 
 ui-test:
   stage: test

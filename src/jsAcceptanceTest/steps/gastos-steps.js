@@ -4,27 +4,11 @@ const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd')
 const { test } = require('../../main/frontend/fixtures');
 const { Given, When, Then } = createBdd(test);
 
-
-Given('existe el grupo #{int} {string} sin gastos', async({ page },posicion, nombre) => {
-    try {
-        const response = await fetch('http://localhost:4200/api/grupos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: nombre,
-            miembros: ['JUan', 'Maria']
-          })
-        });
-        
-        await response.json();
-    
-    } catch (error) {
-        throw new Error('Error en la llamada al backend al crear el grupo');
-    }
-})
-
 When('el usuario selecciona agregar gasto al grupo #{int}', async ({ page }, posicion) => {
-    const agregarGastoButton = await page.waitForSelector(`#agregarGastoGruposButton-${posicion}`, { timeout: 2000 });
+    const ultimaFila = page.locator('app-grupos table tr').last();
+
+    const grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
+    const agregarGastoButton = await page.waitForSelector(`#agregarGastoGruposButton-${grupoId}`, { timeout: 2000 });
     
     await agregarGastoButton.click();
 });

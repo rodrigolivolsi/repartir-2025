@@ -20,7 +20,7 @@ When("el usuario crea un grupo indicando el nombre {string}", async ({ page }, n
 
     nombreIndicado = nombre;
     await page.locator('#crearGruposButton').click()
-    await page.locator('#nombreGrupoNuevoInput').fill('Regalo de navidad');
+    await page.locator('#nombreGrupoNuevoInput').fill(nombre);
     await page.locator('#miembrosGrupoNuevoInput').fill('Victor');
     await page.keyboard.press('Enter');
     await page.locator('#miembrosGrupoNuevoInput').fill('Brenda');
@@ -42,6 +42,25 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
     await page.keyboard.press('Enter');
 
     await page.locator("#guardarGrupoNuevoButton").click();
+})
+
+When("el usuario selecciona crear un grupo", async ({ page }) => {
+    await page.locator('#crearGruposButton').click()
+});
+
+When("agrego el nombre {string}", async ({page}, nombre) => {
+    await page.locator('#nombreGrupoNuevoInput').fill(nombre);
+})
+
+When("agrega miembros {string} y {string}", async ({ page }, miembro1, miembro2) => {
+    await page.locator('#miembrosGrupoNuevoInput').fill(miembro1);
+    await page.keyboard.press('Enter');
+    await page.locator('#miembrosGrupoNuevoInput').fill(miembro2);
+});
+
+When("crea el grupo", async ({ page}) =>  {
+    await page.keyboard.press('Enter');
+    await page.locator('#guardarGrupoNuevoButton').click();
 })
 
 When("el usuario crea un grupo", async ({ page }) => {
@@ -132,12 +151,7 @@ When("el usuario intenta crear un grupo sin indicar su nombre", async ({ page })
     await page.locator("#guardarGrupoNuevoButton").click();
 })
 
-Then("no debería crear el grupo sin nombre", async ({page}) => {
-// TODO
-})
-
 Then("debería ser informado que no puede crear un grupo sin nombre", async ({ page }) => {
-    
     
     const alertaError = page.locator('.p-toast-message-error');
 
@@ -146,11 +160,6 @@ Then("debería ser informado que no puede crear un grupo sin nombre", async ({ p
     await expect(alertaError).toContainText('Error');
 
     await expect(alertaError).toContainText('No se puede guardar');
-});
-
-Given('no existe ningún grupo', async ({ page }) => {
-    //baseDeDatos.estaVacia();
-    //TODO 
 });
    
 When('el usuario selecciona crear grupo', async ({ page }) => {
@@ -184,25 +193,6 @@ When('guarda el grupo', async ({ page }) => {
     const guardarButton = page.locator('#guardarGrupoNuevoButton');
     await guardarButton.click();
 });
-
-
-Given('existe un grupo', async({ page }) => {
-    try {
-        const response = await fetch('http://localhost:4200/api/grupos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: 'Fiesta Esferica',
-            miembros: ['JUan', 'Maria']
-          })
-        });
-        
-        await response.json();
-    
-    } catch (error) {
-        throw new Error('Error en la llamada al backend al crear el grupo');
-    }
-})
 
 Then('se muestra {int}° el grupo {string} con total {string}', async ({ page }, posicion, nombre, total) => {
     const waitForMessage = page.locator('#mensajesToast');

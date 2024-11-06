@@ -1,6 +1,6 @@
 # Repartir: Arquitectura de pruebas de aceptación
 
-|                   | **DRIVER**        | **SUT**               | **BACKEND ADAPTER**                           | **COMANDO**                   |
+|                   | **DRIVER**        | **SUT**               | **SECONDARY ADAPTER**                         | **COMANDO**                   |
 |-------------------|-------------------|-----------------------|-----------------------------------------------|-------------------------------|
 | Assembly E2E(*)   | PlaywrightDriver  | frontend + backend    | MockApiPersonasAdapter, InMemoryDbAdapter     | npm run acceptance-test       |
 | Assembly MockApi  | PlaywrightDriver  | frontend              | MockApiAdapter                                | npm run fast-acceptance-test  |

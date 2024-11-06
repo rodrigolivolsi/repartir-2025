@@ -6,6 +6,7 @@ import { GruposDriver } from 'test-drivers/grupos-driver';
 import { BienvenidaPlaywrightDriver } from 'test-drivers/bienvenida-playwright-driver';
 import { MockApiAdapter } from 'test-drivers/mockApi-adapter';
 import { GruposPlaywrightDriver } from 'test-drivers/grupos-playwright-driver';
+import { buildTestAssembly, TestAssembly } from 'test-drivers/assembly';
 
 export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: BienvenidaDriver, gruposDriver: GruposDriver }>({
   autoTestFixture: [async ({ page }, use) => {
@@ -44,13 +45,13 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
 
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
-      use(new BienvenidaPlaywrightDriver(page, new MockApiAdapter(page)));
+      use(buildTestAssembly(new TestAssembly(new BienvenidaPlaywrightDriver(page), [new MockApiAdapter(page)])));
 
     } else {
-      use(new BienvenidaPlaywrightDriver(page, undefined));
+      use(new BienvenidaPlaywrightDriver(page));
     }
   },
-  gruposDriver: async({page}, use) => {
+  gruposDriver: async({page}, use) => {  // -----> assembly
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
       use(new GruposPlaywrightDriver(page, new MockApiAdapter(page)));

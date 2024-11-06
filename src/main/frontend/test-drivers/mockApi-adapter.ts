@@ -21,7 +21,7 @@ export class MockApiAdapter implements BackendAdapter {
     constructor(private page: Page) {
     }
 
-    async prepararIniciar(): Promise<void> {
+    async iniciar(): Promise<void> {
         
         await this.page.route('**/api/usuarios/**', route => route.fulfill({
             status: 200,

@@ -14,7 +14,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }
 
     async iniciar(): Promise<void> {
-        this.adapter?.prepararIniciar();
+        this.adapter?.iniciar();
 
         await this.page.goto('/');
         await this.page.getByRole('textbox').fill('julian');

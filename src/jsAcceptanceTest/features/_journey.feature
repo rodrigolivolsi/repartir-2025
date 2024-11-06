@@ -10,6 +10,6 @@ Característica: Experiencia al agregar gastos a los grupos
   * agrego el nombre 'regalo'
   * agrega miembros 'Guillermo' y 'Giuliana'
   * crea el grupo
-  * el usuario selecciona agregar gasto al grupo #1
+  * el usuario selecciona agregar gasto al grupo creado
   * completa con el monto de $ '4000'
   * guarda el gasto

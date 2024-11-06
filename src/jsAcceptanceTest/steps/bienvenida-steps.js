@@ -21,11 +21,6 @@ When('decidió iniciar', async ({ page }) => {
 Then('puede empezar a usarla', async ({ page }) => {
     await page.locator("#crearGruposButton").click();
     let nuevoGrupoDialog = page.locator('#nuevoGrupoDialog');
-        // Esperar hasta que el texto específico esté presente en el elemento del diálogo
+    
     await expect(nuevoGrupoDialog).toContainText('Nuevo Grupo');
-});
-
-When('el usuario inicia la aplicación',async ({ page }) => {
-    await page.goto('/');
-    await page.locator('#iniciarBienvenidaButton').click()
 });

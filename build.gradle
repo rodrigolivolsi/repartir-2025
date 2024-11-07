@@ -29,7 +29,6 @@ testSets {
 	fastAcceptanceTest
 	acceptanceTest
 	manualTest
-	fastControllerTest
 }
 
 dependencies {
@@ -102,16 +101,11 @@ acceptanceTest {
 	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
-fastControllerTest {
-	useJUnitPlatform()
-}
-
 check {
 	dependsOn fastAcceptanceTest
 	dependsOn integrationTest
 	dependsOn uiTest
 	dependsOn acceptanceTest
-	dependsOn fastControllerTest
 }
 
 flyway {

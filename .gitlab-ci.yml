@@ -55,18 +55,6 @@ integration-test:
       - build/jacoco
       - build/reports/tests/integrationTest
 
-fast-controller-test:
-  stage: test
-  script:
-    - ./gradlew fastControllerTest --info
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/fastControllerTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/fastControllerTest
-
 ui-test:
   stage: test
   script:

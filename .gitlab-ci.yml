@@ -20,6 +20,7 @@ cache:
     - cache/notifications/
     - cache/wrapper/
     - cache/build-cache/
+    - public/
 
 build:
   stage: build

@@ -143,6 +143,13 @@ pages:
   stage: report
   script:
     - mv build/ public/
+  artifacts:
+    paths:
+      - public
+
+pages:
+  stage: deploy
+  script:
     - cd public/
     - find -print > ../.tree
     - mv ../.tree .

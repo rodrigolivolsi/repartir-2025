@@ -144,8 +144,7 @@ pages:
   before_script:
     - apt-get update && apt-get -y install tree
   script:
-    - mv build/ public/
-    - rm -rf public/classes
+    - mv build/reports public/
     - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
   artifacts:
     paths:

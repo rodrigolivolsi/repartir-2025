@@ -4,6 +4,7 @@ import ar.com.grupoesfera.repartir.steps.CucumberSteps;
 import ar.com.grupoesfera.repartir.steps.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -54,6 +55,10 @@ public class AgregarGastosJourneySteps extends CucumberSteps {
 
     @Step("ve el total del grupo #{int} actualizado a {string}")
     public void veElTotalDelGrupoActualidadoA$(int idGrupo, String monto) {
+
+        var wait = new WebDriverWait(driver,2);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("app-grupos table")));
 
         var grupoTR = driver.findElements(By.cssSelector("app-grupos table tr"));
 

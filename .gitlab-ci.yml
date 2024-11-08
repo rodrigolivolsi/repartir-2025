@@ -140,6 +140,14 @@ report-test-coverage:
     paths:
       - build/reports/jacoco
 
+pages:
+  stage: report
+  script:
+    - echo "Nothing"
+  artifacts:
+    paths:
+      - public
+
 static-source-code-analysis:
   stage: analyze
   script:

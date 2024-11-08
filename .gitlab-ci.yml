@@ -140,12 +140,13 @@ report-test-coverage:
       - build/reports/jacoco
 
 pages:
-  stage: deploy
+  stage: report
+  before_script:
+    - apt-get update && apt-get -y install tree
   script:
     - mv build/ public/
-    - cd public/
-    - find -print > ../.tree
-    - mv ../.tree .
+    - rm -rf build/classes
+    - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
   artifacts:
     paths:
       - public

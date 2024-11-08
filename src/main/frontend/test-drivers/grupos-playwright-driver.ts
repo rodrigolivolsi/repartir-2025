@@ -28,7 +28,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }
     
     async crearConUnUnicoMiembro(): Promise<void> {
-        let nombre = "Grupo de Prueba";
+        let nombre = "Grupo inválido";
         let miembros = ["Oscar"];
         await this.crearConNombreYMiembros(nombre, miembros);
     }
@@ -78,7 +78,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }
 
     async validarMiembrosDeGrupo(): Promise<void> {
-        let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`);
+        let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`).last();
         let miembros = await row.locator('td:nth-child(4)');
 
         for (let index = 0; index < this.miembrosDeGrupoEsperados.length; index++) {

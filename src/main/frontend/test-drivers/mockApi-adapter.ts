@@ -1,8 +1,7 @@
 import { Grupo } from "src/app/model/grupo";
-import { BackendAdapter } from "./backend-adapter";
 import { Page } from "playwright/test";
 
-export class MockApiAdapter implements BackendAdapter {
+export class MockApiAdapter {
 
     private grupoEjemplo: Grupo = {
         miembros: ["nico", "toni"],
@@ -21,8 +20,15 @@ export class MockApiAdapter implements BackendAdapter {
     constructor(private page: Page) {
     }
 
-    async iniciar(): Promise<void> {
-        
+    acceder = async (): Promise<void> => {
+        await this.iniciarAplicacion();
+    }
+
+    iniciar = async (): Promise<void> => {
+        await this.iniciarAplicacion();
+    }
+
+    private async iniciarAplicacion() {
         await this.page.route('**/api/usuarios/**', route => route.fulfill({
             status: 200,
             contentType: "application/json"
@@ -35,7 +41,24 @@ export class MockApiAdapter implements BackendAdapter {
         }), { times: 1 });
     }
 
-    async prepararGuardarGrupo(nombre: string, miembros: string[]): Promise<void> {
+    crearCon = async(nombre: string): Promise<void> => {
+        let miembros = ["Victor", "Brenda"];
+        await this.prepararGuardarGrupo(nombre, miembros);
+    }
+
+    crearConMiembros = async(miembros: Array<string>): Promise<void> => {
+        let nombre = "Grupo de Prueba";
+        await this.prepararGuardarGrupo(nombre, miembros);
+    }
+
+    crear = async(): Promise<void> => {
+        let nombre = "Grupo de 4";
+        let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
+        await this.prepararGuardarGrupo(nombre, miembros);
+    }
+
+
+    private async prepararGuardarGrupo(nombre: string, miembros: string[]): Promise<void> {
         
         this.grupoCreado.nombre = nombre;
         this.grupoCreado.miembros = miembros;
@@ -60,7 +83,7 @@ export class MockApiAdapter implements BackendAdapter {
     }
 
 
-    async prepararFalloAlGuardarGrupo(nombre: string, miembros: string[]): Promise<void> {
+    crearConUnUnicoMiembro = async(): Promise<void> => {
         
         await this.page.route('**/api/grupos', async (route) => {
 

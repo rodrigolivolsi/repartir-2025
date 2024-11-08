@@ -1,6 +1,5 @@
 import { Page, expect } from "playwright/test";
 import { GruposDriver } from "./grupos-driver";
-import { BackendAdapter } from "./backend-adapter";
 
 export class GruposPlaywrightDriver implements GruposDriver {
 
@@ -9,13 +8,10 @@ export class GruposPlaywrightDriver implements GruposDriver {
     private context: any = {};
 
     constructor(
-        private page: Page, 
-        private adapter: BackendAdapter | undefined) {
+        private page: Page) {
     }
 
     async iniciar(): Promise<void> {
-        this.adapter?.iniciar();
-
         await this.page.goto('/');
         await this.page.getByRole('textbox').fill('julian');
         await this.page.locator('#iniciarBienvenidaButton').click();
@@ -23,25 +19,20 @@ export class GruposPlaywrightDriver implements GruposDriver {
     
     async crearCon(nombre: string): Promise<void> {
         let miembros = ["Victor", "Brenda"];
-        this.adapter?.prepararGuardarGrupo(nombre, miembros);
-
         await this.crearConNombreYMiembros(nombre, miembros);
     }
     
     async crearConMiembros(miembros: Array<string>): Promise<void> {
         let nombre = "Grupo de Prueba";
-        this.adapter?.prepararGuardarGrupo(nombre, miembros);
-
         await this.crearConNombreYMiembros(nombre, miembros);
     }
     
     async crearConUnUnicoMiembro(): Promise<void> {
         let nombre = "Grupo de Prueba";
         let miembros = ["Oscar"];
-        this.adapter?.prepararFalloAlGuardarGrupo(nombre, miembros);
-
         await this.crearConNombreYMiembros(nombre, miembros);
     }
+
 
     private async crearConNombreYMiembros(nombre: string, miembros: Array<string>): Promise<void> {
         this.nombreDeGrupoEsperado = nombre;
@@ -64,7 +55,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
 
         let nombre = "Grupo de 4";
         let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
-        this.adapter?.prepararGuardarGrupo(nombre, miembros);
 
         await this.crearConNombreYMiembros(nombre, miembros);
 

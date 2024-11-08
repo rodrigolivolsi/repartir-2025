@@ -51,13 +51,13 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
       use(new BienvenidaPlaywrightDriver(page));
     }
   },
-  gruposDriver: async({page}, use) => {  // -----> assembly
+  gruposDriver: async({page}, use) => { 
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
-      use(new GruposPlaywrightDriver(page, new MockApiAdapter(page)));
+      use(buildTestAssembly(new TestAssembly(new GruposPlaywrightDriver(page), [new MockApiAdapter(page)])));
 
     } else {
-      use(new GruposPlaywrightDriver(page, undefined));
+      use(new GruposPlaywrightDriver(page));
     }
   },
 });

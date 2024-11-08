@@ -24,9 +24,9 @@ repositories {
 
 testSets {
 	fastAcceptanceTest
-	dbTest
-	apiControllersTest
-	apiExternaTest
+	dbTest { dirName = "integrationTest/dbTest" }
+	apiControllersTest { dirName = "integrationTest/apiControllersTest" }
+	apiExternaTest { dirName = "integrationTest/apiExternaTest" }
 	uiTest
 	fastAcceptanceTest
 	acceptanceTest

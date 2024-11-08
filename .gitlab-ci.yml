@@ -30,7 +30,6 @@ build:
     paths:
       - build/classes
 
-
 unit-test:
   stage: test
   script:
@@ -43,17 +42,41 @@ unit-test:
       - build/jacoco
       - build/reports/tests/test
 
-integration-test:
+db-test:
   stage: test
   script:
-    - ./gradlew integrationTest --info
+    - ./gradlew dbTest --info
   artifacts:
     when: always
     reports:
-      junit: build/test-results/integrationTest/**/TEST-*.xml
+      junit: build/test-results/dbTest/**/TEST-*.xml
     paths:
       - build/jacoco
-      - build/reports/tests/integrationTest
+      - build/reports/tests/dbTest
+
+apiControllers-test:
+  stage: test
+  script:
+    - ./gradlew apiControllersTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/apiControllersTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/apiControllersTest
+
+apiExterna-test:
+  stage: test
+  script:
+    - ./gradlew apiExternaTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/apiExternaTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/apiExternaTest
 
 ui-test:
   stage: test
@@ -85,8 +108,8 @@ acceptance-test:
 acceptance-test-js:
   stage: test
   variables:
-    CI: 'true'
-    GRADLEW_PATH: '$CI_PROJECT_DIR'
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
   before_script:
     - echo -e "\e[0Ksection_start:`date +%s`:npm_ci\r\e[0KNPM CI"
     - npm ci --prefix src/main/frontend

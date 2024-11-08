@@ -24,7 +24,9 @@ repositories {
 
 testSets {
 	fastAcceptanceTest
-	integrationTest
+	dbTest { dirName = "integrationTest/dbTest" }
+	apiControllersTest { dirName = "integrationTest/apiControllersTest" }
+	apiExternaTest { dirName = "integrationTest/apiExternaTest" }
 	uiTest
 	fastAcceptanceTest
 	acceptanceTest
@@ -47,16 +49,28 @@ dependencies {
 	fastAcceptanceTestImplementation 'io.cucumber:cucumber-spring:6.10.4'
 	fastAcceptanceTestImplementation 'org.flywaydb:flyway-core:7.11.3'
 
-	integrationTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	integrationTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	integrationTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	integrationTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	integrationTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
+	dbTestImplementation 'org.flywaydb:flyway-core:7.11.3'
+	dbTestImplementation 'io.rest-assured:rest-assured:4.4.0'
+	dbTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
+	dbTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
+	dbTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
+
+	apiControllersTestImplementation 'io.rest-assured:rest-assured:4.4.0'
+	apiControllersTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
+	apiControllersTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
+	apiControllersTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
+
+	apiExternaTestImplementation 'io.rest-assured:rest-assured:4.4.0'
+	apiExternaTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
+	apiExternaTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
+	apiExternaTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 	uiTestImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	uiTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 	uiTestImplementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
-	uiTestImplementation sourceSets.integrationTest.output
+	uiTestImplementation sourceSets.dbTest.output
+	uiTestImplementation sourceSets.apiControllersTest.output
+	uiTestImplementation sourceSets.apiExternaTest.output
 
 	acceptanceTestImplementation 'io.cucumber:cucumber-java:6.10.4'
 	acceptanceTestImplementation 'io.cucumber:cucumber-junit-platform-engine:6.10.4'
@@ -83,14 +97,25 @@ fastAcceptanceTest {
 	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
-integrationTest {
+
+dbTest {
+	useJUnitPlatform()
+	mustRunAfter fastAcceptanceTest
+}
+
+apiControllersTest {
+	useJUnitPlatform()
+	mustRunAfter fastAcceptanceTest
+}
+
+apiExternaTest {
 	useJUnitPlatform()
 	mustRunAfter fastAcceptanceTest
 }
 
 uiTest {
 	useJUnitPlatform()
-	mustRunAfter integrationTest
+	mustRunAfter dbTest, apiExternaTest, apiControllersTest
 	systemProperties = System.properties
 }
 
@@ -103,7 +128,9 @@ acceptanceTest {
 
 check {
 	dependsOn fastAcceptanceTest
-	dependsOn integrationTest
+	dependsOn dbTest
+	dependsOn apiControllersTest
+	dependsOn apiExternaTest
 	dependsOn uiTest
 	dependsOn acceptanceTest
 }

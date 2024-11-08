@@ -15,7 +15,7 @@ import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integrationTest")
+@ActiveProfiles("integrationTestWithControllers")
 class UsuariosControllerIntegrationTest {
 
     @LocalServerPort

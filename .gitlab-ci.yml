@@ -145,7 +145,7 @@ pages:
     - apt-get update && apt-get -y install tree
   script:
     - mv build/ public/
-    - rm -rf build/classes
+    - rm -rf public/classes
     - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
   artifacts:
     paths:

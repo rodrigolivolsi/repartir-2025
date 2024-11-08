@@ -19,8 +19,6 @@ cache:
     - cache/caches/
     - cache/notifications/
     - cache/wrapper/
-    - cache/build-cache/
-    - public/
 
 build:
   stage: build
@@ -42,8 +40,6 @@ unit-test:
     paths:
       - build/jacoco
       - build/reports/tests/test
-      - public/jacoco
-      - public/reports/tests/test
 
 db-test:
   stage: test
@@ -56,8 +52,6 @@ db-test:
     paths:
       - build/jacoco
       - build/reports/tests/dbTest
-      - public/jacoco
-      - public/reports/tests/dbTest
 
 apiControllers-test:
   stage: test
@@ -70,8 +64,6 @@ apiControllers-test:
     paths:
       - build/jacoco
       - build/reports/tests/apiControllersTest
-      - public/jacoco
-      - public/reports/tests/apiControllersTest
 
 apiExterna-test:
   stage: test
@@ -84,8 +76,6 @@ apiExterna-test:
     paths:
       - build/jacoco
       - build/reports/tests/apiExternaTest
-      - public/jacoco
-      - public/reports/tests/apiExternaTest
 
 ui-test:
   stage: test
@@ -99,8 +89,6 @@ ui-test:
     paths:
       - build/jacoco
       - build/reports/tests/uiTest
-      - public/jacoco
-      - public/reports/tests/uiTest
 
 acceptance-test:
   stage: test
@@ -115,9 +103,6 @@ acceptance-test:
       - build/jacoco
       - build/reports/tests/acceptanceTest
       - build/reports/acceptance.html
-      - public/jacoco
-      - public/reports/tests/acceptanceTest
-      - public/reports/acceptance.html
 
 acceptance-test-js:
   stage: test
@@ -139,7 +124,6 @@ acceptance-test-js:
     name: acceptance-test-js-coverage
     paths:
       - src/main/frontend/coverage-reports/
-      - public/frontend/coverage-reports/
 
 package:
   stage: package
@@ -154,12 +138,11 @@ report-test-coverage:
     when: always
     paths:
       - build/reports/jacoco
-      - public/reports/jacoco
 
 pages:
   stage: report
   script:
-    - echo "Nothing"
+    - mv build/ public/
   artifacts:
     paths:
       - public

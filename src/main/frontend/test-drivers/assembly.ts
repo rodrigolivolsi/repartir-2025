@@ -1,6 +1,3 @@
-import { BienvenidaDriver } from "./bienvenida-driver";
-import { GruposDriver } from "./grupos-driver";
-
 export class TestAssembly {
 
     constructor(private driver: any, private adapters: any[]){
@@ -11,6 +8,8 @@ export class TestAssembly {
         // es posible que haya que agregar más argumentos a esta lista si los steps reciben más de 4 parametros
         const [arg0, arg1, arg2, arg3, ...rest] = args;
 
+        // cada vez que se invoca un metodo sobre el assembly, recorre la lista de adapters y si ese adapter tiene 
+        // una implementación para ese método, la invoca, pasandole los argumentos expandidos
         for(let i = 0; i < this.adapters?.length; i++) {
             let adapter = this.adapters[i];
             if(typeof adapter[methodName] === 'function') {

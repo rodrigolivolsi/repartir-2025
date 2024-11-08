@@ -20,6 +20,15 @@ export class MockApiAdapter {
     constructor(private page: Page) {
     }
 
+    /*
+    * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
+    * el transpilador elimina los métodos pero no los atributos. Ejemplo:
+    * 
+    * miMetodo = async(parametro: tipo): Promise<void> => {
+    *  // implementacion del metodo
+    * }
+    */ 
+
     acceder = async (): Promise<void> => {
         await this.iniciarAplicacion();
     }

@@ -48,7 +48,7 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
       use(buildTestAssembly(new TestAssembly(new BienvenidaPlaywrightDriver(page), [new MockApiAdapter(page)])));
 
     } else {
-      use(new BienvenidaPlaywrightDriver(page));
+      use(buildTestAssembly(new TestAssembly(new BienvenidaPlaywrightDriver(page), [])));
     }
   },
   gruposDriver: async({page}, use) => { 
@@ -57,7 +57,7 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
       use(buildTestAssembly(new TestAssembly(new GruposPlaywrightDriver(page), [new MockApiAdapter(page)])));
 
     } else {
-      use(new GruposPlaywrightDriver(page));
+      use(buildTestAssembly(new TestAssembly(new GruposPlaywrightDriver(page), [])));
     }
   },
 });

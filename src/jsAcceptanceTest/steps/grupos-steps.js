@@ -44,25 +44,6 @@ When("el usuario crea un grupo indicando que sus miembros son {string} y {string
     await page.locator("#guardarGrupoNuevoButton").click();
 })
 
-When("el usuario selecciona crear un grupo", async ({ page }) => {
-    await page.locator('#crearGruposButton').click()
-});
-
-When("agrego el nombre {string}", async ({page}, nombre) => {
-    await page.locator('#nombreGrupoNuevoInput').fill(nombre);
-})
-
-When("agrega miembros {string} y {string}", async ({ page }, miembro1, miembro2) => {
-    await page.locator('#miembrosGrupoNuevoInput').fill(miembro1);
-    await page.keyboard.press('Enter');
-    await page.locator('#miembrosGrupoNuevoInput').fill(miembro2);
-});
-
-When("crea el grupo", async ({ page}) =>  {
-    await page.keyboard.press('Enter');
-    await page.locator('#guardarGrupoNuevoButton').click();
-})
-
 When("el usuario crea un grupo", async ({ page }) => {
     const gruposAntesDeCrearUnoNuevo = await page.locator('app-grupos table tr').count();
 
@@ -100,7 +81,6 @@ Then("debería visualizar dentro del listado el grupo con total {string}", async
     let monto = await filaConGrupoId.locator('td:nth-child(3)');
 
     await expect(monto).toContainText(montoEsperado);
-
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {

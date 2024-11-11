@@ -140,8 +140,7 @@ report-test-coverage:
       - build/reports/jacoco
 
 pages:
-  stage: report
-  needs: ["report-test-coverage", "test"]
+  stage: deploy
   before_script:
     - apt-get update && apt-get -y install tree
   script:

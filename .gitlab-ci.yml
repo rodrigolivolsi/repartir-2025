@@ -141,14 +141,14 @@ report-test-coverage:
 
 pages:
   stage: report
-  dependencies:
-    - report-test-coverage
+  needs: ["report-test-coverage"]
   before_script:
     - apt-get update && apt-get -y install tree
   script:
     - tree build/
     - mv build/ public/
     - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
+    # ^^ tree -P 'index.html' --prune
   artifacts:
     paths:
       - public

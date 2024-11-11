@@ -146,9 +146,7 @@ pages:
   script:
     - mv build/reports public/
     - mv src/main/frontend/coverage-reports public/
-    - mv public/pmd/main.html public/pmd/index.html # Maldito PMD creas tus propias convenciones y ahora mira la chanchada que hay que hacer para que GitLab Pages te reconozca
-    - tree ./public -HC '.' -T "REPORTES" -P "index.html" --prune --noreport --charset utf-8 > ./public/index.html
-    - tree ./public -HC '.' -T "REPORTES" -P "index.html" --prune --noreport --charset utf-8 -d > ./public/index-2.html
+    - tree ./public -HC '.' -T "REPORTES" -P "**/*.html" -I "./index.html" --prune --noreport --charset utf-8 > ./public/index.html
   artifacts:
     paths:
       - public

@@ -147,12 +147,11 @@ pages:
     - mv build/reports public/
     - mv src/main/frontend/coverage-reports public/
     - tree ./public -HC '.' -T "REPORTES" -P "index.html|main.html" --dirsfirst --prune --noreport --charset utf-8 > ./public/index.html
-    - cd public && tree . -HCfi '.' -T "REPORTES" -P "index.html|main.html" --dirsfirst --prune --noreport --charset utf-8 > ./index2.html
   artifacts:
     paths:
       - public
-  # only:
-  #   - main
+  only:
+    - main
 
 static-source-code-analysis:
   stage: analyze

@@ -146,7 +146,7 @@ pages:
   script:
     - mv build/reports public/
     - mv src/main/frontend/coverage-reports public/
-    - tree ./public -HC '.' -T "REPORTES" -P "**/*.html" -I "./index.html" --prune --noreport --charset utf-8 > ./public/index.html
+    - tree ./public -HC '.' -T "REPORTES" -P "**/*.html" --prune --noreport --charset utf-8 > ./public/index.html
   artifacts:
     paths:
       - public

@@ -144,8 +144,8 @@ pages:
   before_script:
     - apt-get update && apt-get -y install tree
   script:
-    - tree build/
-    - mv build/ public/
+    - mv build/reports public/
+    - mv src/main/frontend/coverage-reports public/
     - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
     # ^^ tree -P 'index.html' --prune
   artifacts:

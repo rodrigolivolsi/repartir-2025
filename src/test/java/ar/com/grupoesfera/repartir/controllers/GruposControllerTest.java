@@ -4,6 +4,7 @@ import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.services.GruposService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,11 +34,13 @@ public class GruposControllerTest {
     }
 
     @Test
+    @Tag("api")
     public void puedeInstanciarUnControlador() {
         Assertions.assertNotNull(controller);
     }
 
     @ParameterizedTest
+    @Tag("api")
     @NullAndEmptySource
     @MethodSource("gruposProvider")
     public void respondeOkAlListarSiNoOcurreUnaExcepcion(List<Grupo> grupos) {
@@ -51,6 +54,7 @@ public class GruposControllerTest {
     }
 
     @ParameterizedTest
+    @Tag("api")
     @ValueSource(classes = {RuntimeException.class, NullPointerException.class})
     public void respondeInternalServerErrorAlListarSiOcurreCualquierExcepcion(Class<Throwable> throwable) {
         when(gruposServiceMock.listarGrupos()).thenThrow(throwable);

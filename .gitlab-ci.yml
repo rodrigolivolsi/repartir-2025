@@ -141,7 +141,7 @@ report-test-coverage:
 
 pages:
   stage: report
-  needs: ["report-test-coverage"]
+  needs: ["report-test-coverage", "test"]
   before_script:
     - apt-get update && apt-get -y install tree
   script:

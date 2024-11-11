@@ -105,15 +105,16 @@ El proyecto cuenta con una demo que levanta la aplicación en un entorno Dockeri
 
 > **Nota**: Así como cuando se corre la aplicación en un entorno local, se puede inspeccionar la API REST en http://localhost:8080/swagger-ui.html. Sin embargo, la base de datos no estará disponible en http://localhost:8080/h2-console ya que la base de datos es MariaDB y se encuentra en un contenedor Docker.
 
+## Reportes
 
+El proyecto cuenta con varios reportes generados por las pruebas automatizadas, por la herramienta de análisis estático y por la herramienta de análisis de cobertura de código. Los mismos son generados al momento de pushear a la rama `main` y se pueden visualizar en la [página de GitLab Pages](https://repartir-grupo-esfera-capacitacion-recursos-4efd1f82300430ba014.gitlab.io/) del proyecto.
 
 ## Links de interés
 
-* [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
-* [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
-* [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
-* [Instrucciones específicas para el frontend de esta aplicación](./src/main/frontend/README.md)
-
+- [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
+- [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
+- [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
+- [Instrucciones específicas para el frontend de esta aplicación](./src/main/frontend/README.md)
 
 ## IDE
 

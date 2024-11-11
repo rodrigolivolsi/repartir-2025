@@ -141,10 +141,12 @@ report-test-coverage:
 
 pages:
   stage: report
+  dependencies:
+    - report-test-coverage
   before_script:
     - apt-get update && apt-get -y install tree
   script:
-    - tree
+    - tree build/
     - mv build/ public/
     - tree ./public -H '.' -T "REPORTES" -I "reveal*|img*|style*|index*|content*" --noreport --charset utf-8 > ./public/index.html
   artifacts:
@@ -159,7 +161,6 @@ static-source-code-analysis:
     when: always
     paths:
       - build/reports/pmd
-      - public/reports/pmd
 
 deploy-dev:
   stage: deploy

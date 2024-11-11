@@ -1,14 +1,12 @@
 import { test as base } from 'playwright-bdd';
 import MCR from 'monocart-coverage-reports';
 import coverageOptions from './mcr.config';
-import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
-import { GruposDriver } from 'test-drivers/grupos-driver';
 import { BienvenidaPlaywrightDriver } from 'test-drivers/bienvenida-playwright-driver';
 import { MockApiAdapter } from 'test-drivers/mockApi-adapter';
 import { GruposPlaywrightDriver } from 'test-drivers/grupos-playwright-driver';
-import { buildTestAssembly, TestAssembly } from 'test-drivers/assembly';
+import { TestAssembly } from 'test-drivers/assembly';
 
-export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: BienvenidaDriver, gruposDriver: GruposDriver }>({
+export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly }>({
   autoTestFixture: [async ({ page }, use) => {
 
     const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
@@ -41,23 +39,18 @@ export const test = base.extend<{ autoTestFixture: void, bienvenidaDriver: Bienv
 
 
   }, { auto: true }],
-  bienvenidaDriver: async({page}, use) => {
+  assembly: async({page}, use) => {
+
+    let testAssembly = new TestAssembly([]);
 
     if (process.env.API == 'mock') {
       console.log("Using mocks for the API");
-      use(buildTestAssembly(new TestAssembly(new BienvenidaPlaywrightDriver(page), [new MockApiAdapter(page)])));
+      testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
+    } 
 
-    } else {
-      use(buildTestAssembly(new TestAssembly(new BienvenidaPlaywrightDriver(page), [])));
-    }
-  },
-  gruposDriver: async({page}, use) => { 
-    if (process.env.API == 'mock') {
-      console.log("Using mocks for the API");
-      use(buildTestAssembly(new TestAssembly(new GruposPlaywrightDriver(page), [new MockApiAdapter(page)])));
+    testAssembly.addDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
+    testAssembly.addDriver('grupos', new GruposPlaywrightDriver(page));
 
-    } else {
-      use(buildTestAssembly(new TestAssembly(new GruposPlaywrightDriver(page), [])));
-    }
-  },
+    use(testAssembly);
+  }
 });

@@ -145,7 +145,7 @@ pages:
     - apt-get update && apt-get -y install tree
   script:
     - mv build/reports public/
-    - mv src/main/frontend/coverage-reports public/frontend/coverage-reports
+    - mv src/main/frontend/coverage-reports public/
     - mv public/pmd/main.html public/pmd/index.html # Maldito PMD creas tus propias convenciones y ahora mira la chanchada que hay que hacer para que GitLab Pages te reconozca
     - tree ./public -HC '.' -T "REPORTES" -P "index.html" --prune --noreport --charset utf-8 > ./public/index.html
   artifacts:

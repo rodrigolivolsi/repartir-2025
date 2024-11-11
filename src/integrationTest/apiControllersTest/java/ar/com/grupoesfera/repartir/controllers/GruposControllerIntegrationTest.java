@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integrationTest")
+@ActiveProfiles("integrationTestWithControllers")
 public class GruposControllerIntegrationTest {
 
     final GruposFixture GRUPOS = new GruposFixture();
@@ -38,9 +38,9 @@ public class GruposControllerIntegrationTest {
                 .accept(ContentType.JSON)
                 .port(randomServerPort)
                 .contentType(ContentType.JSON)
-            .when()
+                .when()
                 .get("/api/grupos")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body(equalTo("[]"));
@@ -56,9 +56,9 @@ public class GruposControllerIntegrationTest {
                 .accept(ContentType.JSON)
                 .port(randomServerPort)
                 .contentType(ContentType.JSON)
-            .when()
+                .when()
                 .get("/api/grupos")
-            .then()
+                .then()
                 .statusCode(200)
                 .body(jsonEquals("""
                         [
@@ -82,11 +82,11 @@ public class GruposControllerIntegrationTest {
                 .accept(ContentType.JSON)
                 .port(randomServerPort)
                 .contentType(ContentType.JSON)
-            .when()
+                .when()
                 .get("/api/grupos")
-            .then()
+                .then()
                 .statusCode(200)
-                .body("id", contains(101,102))
+                .body("id", contains(101, 102))
                 .body("nombre", contains("Almuerzo", "Regalo para Lucas"))
                 .body("total", contains(1500.33f, 4000.0f));
     }

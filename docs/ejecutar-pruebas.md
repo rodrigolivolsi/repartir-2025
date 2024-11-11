@@ -16,7 +16,7 @@
 ./gradlew <task> --tests "<filter>"
 ```
 
-Donde task es "test", "integrationTest", etc... y filter la regex a evaluar.
+Donde task es "test", "dbTest", etc... y filter la regex a evaluar.
 
 #### [Guia](https://docs.gradle.org/current/userguide/java_testing.html#test_filtering) para filters:
 
@@ -64,7 +64,7 @@ El comando matchea la regex con los textos dentro de cada archivo .feature, tant
 ./tests js unit
 ```
 
-### Para ejecutar pruebas de aceptación 
+### Para ejecutar pruebas de aceptación
 
 - Backend:
 
@@ -73,14 +73,14 @@ El comando matchea la regex con los textos dentro de cada archivo .feature, tant
 ```
 
 - Frontend
-  
+
   Como el script "tests" levanta el backend y el frontend para ejecutar las pruebas de aceptación, es necesario verificar que ninguno de los dos esté corriendo antes de iniciar.
 
 ```
 ./tests js acceptance
 ```
 
-  Se pueden sumistrar parámetros opcionales a la ejecución. (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
+Se pueden sumistrar parámetros opcionales a la ejecución. (Estos son [todos los que acepta Playwright](https://playwright.dev/docs/test-cli)). Por ejemplo, para especificar el nombre de una prueba a ejecutar:
 
 ```
 ./tests js acceptance -g "Nombre del escenario"

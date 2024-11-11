@@ -19,7 +19,7 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integrationTest")
+@ActiveProfiles("integrationTestWithApiExterna")
 @Testcontainers
 @Import(FeignClientsConfiguration.class)
 class PersonasClientTest {

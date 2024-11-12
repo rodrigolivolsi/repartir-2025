@@ -16,6 +16,23 @@ Given('que el usuario inició Repartir', async ({ page }) => {
     await page.locator('#iniciarBienvenidaButton').click()
 });
 
+When("el usuario crea un grupo indicando el nombre {string} con miembros {string} y {string}", async ({ page }, nombre, miembro1, miembro2) => {
+
+    nombreIndicado = nombre;
+    await page.locator('#crearGruposButton').click()
+    await page.locator('#nombreGrupoNuevoInput').fill(nombre);
+    await page.locator('#miembrosGrupoNuevoInput').fill(miembro1);
+    await page.keyboard.press('Enter');
+    await page.locator('#miembrosGrupoNuevoInput').fill(miembro2);
+    await page.keyboard.press('Enter');
+    await page.locator('#guardarGrupoNuevoButton').click();
+
+    let ultimaFila = page.locator('app-grupos table tr').last();
+    let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
+
+    context.grupoId = grupoId;
+});
+
 When("el usuario crea un grupo indicando el nombre {string}", async ({ page }, nombre) => {
 
     nombreIndicado = nombre;
@@ -76,13 +93,6 @@ When("el usuario crea un grupo", async ({ page }) => {
       context.grupoId = grupoId;
 })
 
-Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
-    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${context.grupoId}"))`);
-    let monto = await filaConGrupoId.locator('td:nth-child(3)');
-
-    await expect(monto).toContainText(montoEsperado);
-})
-
 When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {
     await page.locator("#crearGruposButton").click();
 
@@ -92,6 +102,14 @@ When("el usuario intenta crear un grupo indicando un único miembro", async ({ p
     await page.keyboard.press('Enter');
 
     await page.locator("#guardarGrupoNuevoButton").click();
+})
+
+Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
+    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${context.grupoId}"))`);
+    let monto = await filaConGrupoId.locator('td:nth-child(3)');
+    let nombre = await filaConGrupoId.locator('td:nth-child(2)');
+    let lisaintegrandte = await filaConGrupoId.locator('td:nth-child(4)');
+    await expect(monto).toContainText(montoEsperado);
 })
 
 Then("debería ser informado que necesita tener al menos dos miembros", async ({ page }) => {

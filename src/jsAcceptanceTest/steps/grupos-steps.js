@@ -110,17 +110,20 @@ Then("debería visualizar dentro del listado el grupo con total {string}", async
     await expect(monto).toContainText(montoEsperado);
 })
 
-Then("debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}", async ({ page },nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
-    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${context.grupoId}"))`);
-    let nombre = await filaConGrupoId.locator('td:nth-child(2)');
-    let monto = await filaConGrupoId.locator('td:nth-child(3)');
-    let miembros = await filaConGrupoId.locator('td:nth-child(4)')
+Then("debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}", async ({ page }, nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
+    const filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${context.grupoId}"))`);
+    const nombre = filaConGrupoId.locator('td:nth-child(2)');
+    const monto = filaConGrupoId.locator('td:nth-child(3)');
+    const miembros = filaConGrupoId.locator('td:nth-child(4)');
+
+    await page.waitForSelector(`#agregarGastoGruposButton-${context.grupoId}`, { state: 'attached', timeout: 5000 });
 
     await expect(monto).toContainText(montoEsperado);
     await expect(miembros).toContainText(miembroUno);
     await expect(miembros).toContainText(miembroDos);
     await expect(nombre).toContainText(nombreEsperado);
-})
+});
+
 
 Then("debería ser informado que necesita tener al menos dos miembros", async ({ page }) => {
 

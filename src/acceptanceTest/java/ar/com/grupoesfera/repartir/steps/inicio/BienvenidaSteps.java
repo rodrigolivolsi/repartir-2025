@@ -12,6 +12,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.assertj.core.api.Assertions.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("Bienvenida")
 public class BienvenidaSteps extends CucumberSteps {
 
     @Then("el usuario accede a la aplicación")

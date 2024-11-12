@@ -2,6 +2,8 @@ package ar.com.grupoesfera.repartir.steps.gastos;
 
 import ar.com.grupoesfera.repartir.steps.CucumberSteps;
 import ar.com.grupoesfera.repartir.steps.Step;
+
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,6 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
+@DisplayName("Agregar Gastos")
 public class AgregarGastosJourneySteps extends CucumberSteps {
 
     @Step("existe el grupo #{int} {string} sin gastos")

@@ -2,6 +2,8 @@ package ar.com.grupoesfera.repartir.steps.grupos;
 
 import ar.com.grupoesfera.repartir.steps.CucumberSteps;
 import ar.com.grupoesfera.repartir.steps.Step;
+
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,6 +13,7 @@ import java.util.List;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static org.assertj.core.api.Assertions.*;
 
+@DisplayName("Crear Grupo")
 public class CrearGrupoJourneySteps extends CucumberSteps {
 
     @Step("no existe ningún grupo")

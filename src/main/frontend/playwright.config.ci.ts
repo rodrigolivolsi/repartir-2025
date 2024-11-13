@@ -42,7 +42,7 @@ export default defineConfig({
       'html',
       {
         open: 'never',
-        outputFolder: '../../../build/test-results/playwright-reports'
+        outputFolder: '../../../build/reports/playwright-reports'
       }
     ],
   ],

@@ -124,6 +124,7 @@ acceptance-test-js:
     name: acceptance-test-js-coverage
     paths:
       - src/main/frontend/coverage-reports/
+      - build/reports/reports/playwright-reports/
 
 package:
   stage: package

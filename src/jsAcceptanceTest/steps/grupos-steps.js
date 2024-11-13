@@ -150,3 +150,7 @@ Then('visualiza dentro del listado el grupo con los miembros indicados', async (
     await expect(miembros.nth(1)).toContainText(miembroDos);
     
 });
+
+module.exports = {
+    context
+};

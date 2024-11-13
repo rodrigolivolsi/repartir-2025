@@ -2,13 +2,10 @@ const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd')
 
 const { test } = require('../../main/frontend/fixtures');
 const { When } = createBdd(test);
+const { context } = require('./grupos-steps.js');
 
-When('el usuario selecciona el grupo {string} y agrega un monto de ${string}', async ({ page },nombre ,monto) => {
-    
-    const filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(2):text("${nombre}"))`).last();
-    
-    const grupoId = await filaConGrupoId.locator('td:nth-child(1)').textContent();
-    const agregarGastoButton = page.locator(`#agregarGastoGruposButton-${grupoId}`);
+When('el usuario selecciona el grupo creado y agrega un monto de ${string}', async ({ page } ,monto) => {
+    const agregarGastoButton = page.locator(`#agregarGastoGruposButton-${context.grupoId}`);
     
     await agregarGastoButton.waitFor({ state: 'visible', timeout: 2000 });
     await agregarGastoButton.click();

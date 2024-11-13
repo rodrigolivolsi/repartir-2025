@@ -8,7 +8,6 @@ let nombreIndicado;
 let miembroUno;
 let miembroDos;
 
-let context = {};
 let contexto = [];
 
 Given('que el usuario inició Repartir', async ({ page }) => {
@@ -32,7 +31,6 @@ When("el usuario crea un grupo indicando el nombre {string} con miembros {string
     let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
     let grupoNombre = await ultimaFila.locator('td:nth-child(2)').textContent();
 
-    context.grupoId = grupoId;
     contexto.push({grupoId,grupoNombre})
 });
 
@@ -94,7 +92,6 @@ When("el usuario crea un grupo", async ({ page }) => {
       const grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
       const grupoNombre = await ultimaFila.locator('td:nth-child(2)').textContent();
 
-      context.grupoId = grupoId;
       contexto.push({grupoId,grupoNombre})
 })
 
@@ -162,6 +159,5 @@ Then('visualiza dentro del listado el grupo con los miembros indicados', async (
 });
 
 module.exports = {
-    context,
     contexto
 };

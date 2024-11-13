@@ -2,7 +2,7 @@ const { createBdd } = require('../../main/frontend/node_modules/playwright-bdd')
 
 const { test } = require('../../main/frontend/fixtures');
 const { When } = createBdd(test);
-const { context,contexto } = require('./grupos-steps.js');
+const { contexto } = require('./grupos-steps.js');
 
 When('el usuario selecciona el grupo {string} y agrega un monto de ${string}', async ({ page }, nombreGrupo, monto) => {
     const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === nombreGrupo);

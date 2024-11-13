@@ -110,7 +110,8 @@ When("el usuario intenta crear un grupo indicando un único miembro", async ({ p
 })
 
 Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
-    const grupoBuscado = contexto[contexto.length-1];//TODO agregar buscar de titulo en el metodo
+    const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === "Grupo de 4");
+    
     let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${grupoBuscado.grupoId}"))`);
     let monto = await filaConGrupoId.locator('td:nth-child(3)');
     await expect(monto).toContainText(montoEsperado);

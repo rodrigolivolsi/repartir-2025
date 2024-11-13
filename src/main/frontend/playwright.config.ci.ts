@@ -31,6 +31,7 @@ const testDir = defineBddConfig({
 export default defineConfig({
   testDir,
   reporter: [
+    ['dot'],
     [
       'junit',
       {

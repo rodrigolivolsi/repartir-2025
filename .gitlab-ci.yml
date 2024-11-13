@@ -151,8 +151,8 @@ pages:
   artifacts:
     paths:
       - public
-  only:
-    - main
+  # only:
+  #   - main
 
 static-source-code-analysis:
   stage: analyze

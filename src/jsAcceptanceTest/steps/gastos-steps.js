@@ -8,7 +8,7 @@ When('el usuario selecciona el grupo {string} y agrega un monto de ${string}', a
     const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === nombreGrupo);
 
     const agregarGastoButton = page.locator(`#agregarGastoGruposButton-${grupoBuscado.grupoId}`);
-    
+
     await agregarGastoButton.waitFor({ state: 'visible', timeout: 2000 });
     await agregarGastoButton.click();
 
@@ -19,7 +19,7 @@ When('el usuario selecciona el grupo {string} y agrega un monto de ${string}', a
     await montoInput.fill(monto);
 
     const guardarGastoButton = page.locator('#guardarGastoNuevoButton');
-    
+
     await guardarGastoButton.waitFor({ state: 'visible', timeout: 2000 });
     await guardarGastoButton.click();
     

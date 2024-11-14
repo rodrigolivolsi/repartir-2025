@@ -17,7 +17,7 @@ Given('que el usuario inició Repartir', async ({ page }) => {
 });
 
 When("el usuario crea un grupo indicando el nombre {string} con miembros {string} y {string}", async ({ page }, nombre, miembro1, miembro2) => {
-
+    const gruposAntesDeCrearUnoNuevo = await page.locator('app-grupos table tr').count();
     nombreIndicado = nombre;
     await page.locator('#crearGruposButton').click()
     await page.locator('#nombreGrupoNuevoInput').fill(nombre);
@@ -26,6 +26,14 @@ When("el usuario crea un grupo indicando el nombre {string} con miembros {string
     await page.locator('#miembrosGrupoNuevoInput').fill(miembro2);
     await page.keyboard.press('Enter');
     await page.locator('#guardarGrupoNuevoButton').click();
+
+    await page.waitForFunction(
+        (gruposAntesDeCrearUnoNuevo) => {
+          const gruposAhora = document.querySelectorAll('app-grupos table tr').length;
+          return gruposAhora > gruposAntesDeCrearUnoNuevo;
+        },
+        gruposAntesDeCrearUnoNuevo
+      );
 
     let ultimaFila = page.locator('app-grupos table tr').last();
     let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
@@ -87,6 +95,7 @@ When("el usuario crea un grupo", async ({ page }) => {
         },
         gruposAntesDeCrearUnoNuevo
       );
+
       let ultimaFila = page.locator('app-grupos table tr').last();
 
       const grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
@@ -107,15 +116,16 @@ When("el usuario intenta crear un grupo indicando un único miembro", async ({ p
 })
 
 Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
+
     const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === "Grupo de 4");
-    
+
     let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${grupoBuscado.grupoId}"))`);
     let monto = await filaConGrupoId.locator('td:nth-child(3)');
     await expect(monto).toContainText(montoEsperado);
 })
 
 Then("debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}", async ({ page }, nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
-   
+
     const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === nombreEsperado);
 
     const filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${grupoBuscado.grupoId}"))`);

@@ -60,4 +60,5 @@ export default defineConfig({
     baseURL: baseURL,
   },
   webServer: [backend, personas],
+  workers: 1
 });

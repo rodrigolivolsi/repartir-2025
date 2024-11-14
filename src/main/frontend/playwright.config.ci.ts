@@ -38,6 +38,13 @@ export default defineConfig({
           '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
       },
     ],
+    [
+      'html',
+      {
+        open: 'never',
+        outputFolder: '../../../build/reports/playwright-reports'
+      }
+    ],
   ],
   projects: [
     {

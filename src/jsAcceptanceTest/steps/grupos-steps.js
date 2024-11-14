@@ -19,7 +19,7 @@ When("el usuario crea un grupo", async ({ assembly }) => {
     await assembly.grupos.crear();
 })
 
-Then("debería visualizar dentro del listado el grupo con total {string}", async ({ assembly }, montoEsperado) => {
+Then("debería visualizar dentro del listado el grupo con total $ {string}", async ({ assembly }, montoEsperado) => {
     await assembly.grupos.validarMontoTotal(montoEsperado);
 })
 

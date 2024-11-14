@@ -1,18 +1,15 @@
 import { defineConfig } from '@playwright/test';
-import { backend, personas, projects, reporter, testDir } from 'playwright.config.constants';
+import { backend, baseURL, personas, projects, reporter, testDir } from 'playwright.config.constants';
 
-const baseURL = 'http://localhost:8080';
 
 export default defineConfig({
   testDir,
   reporter: reporter,
   projects: projects,
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    baseURL: baseURL,
+    baseURL: 'http://localhost:8080',
   },
   webServer: [backend, personas],
 });

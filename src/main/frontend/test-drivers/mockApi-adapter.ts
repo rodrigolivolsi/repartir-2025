@@ -1,7 +1,9 @@
 import { Grupo } from "src/app/model/grupo";
 import { Page } from "playwright/test";
+import { BienvenidaDriver } from "./bienvenida-driver";
+import { GruposDriver } from "./grupos-driver";
 
-export class MockApiAdapter {
+export class MockApiAdapter implements Partial<BienvenidaDriver>, Partial<GruposDriver>{
 
     private grupoEjemplo: Grupo = {
         miembros: ["nico", "toni"],

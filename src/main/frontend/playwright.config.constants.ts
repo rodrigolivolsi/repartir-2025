@@ -1,20 +1,21 @@
-import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
+import { devices, ReporterDescription } from 'playwright/test';
 
-const baseURL = 'http://localhost:4200';
+
+export const baseURL = 'http://localhost:4200';
 const gradlewPath = '../../../';
 const gradlewCommand = process.platform === 'win32'
   ? 'gradlew.bat bootRun'
   : './gradlew bootRun';
 
-const frontend = {
+export const frontend = {
   command: 'npm run start',
   url: baseURL,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };
 
-const backend = {
+export const backend = {
   command: gradlewCommand,
   url: 'http://localhost:8080',
   cwd: gradlewPath,
@@ -22,7 +23,7 @@ const backend = {
   reuseExistingServer: !process.env.CI,
 };
 
-const personas = {
+export const personas = {
   command: 'npm run wiremock -- --port 8081',
   url: 'http://localhost:8081',
   timeout: 120 * 1000,
@@ -30,21 +31,13 @@ const personas = {
 };
 
 
-const testDir = defineBddConfig({
+export const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
   steps: ['../../jsAcceptanceTest/steps/*', './fixtures.ts'],
   featuresRoot: '../../jsAcceptanceTest/',
 });
 
-let webServerConfiguration = [frontend];
-if (process.env.API != 'mock'){
-  webServerConfiguration.push(backend);
-  webServerConfiguration.push(personas);
-}
-
-export default defineConfig({
-  testDir,
-  reporter: [
+export const reporter: ReporterDescription[] = [
     [
       'junit',
       {
@@ -52,17 +45,11 @@ export default defineConfig({
           '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
       },
     ],
-  ],
-  projects: [
+  ];
+
+  export const projects = [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-  ],
-  use: {
-    screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
-    baseURL: baseURL,
-  },
-  webServer: webServerConfiguration,
-});
+  ];

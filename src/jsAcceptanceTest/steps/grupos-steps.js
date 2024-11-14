@@ -39,7 +39,7 @@ When("el usuario crea un grupo indicando el nombre {string} con miembros {string
     let grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
     let grupoNombre = await ultimaFila.locator('td:nth-child(2)').textContent();
 
-    contexto.push({grupoId,grupoNombre})
+    contexto.grupoId = grupoId;
 });
 
 When("el usuario crea un grupo indicando el nombre {string}", async ({ page }, nombre) => {
@@ -101,7 +101,7 @@ When("el usuario crea un grupo", async ({ page }) => {
       const grupoId = await ultimaFila.locator('td:nth-child(1)').textContent();
       const grupoNombre = await ultimaFila.locator('td:nth-child(2)').textContent();
 
-      contexto.push({grupoId,grupoNombre})
+      contexto.grupoId = grupoId;
 })
 
 When("el usuario intenta crear un grupo indicando un único miembro", async ({ page }) => {
@@ -116,24 +116,18 @@ When("el usuario intenta crear un grupo indicando un único miembro", async ({ p
 })
 
 Then("debería visualizar dentro del listado el grupo con total {string}", async ({ page }, montoEsperado) => {
-
-    const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === "Grupo de 4");
-
-    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${grupoBuscado.grupoId}"))`);
+    let filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${contexto.grupoId}"))`);
     let monto = await filaConGrupoId.locator('td:nth-child(3)');
     await expect(monto).toContainText(montoEsperado);
 })
 
 Then("debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}", async ({ page }, nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
-
-    const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === nombreEsperado);
-
-    const filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${grupoBuscado.grupoId}"))`);
+    const filaConGrupoId = page.locator(`app-grupos table tr:has(td:nth-child(1):text("${contexto.grupoId}"))`);
     const nombre = filaConGrupoId.locator('td:nth-child(2)');
     const monto = filaConGrupoId.locator('td:nth-child(3)');
     const miembros = filaConGrupoId.locator('td:nth-child(4)');
     
-    await page.waitForSelector(`#agregarGastoGruposButton-${grupoBuscado.grupoId}`, { state: 'attached', timeout: 5000 });
+    await page.waitForSelector(`#agregarGastoGruposButton-${contexto.grupoId}`, { state: 'attached', timeout: 5000 });
 
     await expect(monto).toContainText(montoEsperado);
     await expect(miembros).toContainText(miembroUno);

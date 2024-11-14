@@ -5,9 +5,7 @@ const { When } = createBdd(test);
 const { contexto } = require('./grupos-steps.js');
 
 When('el usuario selecciona el grupo {string} y agrega un monto de ${string}', async ({ page }, nombreGrupo, monto) => {
-    const grupoBuscado = contexto.find((grupo) => grupo.grupoNombre === nombreGrupo);
-
-    const agregarGastoButton = page.locator(`#agregarGastoGruposButton-${grupoBuscado.grupoId}`);
+    const agregarGastoButton = page.locator(`#agregarGastoGruposButton-${contexto.grupoId}`);
 
     await agregarGastoButton.waitFor({ state: 'visible', timeout: 2000 });
     await agregarGastoButton.click();

@@ -11,23 +11,32 @@ export class GruposPlaywrightDriver implements GruposDriver {
         private page: Page) {
     }
 
-    async iniciar(): Promise<void> {
+    /*
+    * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
+    * el transpilador elimina los métodos pero no los atributos. Ejemplo:
+    * 
+    * miMetodo = async(parametro: tipo): Promise<void> => {
+    *  // implementacion del metodo
+    * }
+    */
+
+    iniciar = async(): Promise<void> => {
         await this.page.goto('/');
         await this.page.getByRole('textbox').fill('julian');
         await this.page.locator('#iniciarBienvenidaButton').click();
     }
     
-    async crearCon(nombre: string): Promise<void> {
+    crearCon = async(nombre: string): Promise<void> => {
         let miembros = ["Victor", "Brenda"];
         await this.crearConNombreYMiembros(nombre, miembros);
     }
     
-    async crearConMiembros(miembros: Array<string>): Promise<void> {
+    crearConMiembros = async(miembros: Array<string>): Promise<void> => {
         let nombre = "Grupo de Prueba";
         await this.crearConNombreYMiembros(nombre, miembros);
     }
     
-    async crearConUnUnicoMiembro(): Promise<void> {
+    crearConUnUnicoMiembro = async(): Promise<void> => {
         let nombre = "Grupo inválido";
         let miembros = ["Oscar"];
         await this.crearConNombreYMiembros(nombre, miembros);
@@ -49,7 +58,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }
 
 
-    async crear(): Promise<void> {
+    crear = async(): Promise<void> => {
 
         const gruposAntesDeCrearUnoNuevo = await this.page.locator('app-grupos table tr').count();
 
@@ -73,11 +82,11 @@ export class GruposPlaywrightDriver implements GruposDriver {
 
     }
 
-    async validarNombreDeGrupo(): Promise<void> {
+    validarNombreDeGrupo = async(): Promise<void> => {
         await expect(this.page.getByRole('alert')).toContainText(this.nombreDeGrupoEsperado);
     }
 
-    async validarMiembrosDeGrupo(): Promise<void> {
+    validarMiembrosDeGrupo = async(): Promise<void> => {
         let row = this.page.locator(`app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`).last();
         let miembros = await row.locator('td:nth-child(4)');
 
@@ -86,14 +95,14 @@ export class GruposPlaywrightDriver implements GruposDriver {
         }
     }
 
-    async validarMensajeDeAlMenosDosMiembros(): Promise<void> {
+    validarMensajeDeAlMenosDosMiembros = async(): Promise<void> => {
         let mensajesToast = this.page.getByRole('alert');
         await mensajesToast.waitFor({ state: 'visible', timeout: 2000 });
         await expect(mensajesToast).toContainText('Error');
         await expect(mensajesToast).toContainText('No se puede guardar');
     }
 
-    async validarMontoTotal(montoEsperado: string): Promise<void> {
+    validarMontoTotal = async(montoEsperado: string): Promise<void> => {
         let filaConGrupoId = this.page.locator(`app-grupos table tr:has(td:nth-child(1):text("${this.context.grupoId}"))`);
         let monto = await filaConGrupoId.locator('td:nth-child(3)');
 

@@ -7,21 +7,21 @@ export class BienvenidaPlaywrightDriver implements BienvenidaDriver {
         private page: Page) {
     }
 
-    async acceder(): Promise<void> {
+    acceder = async(): Promise<void> => {
         await this.page.goto('/');
     }
 
-    async iniciar(): Promise<void> {
+    iniciar = async(): Promise<void> => {
         await this.page.getByRole('textbox').fill('julian');
         await this.page.locator('#iniciarBienvenidaButton').click();
     }
 
-    async validarMensajeDeBienvenida(): Promise<void> {
+    validarMensajeDeBienvenida = async(): Promise<void> => {
         let dialog = this.page.locator('p-dialog:has-text("Repartir")');
         await dialog.waitFor({ state: 'hidden', timeout: 2000 });
     }
 
-    async validarQueSePuedeUsar(): Promise<void> {
+    validarQueSePuedeUsar = async(): Promise<void> => {
         await this.page.locator("#crearGruposButton").click();
         let nuevoGrupoDialog = this.page.locator('#nuevoGrupoDialog');
         await expect(nuevoGrupoDialog).toContainText('Nuevo Grupo');

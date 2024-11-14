@@ -7,22 +7,22 @@ export class BienvenidaHttpDriver implements BienvenidaDriver {
         private request: APIRequestContext) {
     }
 
-    async acceder(): Promise<void> {
+    acceder = async(): Promise<void> => {
 
         const inicio = await this.request.get("/api/grupos");
         expect(inicio.ok()).toBeTruthy();
     }
 
-    async iniciar(): Promise<void> {
+    iniciar = async(): Promise<void> => {
         const pedido = await this.request.get("/api/usuarios/julian");
         expect(pedido.ok()).toBeTruthy();
     }
 
-    validarMensajeDeBienvenida(): void {
+    validarMensajeDeBienvenida = async(): Promise<void> => {
         // nada
     }
     
-    validarQueSePuedeUsar(): void {
+    validarQueSePuedeUsar = async(): Promise<void> => {
         // nada
     }
 

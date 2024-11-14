@@ -8,7 +8,7 @@ import { TestAssembly } from 'test-drivers/assembly';
 import { BienvenidaHttpDriver } from 'test-drivers/bienvenida-http-driver';
 import { GruposHttpDriver } from 'test-drivers/grupos-https-driver';
 
-export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly }>({
+export const test = base.extend<{ autoTestFixture: void, assemblyGrupos: TestAssembly, assemblyBienvenida: TestAssembly }>({
   autoTestFixture: [async ({ page }, use) => {
 
     const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
@@ -41,7 +41,12 @@ export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly 
 
 
   }, { auto: true }],
-  assembly: async({page, request}, use) => {
+  assemblyGrupos: async({page, request}, use) => {
+
+    let driverPrincipal : any = new GruposPlaywrightDriver(page);
+    if (process.env.NoBrowser == 'true') {
+      driverPrincipal = new GruposHttpDriver(request);
+    }
 
     let testAssembly = new TestAssembly([]);
 
@@ -50,13 +55,40 @@ export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly 
       testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
     } 
 
+    testAssembly.agregarDriverPrincipal('grupos', driverPrincipal);
+
     if (process.env.NoBrowser == 'true') {
-      testAssembly.addDriver('bienvenida', new BienvenidaHttpDriver(request));
-      testAssembly.addDriver('grupos', new GruposHttpDriver(request));
+      testAssembly.agregarDriver('bienvenida', new BienvenidaHttpDriver(request));
 
     } else {
-      testAssembly.addDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
-      testAssembly.addDriver('grupos', new GruposPlaywrightDriver(page));
+      testAssembly.agregarDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
+    }
+
+
+    use(testAssembly);
+  },
+
+  assemblyBienvenida: async({page, request}, use) => {
+
+    let driverPrincipal : any = new BienvenidaPlaywrightDriver(page);
+    if (process.env.NoBrowser == 'true') {
+      driverPrincipal = new BienvenidaHttpDriver(request);
+    }
+
+    let testAssembly = new TestAssembly([]);
+
+    if (process.env.API == 'mock') {
+      console.log("Using mocks for the API");
+      testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
+    } 
+
+    testAssembly.agregarDriverPrincipal('bienvenida', driverPrincipal);
+
+    if (process.env.NoBrowser == 'true') {
+      testAssembly.agregarDriver('grupos', new GruposHttpDriver(request));
+
+    } else {
+      testAssembly.agregarDriver('grupos', new GruposPlaywrightDriver(page));
     }
 
 

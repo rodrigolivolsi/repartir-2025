@@ -12,7 +12,16 @@ export class GruposHttpDriver implements GruposDriver {
     private idGrupo: number | undefined;
     private miembrosGrupo: string[] = [];
 
-    async iniciar(): Promise<void> {
+    /*
+    * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
+    * el transpilador elimina los métodos pero no los atributos. Ejemplo:
+    * 
+    * miMetodo = async(parametro: tipo): Promise<void> => {
+    *  // implementacion del metodo
+    * }
+    */
+
+    iniciar = async(): Promise<void> => {
         const inicio = await this.request.get("/api/grupos");
         expect(inicio.ok()).toBeTruthy();
 
@@ -20,7 +29,7 @@ export class GruposHttpDriver implements GruposDriver {
         expect(pedido.ok()).toBeTruthy();
     }
     
-    async crearCon(nombre: string): Promise<void> {
+    crearCon = async(nombre: string): Promise<void> => {
         let nuevoGrupo : Grupo = {
             nombre: nombre,
             miembros: ["Jose", "Elena"]
@@ -41,7 +50,7 @@ export class GruposHttpDriver implements GruposDriver {
         this.miembrosGrupo = nuevoGrupo.miembros;
     }
 
-    async crearConMiembros(miembros: Array<string>): Promise<void> {
+    crearConMiembros = async(miembros: Array<string>): Promise<void> => {
         let nuevoGrupo : Grupo = {
             nombre: "Grupo de cocina",
             miembros: miembros
@@ -49,7 +58,7 @@ export class GruposHttpDriver implements GruposDriver {
         await this.crearGrupo(nuevoGrupo);
     }
 
-    async crearConUnUnicoMiembro(): Promise<void> {
+    crearConUnUnicoMiembro = async(): Promise<void> => {
         let nuevoGrupo : Grupo = {
             nombre: "Grupo invalido",
             miembros: ["Unico miembro"]
@@ -60,7 +69,7 @@ export class GruposHttpDriver implements GruposDriver {
         expect(respuestaCrear.ok()).toBeFalsy();
     }
 
-    async crear(): Promise<void> {
+    crear = async(): Promise<void> => {
         let nuevoGrupo : Grupo = {
             nombre: "Futbol de los martes",
             miembros: ["Nico", "Tizi", "Santi"]
@@ -68,7 +77,7 @@ export class GruposHttpDriver implements GruposDriver {
         await this.crearGrupo(nuevoGrupo);
     }
 
-    async validarNombreDeGrupo(): Promise<void> {
+    validarNombreDeGrupo = async(): Promise<void> => {
         let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
         expect(nuevoGrupo?.nombre).toBe(this.nombreGrupo);
     }
@@ -84,16 +93,16 @@ export class GruposHttpDriver implements GruposDriver {
         return nuevoGrupo;
     }
 
-    async validarMiembrosDeGrupo(): Promise<void> {
+    validarMiembrosDeGrupo = async(): Promise<void> => {
         let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
         expect(nuevoGrupo?.miembros).toEqual(this.miembrosGrupo);
     }
 
-    validarMensajeDeAlMenosDosMiembros(): void {
+    validarMensajeDeAlMenosDosMiembros = async(): Promise<void> => {
         // nada
     }
     
-    async validarMontoTotal(montoEsperado: string): Promise<void> {
+    validarMontoTotal = async(montoEsperado: string): Promise<void> => {
         let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
         expect(nuevoGrupo?.total?.toString()).toEqual(montoEsperado);
     }

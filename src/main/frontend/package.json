@@ -7,9 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "acceptance-test": "npx bddgen --config playwright.config.e2e.ts && npx playwright test --config playwright.config.e2e.ts",
-    "fast-acceptance-test": "npx bddgen --config playwright.config.mockApi.ts && cross-env API=mock npx playwright test --config playwright.config.mockApi.ts",
-    "http-fast-acceptance-test": "npx bddgen --config playwright.config.http.ts && cross-env NoBrowser=true npx playwright test --config playwright.config.http.ts",
+    "acceptance-test:e2e": "npx bddgen --config playwright.config.e2e.ts && cross-env ASSEMBLY_NAME=e2e npx playwright test --config playwright.config.e2e.ts",
+    "acceptance-test:mock-api": "npx bddgen --config playwright.config.mockApi.ts && cross-env ASSEMBLY_NAME=mock-api npx playwright test --config playwright.config.mockApi.ts",
+    "acceptance-test:backend": "npx bddgen --config playwright.config.http.ts && cross-env ASSEMBLY_NAME=backend npx playwright test --config playwright.config.http.ts",
     "wiremock": "wiremock"
   },
   "private": true,

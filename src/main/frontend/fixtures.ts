@@ -7,59 +7,125 @@ import { GruposPlaywrightDriver } from 'test-drivers/grupos-playwright-driver';
 import { TestAssembly } from 'test-drivers/assembly';
 import { BienvenidaHttpDriver } from 'test-drivers/bienvenida-http-driver';
 import { GruposHttpDriver } from 'test-drivers/grupos-https-driver';
+import { APIRequestContext, Page } from 'playwright/test';
 
-export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly }>({
-  autoTestFixture: [async ({ page }, use) => {
+export const test = base.extend<{
+  autoTestFixture: void;
+  assembly: TestAssembly;
+}>({
+  autoTestFixture: [
+    async ({ page }, use) => {
+      const medirCobertura =
+        process.env.CI && test.info().project.name === 'chromium';
 
-    const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
-
-    // coverage API is chromium only
-    if (medirCobertura) {
+      // coverage API is chromium only
+      if (medirCobertura) {
         await Promise.all([
-            page.coverage.startJSCoverage({
-                resetOnNavigation: false
-            }),
-            // CSS coverage disabled for now
-            // page.coverage.startCSSCoverage({
-            //     resetOnNavigation: false
-            // })
+          page.coverage.startJSCoverage({
+            resetOnNavigation: false,
+          }),
+          // CSS coverage disabled for now
+          // page.coverage.startCSSCoverage({
+          //     resetOnNavigation: false
+          // })
         ]);
-    }
+      }
 
-    await use();
+      await use();
 
-    if (medirCobertura) {
-        const [jsCoverage/*, cssCoverage*/] = await Promise.all([
-            page.coverage.stopJSCoverage(),
-            //page.coverage.stopCSSCoverage()
+      if (medirCobertura) {
+        const [jsCoverage /*, cssCoverage*/] = await Promise.all([
+          page.coverage.stopJSCoverage(),
+          //page.coverage.stopCSSCoverage()
         ]);
-        const coverageList = [... jsCoverage/*, ... cssCoverage*/];
+        const coverageList = [...jsCoverage /*, ... cssCoverage*/];
 
         const mcr = MCR(coverageOptions);
         await mcr.add(coverageList);
-    }
+      }
+    },
+    { auto: true },
+  ],
+  assembly: async ({ page, request }, use) => {
+    const assemblyDefinition = ASSEMBLY_DEFINITIONS.find(
+      (a) => a.name === process.env.ASSEMBLY_NAME
+    );
 
+    if (!assemblyDefinition)
+      throw new Error(
+        `Assembly not found. Available assemblies: ${ASSEMBLY_DEFINITIONS.map(
+          (a) => a.name
+        ).join(', ')}`
+      );
 
-  }, { auto: true }],
-  assembly: async({page, request}, use) => {
+    const adapters = assemblyDefinition.adaptersConstructors.map((c) =>
+      c(page)
+    );
 
-    let testAssembly = new TestAssembly([]);
+    let testAssembly = new TestAssembly(adapters);
 
-    if (process.env.API == 'mock') {
-      console.log("Using mocks for the API");
-      testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
-    } 
-
-    if (process.env.NoBrowser == 'true') {
-      testAssembly.agregarDriver('bienvenida', new BienvenidaHttpDriver(request));
-      testAssembly.agregarDriver('grupos', new GruposHttpDriver(request));
-
-    } else {
-      testAssembly.agregarDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
-      testAssembly.agregarDriver('grupos', new GruposPlaywrightDriver(page));
-    }
-
+    assemblyDefinition.drivers.forEach((d) => {
+      testAssembly.agregarDriver(d.name, d.constructor(request, page));
+    });
 
     use(testAssembly);
-  }
+  },
 });
+
+const ASSEMBLY_DEFINITIONS: {
+  name: string;
+  adaptersConstructors: ((page: Page) => any)[];
+  drivers: {
+    name: string;
+    constructor: (req: APIRequestContext, page: Page) => any;
+  }[];
+}[] = [
+  {
+    name: 'mock-api',
+    adaptersConstructors: [(page: Page) => new MockApiAdapter(page)],
+    drivers: [
+      {
+        name: 'bienvenida',
+        constructor: (_: APIRequestContext, page: Page) =>
+          new BienvenidaPlaywrightDriver(page),
+      },
+      {
+        name: 'grupos',
+        constructor: (_: APIRequestContext, page: Page) =>
+          new GruposPlaywrightDriver(page),
+      },
+    ],
+  },
+  {
+    name: 'e2e',
+    adaptersConstructors: [],
+    drivers: [
+      {
+        name: 'bienvenida',
+        constructor: (_: APIRequestContext, page: Page) =>
+          new BienvenidaPlaywrightDriver(page),
+      },
+      {
+        name: 'grupos',
+        constructor: (_: APIRequestContext, page: Page) =>
+          new GruposPlaywrightDriver(page),
+      },
+    ],
+  },
+  {
+    name: 'backend',
+    adaptersConstructors: [],
+    drivers: [
+      {
+        name: 'bienvenida',
+        constructor: (req: APIRequestContext, _: Page) =>
+          new BienvenidaHttpDriver(req),
+      },
+      {
+        name: 'grupos',
+        constructor: (req: APIRequestContext, _: Page) =>
+          new GruposHttpDriver(req),
+      },
+    ],
+  },
+] as const;

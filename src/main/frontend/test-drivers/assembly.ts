@@ -30,14 +30,17 @@ export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
           // una implementación para ese método, la invoca, pasandole los argumentos
           for (let i = 0; i < adapters.length; i++) {
             let adapter = adapters[i];
-            const prop = adapter?.[methodName as keyof typeof adapter];
-            if (typeof prop === 'function') {
-              await prop(...args);
+            const adapterMethod = adapter?.[methodName as keyof typeof adapter];
+            if (typeof adapterMethod === 'function') {
+              await adapterMethod(...args);
             }
           }
 
           // por ultimo invoca el mismo metodo sobre el driver
-          await driver[methodName as keyof typeof driver](...args);
+          const driverMethod = driver?.[methodName as keyof typeof driver];
+          if (typeof driverMethod === 'function') {
+            await driverMethod(...args);
+          }
         };
       },
     };

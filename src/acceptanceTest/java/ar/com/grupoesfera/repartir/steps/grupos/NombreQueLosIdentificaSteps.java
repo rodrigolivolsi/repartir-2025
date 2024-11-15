@@ -11,8 +11,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+
+import org.junit.jupiter.api.DisplayName;
+
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
+@DisplayName("Nombre que los identifica")
 public class NombreQueLosIdentificaSteps extends CucumberSteps {
 
     private String nombreIndicado;

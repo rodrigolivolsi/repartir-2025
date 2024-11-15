@@ -8,7 +8,7 @@ import { TestAssembly } from 'test-drivers/assembly';
 import { BienvenidaHttpDriver } from 'test-drivers/bienvenida-http-driver';
 import { GruposHttpDriver } from 'test-drivers/grupos-https-driver';
 
-export const test = base.extend<{ autoTestFixture: void, assemblyGrupos: TestAssembly, assemblyBienvenida: TestAssembly }>({
+export const test = base.extend<{ autoTestFixture: void, assembly: TestAssembly }>({
   autoTestFixture: [async ({ page }, use) => {
 
     const medirCobertura = process.env.CI && test.info().project.name === 'chromium';
@@ -41,12 +41,7 @@ export const test = base.extend<{ autoTestFixture: void, assemblyGrupos: TestAss
 
 
   }, { auto: true }],
-  assemblyGrupos: async({page, request}, use) => {
-
-    let driverPrincipal : any = new GruposPlaywrightDriver(page);
-    if (process.env.NoBrowser == 'true') {
-      driverPrincipal = new GruposHttpDriver(request);
-    }
+  assembly: async({page, request}, use) => {
 
     let testAssembly = new TestAssembly([]);
 
@@ -54,40 +49,13 @@ export const test = base.extend<{ autoTestFixture: void, assemblyGrupos: TestAss
       console.log("Using mocks for the API");
       testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
     } 
-
-    testAssembly.agregarDriverPrincipal('grupos', driverPrincipal);
 
     if (process.env.NoBrowser == 'true') {
       testAssembly.agregarDriver('bienvenida', new BienvenidaHttpDriver(request));
-
-    } else {
-      testAssembly.agregarDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
-    }
-
-
-    use(testAssembly);
-  },
-
-  assemblyBienvenida: async({page, request}, use) => {
-
-    let driverPrincipal : any = new BienvenidaPlaywrightDriver(page);
-    if (process.env.NoBrowser == 'true') {
-      driverPrincipal = new BienvenidaHttpDriver(request);
-    }
-
-    let testAssembly = new TestAssembly([]);
-
-    if (process.env.API == 'mock') {
-      console.log("Using mocks for the API");
-      testAssembly = new TestAssembly([new MockApiAdapter(page)]);  
-    } 
-
-    testAssembly.agregarDriverPrincipal('bienvenida', driverPrincipal);
-
-    if (process.env.NoBrowser == 'true') {
       testAssembly.agregarDriver('grupos', new GruposHttpDriver(request));
 
     } else {
+      testAssembly.agregarDriver('bienvenida', new BienvenidaPlaywrightDriver(page));
       testAssembly.agregarDriver('grupos', new GruposPlaywrightDriver(page));
     }
 

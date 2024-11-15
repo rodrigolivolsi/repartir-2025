@@ -13,9 +13,5 @@ como elegirla? Con tags, con un script
 poder ejecutar pruebas por modulos ("grupos", "bienvenida"). Ejecutar todos los assemblies o solo uno
 
 
-
-
-en lugar de hacer un if con la variable de ambiente, que tenga el nombre del assembly a instanciar
-
 (*1) El punta a punta se considera solo para la aplicación principal. Las dependencias externas están mockeadas y para la base de datos se está utilizando una versión en memoria.
 (*2) Estos adapters están presentes en la configuración de ejecución del backend. No existe una clase en código que los represente.

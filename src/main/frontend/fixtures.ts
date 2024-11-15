@@ -8,10 +8,15 @@ import { TestAssembly } from 'test-drivers/assembly';
 import { BienvenidaHttpDriver } from 'test-drivers/bienvenida-http-driver';
 import { GruposHttpDriver } from 'test-drivers/grupos-https-driver';
 import { APIRequestContext, Page } from 'playwright/test';
+import { GruposDriver } from 'test-drivers/grupos-driver';
+import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
 
 export const test = base.extend<{
   autoTestFixture: void;
-  assembly: TestAssembly;
+  assembly: TestAssembly<
+    Partial<GruposDriver & BienvenidaDriver>,
+    GruposDriver | BienvenidaDriver
+  >;
 }>({
   autoTestFixture: [
     async ({ page }, use) => {
@@ -72,14 +77,7 @@ export const test = base.extend<{
   },
 });
 
-const ASSEMBLY_DEFINITIONS: {
-  name: string;
-  adaptersConstructors: ((page: Page) => any)[];
-  drivers: {
-    name: string;
-    constructor: (req: APIRequestContext, page: Page) => any;
-  }[];
-}[] = [
+const ASSEMBLY_DEFINITIONS = [
   {
     name: 'mock-api',
     adaptersConstructors: [(page: Page) => new MockApiAdapter(page)],

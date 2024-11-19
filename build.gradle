@@ -31,6 +31,7 @@ testSets {
 	fastAcceptanceTest
 	acceptanceTest
 	manualTest
+	fastApiTest { dirName = "test" }
 }
 
 dependencies {
@@ -97,7 +98,6 @@ fastAcceptanceTest {
 	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 }
 
-
 dbTest {
 	useJUnitPlatform()
 	mustRunAfter fastAcceptanceTest
@@ -124,6 +124,12 @@ acceptanceTest {
 	mustRunAfter uiTest
 	systemProperties = System.properties
 	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
+}
+
+fastApiTest {
+	useJUnitPlatform() {
+		includeTags("api")
+	}
 }
 
 check {

@@ -19,7 +19,6 @@ cache:
     - cache/caches/
     - cache/notifications/
     - cache/wrapper/
-    - cache/build-cache/
 
 build:
   stage: build
@@ -125,6 +124,7 @@ acceptance-test-js:
     name: acceptance-test-js-coverage
     paths:
       - src/main/frontend/coverage-reports/
+      - build/reports/playwright-reports/
 
 package:
   stage: package
@@ -139,6 +139,20 @@ report-test-coverage:
     when: always
     paths:
       - build/reports/jacoco
+
+pages:
+  stage: deploy
+  before_script:
+    - apt-get update && apt-get -y install tree
+  script:
+    - mv build/reports public/
+    - mv src/main/frontend/coverage-reports public/
+    - tree ./public -HC '.' -T "REPORTES" -P "index.html|main.html|acceptance.html" --dirsfirst --prune --noreport --charset utf-8 > ./public/index.html
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
 
 static-source-code-analysis:
   stage: analyze

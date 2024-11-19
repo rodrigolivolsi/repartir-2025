@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("Estado Inicial")
 public class EstadoInicialSteps extends CucumberSteps {
 
     @Cuando("el usuario crea un grupo")

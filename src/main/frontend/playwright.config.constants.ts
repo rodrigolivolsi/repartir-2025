@@ -1,5 +1,5 @@
 import { defineBddConfig } from 'playwright-bdd';
-import { devices, ReporterDescription } from 'playwright/test';
+import { defineConfig, devices, ReporterDescription } from 'playwright/test';
 
 export const baseURL = 'http://localhost:4200';
 const gradlewPath = '../../../';

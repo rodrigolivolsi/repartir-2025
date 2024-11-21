@@ -52,21 +52,12 @@ dependencies {
 	// fastAcceptanceTestImplementation 'io.cucumber:cucumber-spring:6.10.4'
 	// fastAcceptanceTestImplementation 'org.flywaydb:flyway-core:7.11.3'
 
-	// dbTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	// dbTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	// dbTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	// dbTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	// dbTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 	// apiControllersTestImplementation 'io.rest-assured:rest-assured:4.4.0'
 	// apiControllersTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
 	// apiControllersTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
 	// apiControllersTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
-	// fastApiTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	// fastApiTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	// fastApiTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	// fastApiTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 	// apiExternaTestImplementation 'io.rest-assured:rest-assured:4.4.0'
 	// apiExternaTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
@@ -130,11 +121,7 @@ dependencies {
 // 	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
 // }
 
-// fastApiTest {
-// 	useJUnitPlatform() {
-// 		includeTags("api")
-// 	}
-// }
+
 
 
 
@@ -219,6 +206,21 @@ testing {
             }
         }
 
+		apiExternaTest(JvmTestSuite) { 
+            dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/java'] 
+                }
+				resources { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/resources'] 
+                }
+            }
+        }
+
 		applyApiControllersTestDependencies(apiTest)
 		applyProjectDependencies(apiTest)
 		applyDefaultTestDependencies(apiTest)
@@ -227,6 +229,10 @@ testing {
 		applyProjectDependencies(dbTest)
 		applyDefaultTestDependencies(dbTest)
 		applyDbTestDependencies(dbTest)
+
+		applyApiControllersTestDependencies(apiExternaTest)
+		applyProjectDependencies(apiExternaTest)
+		applyDefaultTestDependencies(apiExternaTest)
     }
 }
 

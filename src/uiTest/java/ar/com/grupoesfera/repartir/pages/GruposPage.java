@@ -4,6 +4,10 @@ import ar.com.grupoesfera.repartir.ui.UITest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class GruposPage extends UITest.PageObject {
@@ -48,14 +52,14 @@ public class GruposPage extends UITest.PageObject {
     }
 
     public String leerNotificacionExito() {
-        var wait = new WebDriverWait(this.driver(), 2);
+        var wait = new WebDriverWait(this.driver(), Duration.of(2, ChronoUnit.SECONDS));
         var mensajesToast = wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
         wait.until(textToBePresentInElement(mensajesToast, "Éxito"));
         return mensajesToast.getText();
     }
 
     public String leerNotificacionError() {
-        var wait = new WebDriverWait(this.driver(), 2);
+        var wait = new WebDriverWait(this.driver(), Duration.of(2, ChronoUnit.SECONDS));
         var mensajesToast = wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
         wait.until(textToBePresentInElement(mensajesToast, "Error"));
         return mensajesToast.getText();

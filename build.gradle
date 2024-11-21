@@ -59,10 +59,6 @@ dependencies {
 	// apiControllersTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 
-	// apiExternaTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	// apiExternaTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	// apiExternaTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	// apiExternaTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
 
 	// uiTestImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	// uiTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
@@ -158,6 +154,14 @@ testing {
             }
         }
 
+		def applyUITestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('org.seleniumhq.selenium:selenium-java:3.141.59')
+				implementation('io.github.bonigarcia:webdrivermanager:5.8.0')
+				implementation('org.apache.httpcomponents.client5:httpclient5:5.2.1')
+            }
+        }
+
 
 
         test { 
@@ -206,6 +210,18 @@ testing {
             }
         }
 
+		apiControllersTest(JvmTestSuite) { 
+            dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = ['src/integrationTest/apiControllersTest/java'] 
+                }
+            }
+        }
+
 		apiExternaTest(JvmTestSuite) { 
             dependencies {
                 implementation project() 
@@ -221,9 +237,30 @@ testing {
             }
         }
 
+		// uiTest(JvmTestSuite) {
+		// 	dependencies {
+        //         implementation project() 
+		// 		implementation sourceSets.dbTest.output
+		// 		implementation sourceSets.apiExternaTest.output
+		// 		implementation sourceSets.apiControllersTest.output
+        //     }
+
+		// 	targets { 
+        //         all {
+        //             testTask.configure {
+		// 				systemProperties = System.properties
+        //             }
+        //         }
+        //     }
+		// }
+
 		applyApiControllersTestDependencies(apiTest)
 		applyProjectDependencies(apiTest)
 		applyDefaultTestDependencies(apiTest)
+
+		applyApiControllersTestDependencies(apiControllersTest)
+		applyProjectDependencies(apiControllersTest)
+		applyDefaultTestDependencies(apiControllersTest)
 
 		applyApiControllersTestDependencies(dbTest)
 		applyProjectDependencies(dbTest)
@@ -233,6 +270,11 @@ testing {
 		applyApiControllersTestDependencies(apiExternaTest)
 		applyProjectDependencies(apiExternaTest)
 		applyDefaultTestDependencies(apiExternaTest)
+
+		// applyProjectDependencies(uiTest)
+		// applyDefaultTestDependencies(uiTest)
+		// applyApiControllersTestDependencies(uiTest)
+		// applyUITestDependencies(uiTest)
     }
 }
 
@@ -240,6 +282,8 @@ testing {
 
 tasks.named('check') { 
     dependsOn(testing.suites.apiTest)
+	dependsOn(testing.suites.apiControllersTest)
+	dependsOn(testing.suites.apiExternaTest)
 }
 
 

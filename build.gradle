@@ -124,22 +124,20 @@ dependencies {
 testing {
     suites { 
 
-		def applyProjectDependencies = { suite -> 
+		def applyCommonDependencies = { suite -> 
             suite.dependencies {
+				// project dependencies
                 implementation('org.springframework.boot:spring-boot-starter-web')
 				implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 				implementation('org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3')
 				implementation('org.springdoc:springdoc-openapi-ui:1.6.4')
-            }
-        }
 
-		def applyDefaultTestDependencies = { suite -> 
-            suite.dependencies {
+				// deafult test dependencies
                 implementation('org.springframework.boot:spring-boot-starter-test')
             }
         }
 
-		def applyApiControllersTestDependencies = { suite -> 
+		def applyControllersTestDependencies = { suite -> 
             suite.dependencies {
                 implementation('io.rest-assured:rest-assured:4.4.0')
 				implementation('net.javacrumbs.json-unit:json-unit:2.27.0')
@@ -263,10 +261,7 @@ testing {
 
 		acceptanceTest(JvmTestSuite) {
 			dependencies {
-                implementation project() 
-				implementation sourceSets.dbTest.output
-				implementation sourceSets.apiExternaTest.output
-				implementation sourceSets.apiControllersTest.output
+                implementation project()
             }
 
 			targets { 
@@ -279,31 +274,22 @@ testing {
             }
 		}
 
-		applyApiControllersTestDependencies(apiTest)
-		applyProjectDependencies(apiTest)
-		applyDefaultTestDependencies(apiTest)
+		applyCommonDependencies(apiTest)
+		applyControllersTestDependencies(apiTest)
 
-		applyApiControllersTestDependencies(apiControllersTest)
-		applyProjectDependencies(apiControllersTest)
-		applyDefaultTestDependencies(apiControllersTest)
+		applyCommonDependencies(apiControllersTest)
+		applyControllersTestDependencies(apiControllersTest)
 
-		applyApiControllersTestDependencies(dbTest)
-		applyProjectDependencies(dbTest)
-		applyDefaultTestDependencies(dbTest)
+		applyCommonDependencies(dbTest)
 		applyDbTestDependencies(dbTest)
 
-		applyApiControllersTestDependencies(apiExternaTest)
-		applyProjectDependencies(apiExternaTest)
-		applyDefaultTestDependencies(apiExternaTest)
+		applyCommonDependencies(apiExternaTest)
+		applyControllersTestDependencies(apiExternaTest)
 
-		applyProjectDependencies(uiTest)
-		applyDefaultTestDependencies(uiTest)
-		applyApiControllersTestDependencies(uiTest)
+		applyCommonDependencies(uiTest)
 		applyUITestDependencies(uiTest)
 
-		applyProjectDependencies(acceptanceTest)
-		applyDefaultTestDependencies(acceptanceTest)
-		applyApiControllersTestDependencies(acceptanceTest)
+		applyCommonDependencies(acceptanceTest)
 		applyUITestDependencies(acceptanceTest)
 		applyAcceptanceTestDependencies(acceptanceTest)
 		applyDbTestDependencies(acceptanceTest)
@@ -318,6 +304,7 @@ tasks.named('check') {
 	dependsOn(testing.suites.apiExternaTest)
 	dependsOn(testing.suites.dbTest)
 	dependsOn(testing.suites.uiTest)
+	dependsOn(testing.suites.acceptanceTest)
 }
 
 

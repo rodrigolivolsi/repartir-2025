@@ -162,6 +162,13 @@ testing {
             }
         }
 
+		def applyAcceptanceTestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('io.cucumber:cucumber-java:6.10.4')
+				implementation('io.cucumber:cucumber-junit-platform-engine:6.10.4')
+				implementation('io.cucumber:cucumber-spring:6.10.4')
+            }
+        }
 
 
         test { 
@@ -254,6 +261,24 @@ testing {
             }
 		}
 
+		acceptanceTest(JvmTestSuite) {
+			dependencies {
+                implementation project() 
+				implementation sourceSets.dbTest.output
+				implementation sourceSets.apiExternaTest.output
+				implementation sourceSets.apiControllersTest.output
+            }
+
+			targets { 
+                all {
+                    testTask.configure {
+						systemProperties = System.properties
+						systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
+                    }
+                }
+            }
+		}
+
 		applyApiControllersTestDependencies(apiTest)
 		applyProjectDependencies(apiTest)
 		applyDefaultTestDependencies(apiTest)
@@ -275,6 +300,13 @@ testing {
 		applyDefaultTestDependencies(uiTest)
 		applyApiControllersTestDependencies(uiTest)
 		applyUITestDependencies(uiTest)
+
+		applyProjectDependencies(acceptanceTest)
+		applyDefaultTestDependencies(acceptanceTest)
+		applyApiControllersTestDependencies(acceptanceTest)
+		applyUITestDependencies(acceptanceTest)
+		applyAcceptanceTestDependencies(acceptanceTest)
+		applyDbTestDependencies(acceptanceTest)
     }
 }
 
@@ -285,6 +317,7 @@ tasks.named('check') {
 	dependsOn(testing.suites.apiControllersTest)
 	dependsOn(testing.suites.apiExternaTest)
 	dependsOn(testing.suites.dbTest)
+	dependsOn(testing.suites.uiTest)
 }
 
 

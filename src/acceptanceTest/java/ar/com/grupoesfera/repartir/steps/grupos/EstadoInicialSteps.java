@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("Estado Inicial")
@@ -35,7 +38,7 @@ public class EstadoInicialSteps extends CucumberSteps {
 
         driver.findElement(By.id("guardarGrupoNuevoButton")).click();
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
     }
 

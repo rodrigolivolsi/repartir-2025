@@ -63,28 +63,6 @@ Then(
   }
 );
 
-Then(
-  "debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}",
-  async ({ page }, nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
-    const filaConGrupoId = page.locator(
-      `app-grupos table tr:has(td:nth-child(1):text("${contexto.grupoId}"))`
-    );
-    const nombre = filaConGrupoId.locator("td:nth-child(2)");
-    const monto = filaConGrupoId.locator("td:nth-child(3)");
-    const miembros = filaConGrupoId.locator("td:nth-child(4)");
-
-    await page.waitForSelector(
-      `#agregarGastoGruposButton-${contexto.grupoId}`,
-      { state: "attached", timeout: 5000 }
-    );
-
-    await expect(monto).toContainText(montoEsperado);
-    await expect(miembros).toContainText(miembroUno);
-    await expect(miembros).toContainText(miembroDos);
-    await expect(nombre).toContainText(nombreEsperado);
-  }
-);
-
 When(
   "el usuario intenta crear un grupo indicando un único miembro",
   async ({ page }) => {
@@ -99,36 +77,11 @@ When(
   }
 );
 
-Then(
-  "debería ser informado que necesita tener al menos dos miembros",
-  async ({ page }) => {
-    let mensajesToast = page.getByRole("alert");
-    await mensajesToast.waitFor({ state: "visible", timeout: 2000 });
-
-    await expect(mensajesToast).toContainText("Error");
-    await expect(mensajesToast).toContainText("No se puede guardar");
-  }
-);
-
 Then("no debería crear el grupo con un único miembro", async ({ page }) => {});
 
 Then(
   "debería visualizar dentro del listado el grupo con el nombre indicado",
   async ({ assembly }) => {
     await assembly.grupos.validarNombreDeGrupo();
-  }
-);
-
-Then(
-  "visualiza dentro del listado el grupo con los miembros indicados",
-  async ({ page }) => {
-    let nombreGrupo = "After Office";
-    let row = page.locator(
-      `app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`
-    );
-    let miembros = await row.locator("td:nth-child(4)");
-
-    await expect(miembros.nth(1)).toContainText(miembroUno);
-    await expect(miembros.nth(1)).toContainText(miembroDos);
   }
 );

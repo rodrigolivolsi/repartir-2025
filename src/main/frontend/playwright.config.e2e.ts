@@ -10,7 +10,7 @@ import {
 
 const testDir = defineBddConfig({
   features: '../../jsAdvancedAcceptanceTest/features/*',
-  steps: ['../../jsAdvancedAcceptanceTest/steps/*', './fixtures.ts'],
+  steps: ['../../jsAdvancedAcceptanceTest/steps/*', './advancedFixtures.ts'],
   featuresRoot: '../../jsAdvancedAcceptanceTest/',
 });
 

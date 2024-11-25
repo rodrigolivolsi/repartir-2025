@@ -1,10 +1,12 @@
 import { defineBddConfig } from 'playwright-bdd';
 import { devices, ReporterDescription } from 'playwright/test';
 
+
 export const baseURL = 'http://localhost:4200';
 const gradlewPath = '../../../';
-const gradlewCommand =
-  process.platform === 'win32' ? 'gradlew.bat bootRun' : './gradlew bootRun';
+const gradlewCommand = process.platform === 'win32'
+  ? 'gradlew.bat bootRun'
+  : './gradlew bootRun';
 
 export const frontend = {
   command: 'npm run start',
@@ -28,16 +30,14 @@ export const personas = {
   reuseExistingServer: !process.env.CI,
 };
 
+
 export const testDir = defineBddConfig({
   features: '../../jsAcceptanceTest/features/*',
   steps: ['../../jsAcceptanceTest/steps/*', './fixtures.ts'],
   featuresRoot: '../../jsAcceptanceTest/',
 });
 
-export default defineConfig({
-  testDir,
-  reporter: [
-    ['list'],
+export const reporter: ReporterDescription[] = [
     [
       'junit',
       {
@@ -45,12 +45,11 @@ export default defineConfig({
           '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
       },
     ],
-  ],
-});
+  ];
 
-export const projects = [
-  {
-    name: 'chromium',
-    use: { ...devices['Desktop Chrome'] },
-  },
-];
+  export const projects = [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ];

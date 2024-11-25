@@ -237,22 +237,22 @@ testing {
             }
         }
 
-		// uiTest(JvmTestSuite) {
-		// 	dependencies {
-        //         implementation project() 
-		// 		implementation sourceSets.dbTest.output
-		// 		implementation sourceSets.apiExternaTest.output
-		// 		implementation sourceSets.apiControllersTest.output
-        //     }
+		uiTest(JvmTestSuite) {
+			dependencies {
+                implementation project() 
+				implementation sourceSets.dbTest.output
+				implementation sourceSets.apiExternaTest.output
+				implementation sourceSets.apiControllersTest.output
+            }
 
-		// 	targets { 
-        //         all {
-        //             testTask.configure {
-		// 				systemProperties = System.properties
-        //             }
-        //         }
-        //     }
-		// }
+			targets { 
+                all {
+                    testTask.configure {
+						systemProperties = System.properties
+                    }
+                }
+            }
+		}
 
 		applyApiControllersTestDependencies(apiTest)
 		applyProjectDependencies(apiTest)
@@ -271,10 +271,10 @@ testing {
 		applyProjectDependencies(apiExternaTest)
 		applyDefaultTestDependencies(apiExternaTest)
 
-		// applyProjectDependencies(uiTest)
-		// applyDefaultTestDependencies(uiTest)
-		// applyApiControllersTestDependencies(uiTest)
-		// applyUITestDependencies(uiTest)
+		applyProjectDependencies(uiTest)
+		applyDefaultTestDependencies(uiTest)
+		applyApiControllersTestDependencies(uiTest)
+		applyUITestDependencies(uiTest)
     }
 }
 
@@ -284,6 +284,7 @@ tasks.named('check') {
     dependsOn(testing.suites.apiTest)
 	dependsOn(testing.suites.apiControllersTest)
 	dependsOn(testing.suites.apiExternaTest)
+	dependsOn(testing.suites.dbTest)
 }
 
 

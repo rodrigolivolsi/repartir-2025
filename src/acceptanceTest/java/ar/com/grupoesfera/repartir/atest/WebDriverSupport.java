@@ -30,6 +30,7 @@ public class WebDriverSupport {
 
         var options = new ChromeOptions();
         options.addArguments("start-maximized");
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments(environmentalOptions);
         driver = new ChromeDriver(options);
     }

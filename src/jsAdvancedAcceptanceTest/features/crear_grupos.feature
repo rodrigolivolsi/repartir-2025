@@ -12,7 +12,7 @@ Característica: Crear Grupo para repartir gastos
 
     Escenario: Crea un grupo con dos miembros
       Dado que el usuario inició Repartir
-      Cuando el usuario crea un grupo indicando que sus miembros son 'mariano' y 'juancruz'
+      Cuando el usuario crea un grupo indicando que sus miembros son 'mariano' y 'juan cruz'
       Entonces visualiza dentro del listado el grupo con los miembros indicados
 
     Escenario: No puedo crear un grupo con un único miembro
@@ -26,4 +26,4 @@ Característica: Crear Grupo para repartir gastos
     Escenario: El total inicial del grupo es $ 0
       Dado que el usuario inició Repartir
       Cuando el usuario crea un grupo
-      Entonces debería visualizar dentro del listado el grupo con total '$  0,00'
+      Entonces debería visualizar dentro del listado el grupo con total $ '0'

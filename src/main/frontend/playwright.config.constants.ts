@@ -1,5 +1,5 @@
 import { defineBddConfig } from 'playwright-bdd';
-import { defineConfig, devices, ReporterDescription } from 'playwright/test';
+import { devices, ReporterDescription } from 'playwright/test';
 
 export const baseURL = 'http://localhost:4200';
 const gradlewPath = '../../../';
@@ -27,26 +27,6 @@ export const personas = {
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };
-
-export const testDir = defineBddConfig({
-  features: '../../jsAcceptanceTest/features/*',
-  steps: ['../../jsAcceptanceTest/steps/*', './fixtures.ts'],
-  featuresRoot: '../../jsAcceptanceTest/',
-});
-
-export default defineConfig({
-  testDir,
-  reporter: [
-    ['list'],
-    [
-      'junit',
-      {
-        outputFile:
-          '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
-      },
-    ],
-  ],
-});
 
 export const projects = [
   {

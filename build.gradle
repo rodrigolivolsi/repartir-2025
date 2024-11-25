@@ -34,22 +34,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-
-
-	// manualTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	// manualTestImplementation 'org.testcontainers:junit-jupiter:1.20.2'
-	// manualTestRuntimeOnly 'org.testcontainers:mariadb:1.20.2'
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -285,11 +270,11 @@ pmd {
 	]
 }
 
-// task demo(type: org.springframework.boot.gradle.tasks.run.BootRun) {
-// 	systemProperty "spring.profiles.active", "manualTest"
-// 	classpath = sourceSets.manualTest.runtimeClasspath
-// 	main = "ar.com.grupoesfera.repartir.RepartirApplication"
-// }
+task demo(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+	systemProperty "spring.profiles.active", "manualTest"
+	classpath = sourceSets.dbTest.runtimeClasspath
+	main = "ar.com.grupoesfera.repartir.RepartirApplication"
+}
 
 // https://stackoverflow.com/a/36130467
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat

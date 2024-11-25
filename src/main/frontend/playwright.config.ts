@@ -1,4 +1,4 @@
-import { defineConfig, ReporterDescription } from '@playwright/test';
+import { defineConfig, devices, ReporterDescription } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 import {
   backend,
@@ -9,25 +9,26 @@ import {
 } from 'playwright.config.constants';
 
 const testDir = defineBddConfig({
-  features: '../../jsAdvancedAcceptanceTest/features/*',
-  steps: ['../../jsAdvancedAcceptanceTest/steps/*', './fixtures.ts'],
-  featuresRoot: '../../jsAdvancedAcceptanceTest/',
+  features: '../../jsAcceptanceTest/features/*',
+  steps: ['../../jsAcceptanceTest/steps/*', './fixtures.ts'],
+  featuresRoot: '../../jsAcceptanceTest/',
 });
 
 const reporter: ReporterDescription[] = [
+  ['list'],
   [
     'junit',
     {
       outputFile:
-        '../../../build/test-results/advancedAcceptanceTestJs/TEST-advancedAcceptanceTestJs.xml',
+        '../../../build/test-results/acceptanceTestJs/TEST-acceptanceTestJs.xml',
     },
   ],
 ];
 
 export default defineConfig({
   testDir,
-  reporter: reporter,
-  projects: projects,
+  reporter,
+  projects,
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

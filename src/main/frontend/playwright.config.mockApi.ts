@@ -1,6 +1,22 @@
-import { defineConfig } from '@playwright/test';
-import { baseURL, frontend, projects, reporter, testDir } from 'playwright.config.constants';
+import { defineConfig, ReporterDescription } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
+import { baseURL, frontend, projects } from 'playwright.config.constants';
 
+const testDir = defineBddConfig({
+  features: '../../jsAdvancedAcceptanceTest/features/*',
+  steps: ['../../jsAdvancedAcceptanceTest/steps/*', './fixtures.ts'],
+  featuresRoot: '../../jsAdvancedAcceptanceTest/',
+});
+
+const reporter: ReporterDescription[] = [
+  [
+    'junit',
+    {
+      outputFile:
+        '../../../build/test-results/advancedAcceptanceTestJs/TEST-advancedAcceptanceTestJs.xml',
+    },
+  ],
+];
 
 export default defineConfig({
   testDir,

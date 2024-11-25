@@ -1,6 +1,6 @@
 import { defineConfig, ReporterDescription } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
-import { backend, personas, projects } from 'playwright.config.constants';
+import { baseURL, frontend, projects } from 'playwright.config.constants';
 
 const testDir = defineBddConfig({
   features: '../../jsAdvancedAcceptanceTest/features/*',
@@ -20,14 +20,12 @@ const reporter: ReporterDescription[] = [
 
 export default defineConfig({
   testDir,
-  reporter,
-  projects,
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
+  reporter: reporter,
+  projects: projects,
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    baseURL: 'http://localhost:8080', // not using baseURL from playwright.config.constants.ts because its different
+    baseURL: baseURL,
   },
-  webServer: [backend, personas],
+  webServer: [frontend],
 });

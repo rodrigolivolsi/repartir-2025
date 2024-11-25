@@ -32,7 +32,7 @@ mostrarMensajeAyuda(){
   echo "./tests all (lo mismo que hacer './tests java all && ./tests js all'"
   echo ""
   echo "Para ejecutar una o un subconjunto de pruebas de aceptación:"
-  echo "./tests js acceptance --name 'Nombre del escenario a matchear'"
+  echo "./tests js acceptance -g 'Nombre del escenario a matchear'"
   echo "El 'Nombre del escenario a matchear' se comporta como una regular expression."
 }
 

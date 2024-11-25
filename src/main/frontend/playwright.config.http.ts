@@ -20,10 +20,8 @@ const reporter: ReporterDescription[] = [
 
 export default defineConfig({
   testDir,
-  reporter,
-  projects,
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
+  reporter: reporter,
+  projects: projects,
   use: {
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

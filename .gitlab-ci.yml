@@ -77,32 +77,32 @@ apiExterna-test:
       - build/jacoco
       - build/reports/tests/apiExternaTest
 
-# ui-test:
-#   stage: test
-#   script:
-#     - export CHROME_OPTIONS="--headless, --no-sandbox"
-#     - ./gradlew uiTest --info
-#   artifacts:
-#     when: always
-#     reports:
-#       junit: build/test-results/uiTest/**/TEST-*.xml
-#     paths:
-#       - build/jacoco
-#       - build/reports/tests/uiTest
+ui-test:
+  stage: test
+  script:
+    - export CHROME_OPTIONS="--headless, --no-sandbox"
+    - ./gradlew uiTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/uiTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/uiTest
 
-# acceptance-test:
-#   stage: test
-#   script:
-#     - export CHROME_OPTIONS='--headless, --no-sandbox'
-#     - ./gradlew acceptanceTest --info
-#   artifacts:
-#     when: always
-#     reports:
-#       junit: build/test-results/acceptanceTest/**/TEST-*.xml
-#     paths:
-#       - build/jacoco
-#       - build/reports/tests/acceptanceTest
-#       - build/reports/acceptance.html
+acceptance-test:
+  stage: test
+  script:
+    - export CHROME_OPTIONS='--headless, --no-sandbox'
+    - ./gradlew acceptanceTest --info
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTest/**/TEST-*.xml
+    paths:
+      - build/jacoco
+      - build/reports/tests/acceptanceTest
+      - build/reports/acceptance.html
 
 acceptance-test-js:
   stage: test

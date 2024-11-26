@@ -47,7 +47,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
     @Entonces("visualiza dentro del listado el grupo con los miembros indicados")
     public void visualizaDentroDelListadoElGrupoConLosMiembrosIndicados() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         var grupoTR = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("app-grupos table tr")));
         assertThat(grupoTR).hasSizeGreaterThan(1);

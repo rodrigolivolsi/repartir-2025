@@ -40,7 +40,7 @@ When(
       return gruposAhora > gruposAntesDeCrearUnoNuevo;
     }, gruposAntesDeCrearUnoNuevo);
 
-    let ultimaFila = page.locator("app-grupos table tr").last();
+    let ultimaFila = page.locator(`app-grupos table tr:has-text("${nombre}")`).last();
     let grupoId = await ultimaFila.locator("td:nth-child(1)").textContent();
 
     contexto.grupoId = grupoId;
@@ -141,7 +141,7 @@ Then(
   "debería visualizar dentro del listado el grupo {string} con total {string} y miembros {string} y {string}",
   async ({ page }, nombreEsperado, montoEsperado, miembroUno, miembroDos) => {
     const filaConGrupoId = page.locator(
-      `app-grupos table tr:has(td:nth-child(1):text("${contexto.grupoId}"))`
+      `app-grupos table tr:has(td:nth-child(1):text-is("${contexto.grupoId}"))`
     );
     const nombre = filaConGrupoId.locator("td:nth-child(2)");
     const monto = filaConGrupoId.locator("td:nth-child(3)");

@@ -36,9 +36,8 @@ export class GrupoNuevoComponent implements OnInit {
   }
 
   guardar(): void {
-
     this.grupoService.crear(this.nombre, this.miembros).subscribe(
-      grupo => this.guardadoExitoso(grupo),
+      respuesta => this.guardadoExitoso(respuesta.grupo),
       error => this.guardadoFallido(error)
     );
   }
@@ -49,7 +48,6 @@ export class GrupoNuevoComponent implements OnInit {
   }
 
   private guardadoExitoso(grupo: Grupo): void {
-
     this.messageService.add({
       severity: 'success',
       summary: 'Éxito',
@@ -61,11 +59,10 @@ export class GrupoNuevoComponent implements OnInit {
   }
 
   private guardadoFallido(error: any): void {
-
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: error.mensaje,
+      detail: error.mensaje.mensaje,
     });
   }
 }

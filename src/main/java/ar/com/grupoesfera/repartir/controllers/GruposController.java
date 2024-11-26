@@ -1,11 +1,14 @@
 package ar.com.grupoesfera.repartir.controllers;
 
+import ar.com.grupoesfera.repartir.dto.DetalleRespuesta;
 import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.repositories.GruposRepository;
 import ar.com.grupoesfera.repartir.exceptions.GrupoNoEncontradoException;
 import ar.com.grupoesfera.repartir.services.GruposService;
+
+import org.apache.catalina.filters.AddDefaultCharsetFilter.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/grupos")
@@ -38,7 +43,6 @@ public class GruposController {
             response = ResponseEntity.ok(grupos.listarGrupos());
 
         } catch (Exception e) {
-
             response = ResponseEntity.internalServerError().build();
         }
 
@@ -46,23 +50,15 @@ public class GruposController {
     }
 
     @PostMapping
-    public ResponseEntity<Grupo> crear(@RequestBody Grupo grupo) {
-        ResponseEntity<Grupo> response;
-
+    public ResponseEntity<DetalleRespuesta> crear(@RequestBody Grupo grupo) {
         try {
-
-            response = ResponseEntity.ok(grupos.crear(grupo));
-
+            Grupo creado = grupos.crear(grupo);
+            return ResponseEntity.ok(new DetalleRespuesta<>(creado, "Grupo creado exitosamente"));
         } catch (GrupoInvalidoException e) {
-
-            response = ResponseEntity.badRequest().build();
-
+            return ResponseEntity.badRequest().body(new DetalleRespuesta<>(null, "Grupo inválido"));
         } catch (Exception e) {
-
-            response = ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body(new DetalleRespuesta<>(null, "Ocurrió un error inesperado"));
         }
-
-        return response;
     }
 
     @GetMapping("/{id}")

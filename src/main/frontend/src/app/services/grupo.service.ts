@@ -21,14 +21,14 @@ export class GrupoService {
       .pipe(catchError(this.falloAlListar));
   }
 
-  crear(nombre: string, miembros: string[]): Observable<Grupo> {
+  crear(nombre: string, miembros: string[]): Observable<{ grupo: Grupo; mensaje: string } > {
 
     const nuevoGrupo: Grupo = {
       nombre,
       miembros
     };
 
-    return this.http.post<Grupo>('/api/grupos', nuevoGrupo)
+    return this.http.post<{ grupo: Grupo; mensaje: string }>('/api/grupos', nuevoGrupo)
       .pipe(catchError(this.falloAlGuardar));
   }
 
@@ -43,7 +43,7 @@ export class GrupoService {
   }
 
   falloAlGuardar(error: HttpErrorResponse) {
-    return throwError(new Excepcion("No se puede guardar"));
+    return throwError(new Excepcion(error.error));
   }
 
   falloAlListar(error: HttpErrorResponse) {

@@ -185,7 +185,7 @@ testing {
                 all {
                     testTask.configure {
 						systemProperties = System.properties
-						systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
+						systemProperty 'cucumber.filter.name', System.getProperty('cucumber.filter.name', '.*')
                     }
                 }
             }
@@ -200,7 +200,7 @@ testing {
                 all {
                     testTask.configure {
 						systemProperties = System.properties
-						systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
+						systemProperty 'cucumber.filter.name', System.getProperty('cucumber.filter.name', '.*')
                     }
                 }
             }

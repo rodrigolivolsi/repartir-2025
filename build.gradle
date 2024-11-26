@@ -104,14 +104,6 @@ testing {
                     srcDirs = ['src/integrationTest/dbTest/resources'] 
                 }
             }
-
-			targets {
-				all {
-					testTask.configure {
-						mustRunAfter test
-					}
-				}
-			}
 		}
 
 
@@ -135,7 +127,6 @@ testing {
 						useJUnitPlatform {
 							includeTags 'api'
 						}
-						mustRunAfter test
                     }
                 }
             }
@@ -151,14 +142,6 @@ testing {
                     srcDirs = ['src/integrationTest/apiControllersTest/java'] 
                 }
             }
-
-			targets {
-				all {
-					testTask.configure {
-						mustRunAfter dbTest
-					}
-				}
-			}
         }
 
 		apiExternaTest(JvmTestSuite) { 
@@ -174,14 +157,6 @@ testing {
                     srcDirs = ['src/integrationTest/apiExternaTest/resources'] 
                 }
             }
-
-			targets {
-				all {
-					testTask.configure {
-						mustRunAfter apiControllersTest
-					}
-				}
-			}
         }
 
 		uiTest(JvmTestSuite) {
@@ -196,7 +171,6 @@ testing {
                 all {
                     testTask.configure {
 						systemProperties = System.properties
-						mustRunAfter apiExternaTest
                     }
                 }
             }
@@ -212,7 +186,6 @@ testing {
                     testTask.configure {
 						systemProperties = System.properties
 						systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
-						mustRunAfter uiTest
                     }
                 }
             }
@@ -226,7 +199,6 @@ testing {
 			targets { 
                 all {
                     testTask.configure {
-						mustRunAfter acceptanceTest
 						systemProperties = System.properties
 						systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
                     }

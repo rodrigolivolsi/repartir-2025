@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static org.assertj.core.api.Assertions.*;
@@ -26,7 +28,7 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
 
     @Step("se muestra {int}° el grupo {string} con total {string}")
     public void seMuestraElNuevoGrupo(int posicion, String nombre, String total) {
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mensajesToast")));
 

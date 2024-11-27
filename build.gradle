@@ -1,11 +1,11 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.2'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'org.unbroken-dome.test-sets' version '4.0.0'
-	id "org.flywaydb.flyway" version '7.11.3'
+	id 'org.springframework.boot' version '2.7.18'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "org.flywaydb.flyway" version '8.5.13'
 	id 'jacoco'
 	id 'pmd'
+	id 'jvm-test-suite'
 }
 
 jar {
@@ -22,123 +22,225 @@ repositories {
 	mavenCentral()
 }
 
-testSets {
-	fastAcceptanceTest
-	dbTest { dirName = "integrationTest/dbTest" }
-	apiControllersTest { dirName = "integrationTest/apiControllersTest" }
-	apiExternaTest { dirName = "integrationTest/apiExternaTest" }
-	uiTest
-	fastAcceptanceTest
-	acceptanceTest
-	manualTest
-	fastApiTest { dirName = "test" }
-}
 
 dependencies {
 	runtimeOnly 'com.h2database:h2'
 	
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.6'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.4'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	fastAcceptanceTestImplementation 'io.cucumber:cucumber-java:6.10.4'
-	fastAcceptanceTestImplementation 'io.cucumber:cucumber-junit-platform-engine:6.10.4'
-	fastAcceptanceTestImplementation 'io.cucumber:cucumber-spring:6.10.4'
-	fastAcceptanceTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-
-	dbTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	dbTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	dbTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	dbTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	dbTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
-
-	apiControllersTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	apiControllersTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	apiControllersTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	apiControllersTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
-
-	apiExternaTestImplementation 'io.rest-assured:rest-assured:4.4.0'
-	apiExternaTestImplementation 'net.javacrumbs.json-unit:json-unit:2.27.0'
-	apiExternaTestImplementation "org.testcontainers:junit-jupiter:1.20.2"
-	apiExternaTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
-
-	uiTestImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-	uiTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
-	uiTestImplementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
-	uiTestImplementation sourceSets.dbTest.output
-	uiTestImplementation sourceSets.apiControllersTest.output
-	uiTestImplementation sourceSets.apiExternaTest.output
-
-	acceptanceTestImplementation 'io.cucumber:cucumber-java:6.10.4'
-	acceptanceTestImplementation 'io.cucumber:cucumber-junit-platform-engine:6.10.4'
-	acceptanceTestImplementation 'io.cucumber:cucumber-spring:6.10.4'
-	acceptanceTestImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-	acceptanceTestImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
-	acceptanceTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	acceptanceTestImplementation 'org.testcontainers:junit-jupiter:1.20.2'
-	acceptanceTestImplementation'org.apache.httpcomponents.client5:httpclient5:5.2.1'
-	acceptanceTestRuntimeOnly 'org.testcontainers:mariadb:1.15.2'
-
-	manualTestImplementation 'org.flywaydb:flyway-core:7.11.3'
-	manualTestImplementation 'org.testcontainers:junit-jupiter:1.20.2'
-	manualTestRuntimeOnly 'org.testcontainers:mariadb:1.20.2'
 }
 
-test {
-	useJUnitPlatform()
+
+
+testing {
+    suites { 
+
+		def applyCommonDependencies = { suite -> 
+            suite.dependencies {
+				// project dependencies
+                implementation('org.springframework.boot:spring-boot-starter-web')
+				implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+				implementation('org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3')
+				implementation('org.springdoc:springdoc-openapi-ui:1.6.4')
+
+				// deafult test dependencies
+                implementation('org.springframework.boot:spring-boot-starter-test')
+            }
+        }
+
+		def applyControllersTestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('io.rest-assured:rest-assured:4.4.0')
+				implementation('net.javacrumbs.json-unit:json-unit:2.27.0')
+				implementation('org.testcontainers:junit-jupiter:1.20.2')
+            }
+        }
+
+		def applyDbTestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('org.flywaydb:flyway-core:8.2.0')
+				implementation('org.testcontainers:mariadb:1.16.2')
+            }
+        }
+
+		def applyUITestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('org.seleniumhq.selenium:selenium-java:3.141.59')
+				implementation('io.github.bonigarcia:webdrivermanager:5.8.0')
+				implementation('org.apache.httpcomponents.client5:httpclient5:5.2.1')
+            }
+        }
+
+		def applyAcceptanceTestDependencies = { suite -> 
+            suite.dependencies {
+                implementation('io.cucumber:cucumber-java:6.10.4')
+				implementation('io.cucumber:cucumber-junit-platform-engine:6.10.4')
+				implementation('io.cucumber:cucumber-spring:6.10.4')
+            }
+        }
+
+
+        test { 
+            useJUnitJupiter() 
+        }
+
+
+		dbTest(JvmTestSuite) {
+			dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = ['src/integrationTest/dbTest/java'] 
+                }
+				resources { 
+                    srcDirs = ['src/integrationTest/dbTest/resources'] 
+                }
+            }
+		}
+
+
+        apiTest(JvmTestSuite) { 
+            dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = [
+						'src/test/java', 
+						'src/integrationTest/apiControllersTest/java'
+					] 
+                }
+            }
+
+            targets { 
+                all {
+                    testTask.configure {
+						useJUnitPlatform {
+							includeTags 'api'
+						}
+                    }
+                }
+            }
+        }
+
+		apiControllersTest(JvmTestSuite) { 
+            dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = ['src/integrationTest/apiControllersTest/java'] 
+                }
+            }
+        }
+
+		apiExternaTest(JvmTestSuite) { 
+            dependencies {
+                implementation project() 
+            }
+
+			sources { 
+                java { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/java'] 
+                }
+				resources { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/resources'] 
+                }
+            }
+        }
+
+		uiTest(JvmTestSuite) {
+			dependencies {
+                implementation project() 
+				implementation sourceSets.dbTest.output
+				implementation sourceSets.apiExternaTest.output
+				implementation sourceSets.apiControllersTest.output
+            }
+
+			targets { 
+                all {
+                    testTask.configure {
+						systemProperties = System.properties
+                    }
+                }
+            }
+		}
+
+		acceptanceTest(JvmTestSuite) {
+			dependencies {
+                implementation project()
+            }
+
+			targets { 
+                all {
+                    testTask.configure {
+						systemProperties = System.properties
+						systemProperty 'cucumber.filter.name', System.getProperty('cucumber.filter.name', '.*')
+                    }
+                }
+            }
+		}
+
+		fastAcceptanceTest(JvmTestSuite) {
+			dependencies {
+                implementation project()
+            }
+
+			targets { 
+                all {
+                    testTask.configure {
+						systemProperties = System.properties
+						systemProperty 'cucumber.filter.name', System.getProperty('cucumber.filter.name', '.*')
+                    }
+                }
+            }
+		}
+
+		applyCommonDependencies(apiTest)
+		applyControllersTestDependencies(apiTest)
+
+		applyCommonDependencies(apiControllersTest)
+		applyControllersTestDependencies(apiControllersTest)
+
+		applyCommonDependencies(dbTest)
+		applyDbTestDependencies(dbTest)
+
+		applyCommonDependencies(apiExternaTest)
+		applyControllersTestDependencies(apiExternaTest)
+
+		applyCommonDependencies(uiTest)
+		applyUITestDependencies(uiTest)
+
+		applyCommonDependencies(acceptanceTest)
+		applyUITestDependencies(acceptanceTest)
+		applyAcceptanceTestDependencies(acceptanceTest)
+		applyDbTestDependencies(acceptanceTest)
+
+		applyCommonDependencies(fastAcceptanceTest)
+		applyAcceptanceTestDependencies(fastAcceptanceTest)
+    }
 }
 
-fastAcceptanceTest {
-	useJUnitPlatform()
-	mustRunAfter test
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
-}
 
-dbTest {
-	useJUnitPlatform()
-	mustRunAfter fastAcceptanceTest
-}
 
-apiControllersTest {
-	useJUnitPlatform()
-	mustRunAfter fastAcceptanceTest
-}
-
-apiExternaTest {
-	useJUnitPlatform()
-	mustRunAfter fastAcceptanceTest
-}
-
-uiTest {
-	useJUnitPlatform()
-	mustRunAfter dbTest, apiExternaTest, apiControllersTest
-	systemProperties = System.properties
-}
-
-acceptanceTest {
-	useJUnitPlatform()
-	mustRunAfter uiTest
-	systemProperties = System.properties
-	systemProperty "cucumber.filter.name", System.getProperty("cucumber.filter.name", ".*")
-}
-
-fastApiTest {
-	useJUnitPlatform() {
-		includeTags("api")
-	}
-}
-
-check {
-	dependsOn fastAcceptanceTest
-	dependsOn dbTest
-	dependsOn apiControllersTest
-	dependsOn apiExternaTest
-	dependsOn uiTest
-	dependsOn acceptanceTest
+tasks.named('check') { 
+    dependsOn(testing.suites.apiTest)
+	dependsOn(testing.suites.apiControllersTest)
+	dependsOn(testing.suites.apiExternaTest)
+	dependsOn(testing.suites.dbTest)
+	dependsOn(testing.suites.uiTest)
+	dependsOn(testing.suites.acceptanceTest)
+	dependsOn(testing.suites.fastAcceptanceTest)
 }
 
 flyway {
@@ -170,7 +272,7 @@ pmd {
 
 task demo(type: org.springframework.boot.gradle.tasks.run.BootRun) {
 	systemProperty "spring.profiles.active", "manualTest"
-	classpath = sourceSets.manualTest.runtimeClasspath
+	classpath = sourceSets.dbTest.runtimeClasspath
 	main = "ar.com.grupoesfera.repartir.RepartirApplication"
 }
 

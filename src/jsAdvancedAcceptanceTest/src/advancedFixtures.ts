@@ -1,15 +1,18 @@
-import { test as base } from 'playwright-bdd';
-import MCR from 'monocart-coverage-reports';
-import coverageOptions from './mcr.config';
-import { BienvenidaPlaywrightDriver } from 'test-drivers/bienvenida-playwright-driver';
-import { MockApiAdapter } from 'test-drivers/mockApi-adapter';
-import { GruposPlaywrightDriver } from 'test-drivers/grupos-playwright-driver';
-import { TestAssembly } from 'test-drivers/assembly';
-import { BienvenidaHttpDriver } from 'test-drivers/bienvenida-http-driver';
-import { GruposHttpDriver } from 'test-drivers/grupos-https-driver';
-import { APIRequestContext, Page } from 'playwright/test';
-import { GruposDriver } from 'test-drivers/grupos-driver';
-import { BienvenidaDriver } from 'test-drivers/bienvenida-driver';
+import { test as base } from "../../main/frontend/node_modules/playwright-bdd";
+import MCR from "../../main/frontend/node_modules/monocart-coverage-reports";
+import coverageOptions from "./mcr.config";
+import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
+import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
+import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver";
+import { TestAssembly } from "./test-drivers/assembly";
+import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
+import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
+import {
+  APIRequestContext,
+  Page,
+} from "../../main/frontend/node_modules/playwright/test";
+import { GruposDriver } from "./test-drivers/grupos-driver";
+import { BienvenidaDriver } from "./test-drivers/bienvenida-driver";
 
 export const test = base.extend<{
   autoTestFixture: void;
@@ -21,7 +24,7 @@ export const test = base.extend<{
   autoTestFixture: [
     async ({ page }, use) => {
       const medirCobertura =
-        process.env.CI && test.info().project.name === 'chromium';
+        process.env.CI && test.info().project.name === "chromium";
 
       // coverage API is chromium only
       if (medirCobertura) {
@@ -60,7 +63,7 @@ export const test = base.extend<{
       throw new Error(
         `Assembly not found. Available assemblies: ${ASSEMBLY_DEFINITIONS.map(
           (a) => a.name
-        ).join(', ')}`
+        ).join(", ")}`
       );
 
     const adapters = assemblyDefinition.adaptersConstructors.map((c) =>
@@ -79,48 +82,48 @@ export const test = base.extend<{
 
 const ASSEMBLY_DEFINITIONS = [
   {
-    name: 'mock-api',
+    name: "mock-api",
     adaptersConstructors: [(page: Page) => new MockApiAdapter(page)],
     drivers: [
       {
-        name: 'bienvenida',
+        name: "bienvenida",
         constructor: (_: APIRequestContext, page: Page) =>
           new BienvenidaPlaywrightDriver(page),
       },
       {
-        name: 'grupos',
+        name: "grupos",
         constructor: (_: APIRequestContext, page: Page) =>
           new GruposPlaywrightDriver(page),
       },
     ],
   },
   {
-    name: 'e2e',
+    name: "e2e",
     adaptersConstructors: [],
     drivers: [
       {
-        name: 'bienvenida',
+        name: "bienvenida",
         constructor: (_: APIRequestContext, page: Page) =>
           new BienvenidaPlaywrightDriver(page),
       },
       {
-        name: 'grupos',
+        name: "grupos",
         constructor: (_: APIRequestContext, page: Page) =>
           new GruposPlaywrightDriver(page),
       },
     ],
   },
   {
-    name: 'backend',
+    name: "backend",
     adaptersConstructors: [],
     drivers: [
       {
-        name: 'bienvenida',
+        name: "bienvenida",
         constructor: (req: APIRequestContext, _: Page) =>
           new BienvenidaHttpDriver(req),
       },
       {
-        name: 'grupos',
+        name: "grupos",
         constructor: (req: APIRequestContext, _: Page) =>
           new GruposHttpDriver(req),
       },

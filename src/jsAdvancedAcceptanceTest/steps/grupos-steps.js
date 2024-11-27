@@ -2,7 +2,7 @@ const {
   createBdd,
 } = require("../../main/frontend/node_modules/playwright-bdd");
 
-const { test } = require("../../main/frontend/advancedFixtures");
+const { test } = require("../src/advancedFixtures");
 const { Given, When, Then } = createBdd(test);
 
 Given("que el usuario inició Repartir", async ({ assembly }) => {

@@ -19,8 +19,8 @@ cache:
       files:
         - src/main/frontend/package-lock.json
       prefix: $CI_COMMIT_REF_SLUG
-      paths:
-        - src/main/frontend/node_modules
+    paths:
+      - src/main/frontend/node_modules
   - key: default-$CI_COMMIT_REF_SLUG
     paths:
       - cache/caches/

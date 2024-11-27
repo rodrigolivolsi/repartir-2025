@@ -71,7 +71,7 @@ When(
     miembroUno = miembro1;
     miembroDos = miembro2;
 
-    await crearGrupoConMiembros(page, "After Office", [miembro1, miembro2]);
+    await crearGrupoConMiembros(page, "Futbol del jueves", [miembro1, miembro2]);
   }
 );
 
@@ -151,14 +151,18 @@ Then(
 Then(
   "visualiza dentro del listado el grupo con los miembros indicados",
   async ({ page }) => {
-    let nombreGrupo = "After Office";
-    let row = page.locator(
-      `app-grupos table tr:has(td:nth-child(2):text("${nombreGrupo}"))`
+    const filaConGrupoId = page.locator(
+      `app-grupos table tr:has(td:nth-child(1):text-is("${contexto.grupoId}"))`
     );
-    let miembros = await row.locator("td:nth-child(4)");
+    const miembros = filaConGrupoId.locator("td:nth-child(4)");
 
-    await expect(miembros.nth(1)).toContainText(miembroUno);
-    await expect(miembros.nth(1)).toContainText(miembroDos);
+    await page.waitForSelector(
+      `#agregarGastoGruposButton-${contexto.grupoId}`,
+      { state: "attached", timeout: 5000 }
+    );
+
+    await expect(miembros).toContainText(miembroUno);
+    await expect(miembros).toContainText(miembroDos);
   }
 );
 

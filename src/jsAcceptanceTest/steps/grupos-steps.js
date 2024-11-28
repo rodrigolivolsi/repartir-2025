@@ -166,7 +166,7 @@ Then(
     await mensajesToast.waitFor({ state: "visible", timeout: 2000 });
 
     await expect(mensajesToast).toContainText("Error");
-    await expect(mensajesToast).toContainText("No se puede guardar");
+    await expect(mensajesToast).toContainText("Grupo inválido");
   }
 );
 

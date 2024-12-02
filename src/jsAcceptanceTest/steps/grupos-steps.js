@@ -22,11 +22,11 @@ When(
   "el usuario crea un grupo indicando el nombre {string} con miembros {string} y {string}",
   async ({ page }, nombre, miembro1, miembro2) => {
     
-    await crearGrupoConMiembros(page, nombre, [miembro1, miembro2]);
+    await crearGrupoYGuardarId(page, nombre, [miembro1, miembro2]);
   }
 );
 
-async function crearGrupoConMiembros(page, nombre, miembros) {
+async function crearGrupoYGuardarId(page, nombre, miembros) {
 
   const gruposAntesDeCrearUnoNuevo = await page
       .locator("app-grupos table tr")
@@ -34,15 +34,7 @@ async function crearGrupoConMiembros(page, nombre, miembros) {
 
     nombreIndicado = nombre;
 
-    await page.locator("#crearGruposButton").click();
-    await page.locator("#nombreGrupoNuevoInput").fill(nombre);
-
-    for(let i = 0; i < miembros.length; i++) {
-      await page.locator("#miembrosGrupoNuevoInput").fill(miembros[i]);
-      await page.keyboard.press("Enter");
-    }
-
-    await page.locator("#guardarGrupoNuevoButton").click();
+    await crearGrupoConMiembros(page, nombre, miembros);
 
     await page.waitForFunction((gruposAntesDeCrearUnoNuevo) => {
       const gruposAhora = document.querySelectorAll(
@@ -57,11 +49,25 @@ async function crearGrupoConMiembros(page, nombre, miembros) {
     contexto.grupoId = grupoId;
 }
 
+
+async function crearGrupoConMiembros(page, nombre, miembros) {
+  
+    await page.locator("#crearGruposButton").click();
+    await page.locator("#nombreGrupoNuevoInput").fill(nombre);
+
+    for(let i = 0; i < miembros.length; i++) {
+      await page.locator("#miembrosGrupoNuevoInput").fill(miembros[i]);
+      await page.keyboard.press("Enter");
+    }
+
+    await page.locator("#guardarGrupoNuevoButton").click();
+}
+
 When(
   "el usuario crea un grupo indicando el nombre {string}",
   async ({ page }, nombre) => {
     
-    await crearGrupoConMiembros(page, nombre, ["Victor", "Brenda"]);
+    await crearGrupoYGuardarId(page, nombre, ["Victor", "Brenda"]);
   }
 );
 
@@ -71,13 +77,13 @@ When(
     miembroUno = miembro1;
     miembroDos = miembro2;
 
-    await crearGrupoConMiembros(page, "Futbol del jueves", [miembro1, miembro2]);
+    await crearGrupoYGuardarId(page, "Futbol del jueves", [miembro1, miembro2]);
   }
 );
 
 When("el usuario crea un grupo", async ({ page }) => {
 
-  await crearGrupoConMiembros(page, "Grupo de 4", ["Guido", "Laura", "Mariano", "Juan Cruz"]);
+  await crearGrupoYGuardarId(page, "Grupo de 4", ["Guido", "Laura", "Mariano", "Juan Cruz"]);
 
 });
 

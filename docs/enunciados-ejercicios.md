@@ -18,7 +18,9 @@ Se desea que al crear un grupo todos los miembros tengan nombres únicos para ev
 Los miembros duplicados pueden aparecer en cualquier orden. Por ejemplo:
 
 juan, juan --> ERROR
+
 juan P, juan ---> ok
+
 juan, paco, juan --> ERROR
 
 Agregar las pruebas necesarias para verificar que se cumpla esta regla y luego implemementar la solución.

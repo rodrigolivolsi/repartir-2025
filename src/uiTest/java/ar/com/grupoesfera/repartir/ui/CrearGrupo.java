@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 public class CrearGrupo extends UITest {
@@ -59,7 +61,7 @@ public class CrearGrupo extends UITest {
 
         var notificacion = gruposPage.leerNotificacionError();
         assertThat(notificacion)
-                .contains("Error", "No se puede guardar");
+                .contains("Error", "Grupo inválido");
 
         comprobarQueSeRecibieronLosDatosDelGrupo("Cena", "luis");
     }

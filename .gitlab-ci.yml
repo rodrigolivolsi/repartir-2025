@@ -15,18 +15,20 @@ stages:
 before_script:
   - export GRADLE_USER_HOME=cache/
 
-cache:
+cache: &cache_global
   - key:
       files:
         - src/main/frontend/package-lock.json
       prefix: $CI_COMMIT_REF_SLUG
     paths:
       - src/main/frontend/node_modules
+    policy: pull-push
   - key: default-$CI_COMMIT_REF_SLUG
     paths:
       - cache/caches/
       - cache/notifications/
       - cache/wrapper/
+    policy: pull-push
 
 build:
   stage: build

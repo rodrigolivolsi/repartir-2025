@@ -38,9 +38,6 @@ build:
     when: on_success
     paths:
       - build/classes
-  cache:
-    <<: *cache_global
-    policy: push
 
 unit-test:
   stage: test

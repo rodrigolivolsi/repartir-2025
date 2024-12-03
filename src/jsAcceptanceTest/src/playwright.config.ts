@@ -8,9 +8,9 @@ import { devices } from "../../main/frontend/node_modules/playwright/test";
 const baseURL = "http://localhost:4200";
 
 const testDir = defineBddConfig({
-  features: "../../jsAcceptanceTest/features/*",
-  steps: ["../../jsAcceptanceTest/steps/*", "./fixtures.ts"],
-  featuresRoot: "../../jsAcceptanceTest/",
+  features: "./features/*",
+  steps: ["./steps/*", "./fixtures.ts"],
+  featuresRoot: "./",
 });
 
 const reporter: ReporterDescription[] = [
@@ -58,6 +58,7 @@ export default defineConfig({
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
     },
+    // PERSONAS
     {
       command: "npm run wiremock -- --port 8081",
       url: "http://localhost:8081",

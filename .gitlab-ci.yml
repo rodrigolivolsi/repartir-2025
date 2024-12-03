@@ -36,6 +36,9 @@ build:
   stage: build
   script:
     - ./gradlew --build-cache assemble --info
+  cache:
+    - <<: *cache_gradle
+      policy: pull-push
   artifacts:
     when: on_success
     paths:

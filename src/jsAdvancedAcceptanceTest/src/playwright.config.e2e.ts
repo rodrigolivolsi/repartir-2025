@@ -12,7 +12,7 @@ import {
 export default defineConfig({
   testDir,
   reporter,
-  projects: projects,
+  projects,
   use: {
     screenshot: "only-on-failure",
     trace: "retain-on-failure",

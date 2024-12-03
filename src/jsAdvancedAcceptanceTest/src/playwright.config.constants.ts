@@ -5,13 +5,16 @@ import {
 } from "../../main/frontend/node_modules/playwright/test";
 
 export const baseURL = "http://localhost:4200";
+const frontendPath = "../../../src/main/frontend";
+const frontendCommand = "npm run start";
 const gradlewPath = "../../../";
 const gradlewCommand =
   process.platform === "win32" ? "gradlew.bat bootRun" : "./gradlew bootRun";
 
 export const frontend = {
-  command: "npm run start",
+  command: frontendCommand,
   url: baseURL,
+  cwd: frontendPath,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };

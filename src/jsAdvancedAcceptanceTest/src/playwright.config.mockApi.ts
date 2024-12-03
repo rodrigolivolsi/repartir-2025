@@ -1,7 +1,4 @@
-import {
-  defineConfig,
-  ReporterDescription,
-} from "../../main/frontend/node_modules/@playwright/test";
+import { defineConfig } from "../../main/frontend/node_modules/@playwright/test";
 import {
   baseURL,
   frontend,
@@ -13,7 +10,7 @@ import {
 export default defineConfig({
   testDir,
   reporter,
-  projects: projects,
+  projects,
   use: {
     screenshot: "only-on-failure",
     trace: "retain-on-failure",

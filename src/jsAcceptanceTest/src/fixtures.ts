@@ -1,12 +1,12 @@
-import { test as base } from 'playwright-bdd';
-import MCR from 'monocart-coverage-reports';
-import coverageOptions from './mcr.config';
+import MCR from "../../main/frontend/node_modules/monocart-coverage-reports";
+import { test as base } from "../../main/frontend/node_modules/playwright-bdd";
+import coverageOptions from "./mcr.config";
 
 export const test = base.extend<{ autoTestFixture: void }>({
   autoTestFixture: [
     async ({ page }, use) => {
       const medirCobertura =
-        process.env.CI && test.info().project.name === 'chromium';
+        process.env.CI && test.info().project.name === "chromium";
 
       // coverage API is chromium only
       if (medirCobertura) {

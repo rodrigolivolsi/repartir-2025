@@ -30,6 +30,7 @@ export const backend = {
 export const personas = {
   command: "npm run wiremock -- --port 8081",
   url: "http://localhost:8081",
+  cwd: frontendPath,
   timeout: 120 * 1000,
   reuseExistingServer: !process.env.CI,
 };

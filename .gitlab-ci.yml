@@ -138,6 +138,8 @@ acceptance-test-js:
     - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests\r\e[0KJS acceptance tests"
     - npm run acceptance-test --prefix=src/main/frontend
     - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests\r\e[0K"
+  cache:
+    - <<: *cache_node_modules
   artifacts:
     when: always
     reports:

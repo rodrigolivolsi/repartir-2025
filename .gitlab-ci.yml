@@ -1,24 +1,88 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
+
 stages:
+  - build
   - test
+
+before_script:
+  - export GRADLE_USER_HOME=cache/
+
+.cache_node_modules: &cache_node_modules
+  key:
+    files:
+      - src/main/frontend/package-lock.json
+    prefix: $CI_COMMIT_REF_SLUG
+  paths:
+    - src/main/frontend/node_modules
+  policy: pull
+
+.cache_gradle: &cache_gradle
+  key: default-$CI_COMMIT_REF_SLUG
+  paths:
+    - cache/caches/
+    - cache/notifications/
+    - cache/wrapper/
+  policy: pull
+
+build:
+  stage: build
+  script:
+    - ./gradlew --build-cache assemble --info
+  cache:
+    - <<: *cache_gradle
+      policy: pull-push
+  artifacts:
+    when: on_success
+    paths:
+      - build/classes
+
+instalar dependencias:
+  stage: build
+  script:
+    - npm ci --prefix src/main/frontend
+  cache:
+    - <<: *cache_node_modules
+      policy: pull-push
 
 acceptance-test-js:
   stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
     - npm run acceptance-test --prefix=src/main/frontend
+  cache:
+    - <<: *cache_node_modules
 
 acceptance-test-js:e2e:
   stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
     - npm run acceptance-test:e2e --prefix=src/main/frontend
+  cache:
+    - <<: *cache_node_modules
 
 acceptance-test-js:mock-api:
   stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
     - npm run acceptance-test:mock-api --prefix=src/main/frontend
+  cache:
+    - <<: *cache_node_modules
 
 acceptance-test-js:backend:
   stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
     - npm run acceptance-test:backend --prefix=src/main/frontend
+  cache:
+    - <<: *cache_node_modules

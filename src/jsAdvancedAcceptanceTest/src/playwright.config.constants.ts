@@ -44,7 +44,7 @@ export const projects = [
 
 export const testDir = defineBddConfig({
   features: "../features/*",
-  steps: ["../steps/*", "./advancedFixtures.ts"],
+  steps: ["../steps/*", "./fixtures.ts"],
   featuresRoot: "../",
 });
 

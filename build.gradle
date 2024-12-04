@@ -118,12 +118,14 @@ testing {
 						'src/test/java', 
 						'src/integrationTest/apiControllersTest/java',
                         'src/integrationTest/apiExternaTest/java',
-                        'src/integrationTest/dbTest/java'
+                        'src/integrationTest/dbTest/java',
+                        'src/uiTest/java'
 					] 
                 }
                 resources { 
                     srcDirs = ['src/integrationTest/apiExternaTest/resources',
-                    'src/integrationTest/dbTest/resources'] 
+                    'src/integrationTest/dbTest/resources',
+                    'src/uiTest/resources'] 
                 }
             }
 
@@ -215,6 +217,7 @@ testing {
 		applyCommonDependencies(apiTest)
 		applyControllersTestDependencies(apiTest)
         applyDbTestDependencies(apiTest)
+        applyUITestDependencies(apiTest)
 
 		applyCommonDependencies(apiControllersTest)
 		applyControllersTestDependencies(apiControllersTest)

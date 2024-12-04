@@ -3,15 +3,19 @@ package ar.com.grupoesfera.repartir.ui;
 import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.pages.GruposPage;
+
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 public class CrearGrupo extends UITest {
 
-    @Test
+    @Test @Tag("api")
     public void tieneExitoParaElAfterOfficeConTresPersonas() {
 
         dadoQueSePuedeCrearUnGrupoConTresPersonas();

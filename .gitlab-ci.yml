@@ -1,7 +1,4 @@
-image:
-  registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
-
-  # GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_PIPELINE_ID'
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 stages:
   - test

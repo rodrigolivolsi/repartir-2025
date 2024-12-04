@@ -25,9 +25,5 @@
     "strictInputAccessModifiers": true,
     "strictNullChecks": false,
     "strictTemplates": true
-  },
-  "include": [
-    "../../jsAdvancedAcceptanceTest/",
-    "../../jsAdvancedAcceptanceTest/"
-  ]
+  }
 }

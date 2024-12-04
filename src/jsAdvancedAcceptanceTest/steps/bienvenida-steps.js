@@ -2,7 +2,7 @@ const {
   createBdd,
 } = require("../../main/frontend/node_modules/playwright-bdd");
 
-const { test } = require("../src/advancedFixtures");
+const { test } = require("../src/fixtures");
 const { Given, When, Then } = createBdd(test);
 
 Given("el usuario accede a la aplicación", async ({ assembly }) => {

@@ -2,7 +2,7 @@ const {
   createBdd,
 } = require("../../main/frontend/node_modules/playwright-bdd");
 
-const { test } = require("../../main/frontend/fixtures");
+const { test } = require("../src/fixtures");
 const { When } = createBdd(test);
 const { contexto } = require("./grupos-steps.js");
 

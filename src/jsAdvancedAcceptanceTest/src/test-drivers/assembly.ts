@@ -3,7 +3,7 @@ export class TestAssembly<
   TDriver extends unknown,
   TDriverName extends string = string
 > {
-  drivers: Record<TDriverName, TDriver>;
+  drivers = {} as Record<TDriverName, TDriver>;
   constructor(private adapters: TAdapter[]) {}
 
   /**

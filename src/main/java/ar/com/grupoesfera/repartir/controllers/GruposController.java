@@ -1,6 +1,6 @@
 package ar.com.grupoesfera.repartir.controllers;
 
-import ar.com.grupoesfera.repartir.dto.DetalleRespuesta;
+import ar.com.grupoesfera.repartir.dto.Respuesta;
 import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
@@ -50,14 +50,14 @@ public class GruposController {
     }
 
     @PostMapping
-    public ResponseEntity<DetalleRespuesta> crear(@RequestBody Grupo grupo) {
+    public ResponseEntity<Respuesta> crear(@RequestBody Grupo grupo) {
         try {
             Grupo creado = grupos.crear(grupo);
-            return ResponseEntity.ok(new DetalleRespuesta<>(creado, "Grupo creado exitosamente"));
+            return ResponseEntity.ok(new Respuesta<>(creado, "Grupo creado exitosamente"));
         } catch (GrupoInvalidoException e) {
-            return ResponseEntity.badRequest().body(new DetalleRespuesta<>(null, "Grupo inválido"));
+            return ResponseEntity.badRequest().body(new Respuesta<>(null, "Grupo inválido"));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new DetalleRespuesta<>(null, "Ocurrió un error inesperado"));
+            return ResponseEntity.internalServerError().body(new Respuesta<>(null, "Ocurrió un error inesperado"));
         }
     }
 

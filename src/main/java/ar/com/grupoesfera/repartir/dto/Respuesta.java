@@ -1,10 +1,10 @@
 package ar.com.grupoesfera.repartir.dto;
 
-public class DetalleRespuesta<T> {
+public class Respuesta<T> {
     private T datos;
     private String mensaje;
 
-    public DetalleRespuesta(T datos, String mensaje) {
+    public Respuesta(T datos, String mensaje) {
         this.datos = datos;
         this.mensaje = mensaje;
     }

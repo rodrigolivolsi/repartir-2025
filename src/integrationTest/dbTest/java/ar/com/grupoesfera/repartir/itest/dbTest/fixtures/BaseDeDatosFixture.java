@@ -1,4 +1,4 @@
-package ar.com.grupoesfera.repartir.itest.fixtures;
+package ar.com.grupoesfera.repartir.itest.dbTest.fixtures;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;

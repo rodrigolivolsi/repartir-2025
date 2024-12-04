@@ -1,12 +1,13 @@
 package ar.com.grupoesfera.repartir.ui;
 
-import ar.com.grupoesfera.repartir.itest.fixtures.Fixture;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import ar.com.grupoesfera.repartir.itest.apiControllers.fixtures.Fixture;
+
+import static ar.com.grupoesfera.repartir.itest.apiControllers.fixtures.Fixture.*;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
-import static ar.com.grupoesfera.repartir.itest.fixtures.Fixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class ListarGrupos extends UITest {

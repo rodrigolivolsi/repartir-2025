@@ -1,4 +1,4 @@
-package ar.com.grupoesfera.repartir.itest.fixtures;
+package ar.com.grupoesfera.repartir.itest.dbTest.fixtures;
 
 import ar.com.grupoesfera.repartir.model.Grupo;
 

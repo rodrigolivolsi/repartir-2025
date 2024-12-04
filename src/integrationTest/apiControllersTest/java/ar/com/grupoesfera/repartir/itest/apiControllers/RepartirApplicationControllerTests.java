@@ -1,4 +1,4 @@
-package ar.com.grupoesfera.repartir;
+package ar.com.grupoesfera.repartir.itest.apiControllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

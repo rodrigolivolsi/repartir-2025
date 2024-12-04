@@ -1,7 +1,6 @@
 export interface BienvenidaDriver {
-    
-    acceder(): void;
-    iniciar(): void;
-    validarMensajeDeBienvenida(): void;
-    validarQueSePuedeUsar(): void;
+  acceder(): Promise<void>;
+  iniciar(): Promise<void>;
+  validarMensajeDeBienvenida(): Promise<void>;
+  validarQueSePuedeUsar(): Promise<void>;
 }

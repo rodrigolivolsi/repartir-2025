@@ -1,12 +1,11 @@
 export interface GruposDriver {
-    
-    iniciar(): void;
-    crearCon(nombre: string): void;
-    crearConMiembros(miembros: Array<string>): void;
-    crearConUnUnicoMiembro(): void;
-    crear(): void;
-    validarNombreDeGrupo(): void;
-    validarMiembrosDeGrupo(): void;
-    validarMensajeDeAlMenosDosMiembros(): void;
-    validarMontoTotal(montoEsperado: string): void;
+  iniciar(): Promise<void>;
+  crearCon(nombre: string): Promise<void>;
+  crearConMiembros(miembros: Array<string>): Promise<void>;
+  crearConUnUnicoMiembro(): Promise<void>;
+  crear(): Promise<void>;
+  validarNombreDeGrupo(): Promise<void>;
+  validarMiembrosDeGrupo(): Promise<void>;
+  validarMensajeDeAlMenosDosMiembros(): Promise<void>;
+  validarMontoTotal(montoEsperado: string): Promise<void>;
 }

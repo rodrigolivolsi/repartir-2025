@@ -1,4 +1,9 @@
-export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
+export class TestAssembly<
+  TAdapter extends unknown,
+  TDriver extends unknown,
+  TDriverName extends string = string
+> {
+  drivers: Record<TDriverName, TDriver>;
   constructor(private adapters: TAdapter[]) {}
 
   /**
@@ -6,20 +11,9 @@ export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
    * @param driverName
    * @param driver
    */
-  agregarDriver(driverName: string, driver: TDriver) {
-    let anyObj = this as any;
+  agregarDriver(driverName: TDriverName, driver: TDriver) {
+    let anyObj = this.drivers;
     anyObj[driverName] = this.wrapDriver(driver, this.adapters);
-  }
-
-  agregarDriverPrincipal(driverName: string, driver: TDriver) {
-    this.agregarDriver(driverName, driver);
-
-    let anyObj = this as any;
-    let driverPrincipal = anyObj[driverName];
-
-    // copiamos todos los metodos del driver principal a este assembly para que se puedan llamar directamente
-    // sin hacer referencia al nombre del driver
-    Object.assign(this, driverPrincipal);
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {

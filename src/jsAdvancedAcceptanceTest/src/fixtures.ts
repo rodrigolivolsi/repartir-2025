@@ -14,11 +14,18 @@ import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
 import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver";
 import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 
+interface AssemblyTypes {
+  Adapter: Partial<GruposDriver & BienvenidaDriver>;
+  Driver: Partial<GruposDriver & BienvenidaDriver>;
+  DriverName: DriverName;
+}
+
 export const test = base.extend<{
   autoTestFixture: void;
   assembly: TestAssembly<
-    Partial<GruposDriver & BienvenidaDriver>,
-    GruposDriver | BienvenidaDriver
+    AssemblyTypes["Adapter"],
+    AssemblyTypes["Driver"],
+    AssemblyTypes["DriverName"]
   >;
 }>({
   autoTestFixture: [
@@ -70,7 +77,11 @@ export const test = base.extend<{
       c(page)
     );
 
-    let testAssembly = new TestAssembly(adapters);
+    let testAssembly = new TestAssembly<
+      AssemblyTypes["Adapter"],
+      AssemblyTypes["Driver"],
+      AssemblyTypes["DriverName"]
+    >(adapters);
 
     assemblyDefinition.drivers.forEach((d) => {
       testAssembly.agregarDriver(d.name, d.constructor(request, page));
@@ -130,3 +141,6 @@ const ASSEMBLY_DEFINITIONS = [
     ],
   },
 ] as const;
+
+type DriverName =
+  (typeof ASSEMBLY_DEFINITIONS)[number]["drivers"][number]["name"];

@@ -22,7 +22,7 @@ export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
     Object.assign(this, driverPrincipal);
   }
 
-  wrapDriver(driver: TDriver, adapters: TAdapter[]) {
+  private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
     const handler = {
       get(target: any, methodName: string, receiver: any) {
         return async function (...args: any[]) {
@@ -31,14 +31,14 @@ export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
           for (let i = 0; i < adapters.length; i++) {
             let adapter = adapters[i];
             const adapterMethod = adapter?.[methodName as keyof typeof adapter];
-            if (typeof adapterMethod === 'function') {
+            if (typeof adapterMethod === "function") {
               await adapterMethod(...args);
             }
           }
 
           // por ultimo invoca el mismo metodo sobre el driver
           const driverMethod = driver?.[methodName as keyof typeof driver];
-          if (typeof driverMethod === 'function') {
+          if (typeof driverMethod === "function") {
             await driverMethod(...args);
           }
         };

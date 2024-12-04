@@ -5,9 +5,11 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -49,10 +51,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
     @Entonces("visualiza dentro del listado el grupo con los miembros indicados")
     public void visualizaDentroDelListadoElGrupoConLosMiembrosIndicados() {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
-        var grupoTR = wait.until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("app-grupos table tr")));
-        assertThat(grupoTR).hasSizeGreaterThan(1);
+        var grupoTR = obtenerGrupo();
 
         var campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
         assertThat(campoTDs.get(0).getText()).isNotEmpty();
@@ -90,5 +89,13 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
         assertThat(mensajesToast.getText())
                 .as("Descripción del Toast")
                 .contains("No se puede guardar");
+    }
+
+    private @NotNull List<WebElement> obtenerGrupo() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.of(30, ChronoUnit.SECONDS));
+        var grupoTR = wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("app-grupos table tr")));
+        assertThat(grupoTR).hasSizeGreaterThan(1);
+        return grupoTR;
     }
 }

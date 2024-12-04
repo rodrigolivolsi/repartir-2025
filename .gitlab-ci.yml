@@ -1,203 +1,24 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
-variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
-  # GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_PIPELINE_ID'
-
 stages:
-  - build
-  - analyze
   - test
-  - report
-  - package
-  - deploy
-
-before_script:
-  - export GRADLE_USER_HOME=cache/
-
-.cache_node_modules: &cache_node_modules
-  key:
-    files:
-      - src/main/frontend/package-lock.json
-    prefix: $CI_COMMIT_REF_SLUG
-  paths:
-    - src/main/frontend/node_modules
-  policy: pull
-
-.cache_gradle: &cache_gradle
-  key: default-$CI_COMMIT_REF_SLUG
-  paths:
-    - cache/caches/
-    - cache/notifications/
-    - cache/wrapper/
-  policy: pull
-
-build:
-  stage: build
-  script:
-    - ./gradlew --build-cache assemble --info
-  cache:
-    - <<: *cache_gradle
-      policy: pull-push
-  artifacts:
-    when: on_success
-    paths:
-      - build/classes
-
-instalar dependencias:
-  stage: build
-  script:
-    - npm ci --prefix src/main/frontend
-  cache:
-    - <<: *cache_node_modules
-      policy: pull-push
-
-unit-test:
-  stage: test
-  script:
-    - ./gradlew test --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/test/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/test
-
-db-test:
-  stage: test
-  script:
-    - ./gradlew dbTest --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/dbTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/dbTest
-
-apiControllers-test:
-  stage: test
-  script:
-    - ./gradlew apiControllersTest --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/apiControllersTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/apiControllersTest
-
-apiExterna-test:
-  stage: test
-  script:
-    - ./gradlew apiExternaTest --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/apiExternaTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/apiExternaTest
-
-ui-test:
-  stage: test
-  script:
-    - export CHROME_OPTIONS="--headless, --no-sandbox"
-    - ./gradlew uiTest --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/uiTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/uiTest
-
-acceptance-test:
-  stage: test
-  script:
-    - export CHROME_OPTIONS='--headless, --no-sandbox'
-    - ./gradlew acceptanceTest --info
-  cache:
-    - <<: *cache_gradle
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/acceptanceTest/**/TEST-*.xml
-    paths:
-      - build/jacoco
-      - build/reports/tests/acceptanceTest
-      - build/reports/acceptance.html
 
 acceptance-test-js:
   stage: test
-  variables:
-    CI: "true"
-    GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
-    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests\r\e[0KJS acceptance tests"
     - npm run acceptance-test --prefix=src/main/frontend
-    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests\r\e[0K"
-  cache:
-    - <<: *cache_node_modules
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/acceptanceTestJs/**/TEST-*.xml
-    name: acceptance-test-js-coverage
-    paths:
-      - src/main/frontend/coverage-reports/
-      - build/reports/playwright-reports/
 
-package:
-  stage: package
+acceptance-test-js:e2e:
+  stage: test
   script:
-    - echo "Packaging"
+    - npm run acceptance-test:e2e --prefix=src/main/frontend
 
-report-test-coverage:
-  stage: report
+acceptance-test-js:mock-api:
+  stage: test
   script:
-    - ./gradlew jacocoTestReport --info
-  artifacts:
-    when: always
-    paths:
-      - build/reports/jacoco
+    - npm run acceptance-test:mock-api --prefix=src/main/frontend
 
-pages:
-  stage: deploy
-  before_script:
-    - apt-get update && apt-get -y install tree
+acceptance-test-js:backend:
+  stage: test
   script:
-    - mv build/reports public/
-    - mv src/main/frontend/coverage-reports public/
-    - tree ./public -HC '.' -T "REPORTES" -P "index.html|main.html|acceptance.html" --dirsfirst --prune --noreport --charset utf-8 > ./public/index.html
-  artifacts:
-    paths:
-      - public
-  only:
-    - main
-
-static-source-code-analysis:
-  stage: analyze
-  script:
-    - ./gradlew pmdMain
-  artifacts:
-    when: always
-    paths:
-      - build/reports/pmd
-
-deploy-dev:
-  stage: deploy
-  script:
-    - echo "Deploying application to DEV..."
-    - echo "Application successfully deployed."
+    - npm run acceptance-test:backend --prefix=src/main/frontend

@@ -51,14 +51,9 @@ public class GruposController {
 
     @PostMapping
     public ResponseEntity<Respuesta> crear(@RequestBody Grupo grupo) {
-        try {
-            Grupo creado = grupos.crear(grupo);
-            return ResponseEntity.ok(new Respuesta<>(creado, "Grupo creado exitosamente"));
-        } catch (GrupoInvalidoException e) {
-            return ResponseEntity.badRequest().body(new Respuesta<>(null, "Grupo inválido"));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Respuesta<>(null, "Ocurrió un error inesperado"));
-        }
+        Grupo creado = grupos.crear(grupo);
+        return ResponseEntity.ok(new Respuesta<>(creado, "Grupo creado exitosamente"));
+        
     }
 
     @GetMapping("/{id}")

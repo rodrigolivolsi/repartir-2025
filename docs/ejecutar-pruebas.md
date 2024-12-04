@@ -36,9 +36,24 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         |                                 | ```npm acceptance-test:backend```   |                         |
 
 
-Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican más adelante.
+Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican a continuación.
 
-Además de ejecutar pruebas por tipo, existe la posiblidad de ejecutar las pruebas etiquetadas con uno o más tags. Estas pruebas pueden ser de distintos tipos. Por ejemplo
+### Ejecución de pruebas etiquetadas
+
+Existe la posiblidad de ejecutar todas las pruebas que corren con Gradle (independientemente del tipo de prueba) etiquetadas con uno o más tags. 
+A modo de ejemplo, existen en el proyecto pruebas anotadas con ```@Tag("api")```. Para ejecutarlas utilizar:
+
+```
+ ./gradlew taggedTest -Dtags=[NOMBRE_DEL_TAG]
+```
+
+Ejemplo:
+
+```
+ ./gradlew taggedTest -Dtags=api
+```
+
+Esto **no incluye** a las pruebas de aceptación.
 
 ### Para ejecutar todas las pruebas que usan Gradle
 

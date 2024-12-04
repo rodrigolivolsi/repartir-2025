@@ -53,7 +53,6 @@ public class GruposController {
     public ResponseEntity<Respuesta> crear(@RequestBody Grupo grupo) {
         Grupo creado = grupos.crear(grupo);
         return ResponseEntity.ok(new Respuesta<>(creado, "Grupo creado exitosamente"));
-        
     }
 
     @GetMapping("/{id}")

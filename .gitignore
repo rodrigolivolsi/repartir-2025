@@ -44,4 +44,10 @@ src/main/frontend/playwright-report/
 src/main/frontend/test-results/
 src/main/frontend/monocart-report/
 src/main/frontend/coverage-reports/
+
+src/jsAdvancedAcceptanceTest/src/.features-gen/
+src/jsAdvancedAcceptanceTest/src/playwright-report/
+src/jsAdvancedAcceptanceTest/src/test-results/
+src/jsAdvancedAcceptanceTest/src/monocart-report/
+src/jsAdvancedAcceptanceTest/src/coverage-reports/
 nul

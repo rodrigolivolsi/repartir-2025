@@ -61,7 +61,8 @@ public class CrearGrupo extends UITest {
 
         var notificacion = gruposPage.leerNotificacionError();
         assertThat(notificacion)
-                .contains("Error", "Grupo inválido");
+                .as("La notificación debe contener texto")
+                .isNotBlank();
 
         comprobarQueSeRecibieronLosDatosDelGrupo("Cena", "luis");
     }

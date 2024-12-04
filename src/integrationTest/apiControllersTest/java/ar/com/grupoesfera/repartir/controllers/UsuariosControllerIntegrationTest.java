@@ -1,6 +1,6 @@
 package ar.com.grupoesfera.repartir.controllers;
 
-import ar.com.grupoesfera.repartir.itest.fixtures.UsuariosFixture;
+import ar.com.grupoesfera.repartir.itest.apiControllers.fixtures.UsuariosFixture;
 import ar.com.grupoesfera.repartir.model.Usuario;
 import ar.com.grupoesfera.repartir.services.UsuariosService;
 import io.restassured.http.ContentType;

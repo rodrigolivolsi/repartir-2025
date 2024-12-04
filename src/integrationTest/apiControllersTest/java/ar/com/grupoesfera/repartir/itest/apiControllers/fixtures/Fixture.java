@@ -1,6 +1,7 @@
-package ar.com.grupoesfera.repartir.itest.fixtures;
+package ar.com.grupoesfera.repartir.itest.apiControllers.fixtures;
 
-import ar.com.grupoesfera.repartir.itest.builders.GrupoBuilder;
+import ar.com.grupoesfera.repartir.itest.apiControllers.builders.GrupoBuilder;
+import ar.com.grupoesfera.repartir.itest.apiControllers.builders.UsuarioBuilder;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -11,6 +12,11 @@ public abstract class Fixture {
     public static GrupoBuilder unGrupo() {
 
         return new GrupoBuilder();
+    }
+
+    public static UsuarioBuilder unUsuario() {
+
+        return new UsuarioBuilder();
     }
 
     public static BigDecimal $(int pesos, int centavos) {

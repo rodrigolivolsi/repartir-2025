@@ -107,7 +107,7 @@ testing {
 		}
 
 
-        apiTest(JvmTestSuite) { 
+        taggedTest(JvmTestSuite) { 
             dependencies {
                 implementation project() 
             }
@@ -116,8 +116,16 @@ testing {
                 java { 
                     srcDirs = [
 						'src/test/java', 
-						'src/integrationTest/apiControllersTest/java'
+						'src/integrationTest/apiControllersTest/java',
+                        'src/integrationTest/apiExternaTest/java',
+                        'src/integrationTest/dbTest/java',
+                        'src/uiTest/java'
 					] 
+                }
+                resources { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/resources',
+                    'src/integrationTest/dbTest/resources',
+                    'src/uiTest/resources'] 
                 }
             }
 
@@ -125,7 +133,7 @@ testing {
                 all {
                     testTask.configure {
 						useJUnitPlatform {
-							includeTags 'api'
+							includeTags System.getProperty('tags', '*')
 						}
                     }
                 }
@@ -206,8 +214,10 @@ testing {
             }
 		}
 
-		applyCommonDependencies(apiTest)
-		applyControllersTestDependencies(apiTest)
+		applyCommonDependencies(taggedTest)
+		applyControllersTestDependencies(taggedTest)
+        applyDbTestDependencies(taggedTest)
+        applyUITestDependencies(taggedTest)
 
 		applyCommonDependencies(apiControllersTest)
 		applyControllersTestDependencies(apiControllersTest)
@@ -234,7 +244,7 @@ testing {
 
 
 tasks.named('check') { 
-    dependsOn(testing.suites.apiTest)
+    dependsOn(testing.suites.test)
 	dependsOn(testing.suites.apiControllersTest)
 	dependsOn(testing.suites.apiExternaTest)
 	dependsOn(testing.suites.dbTest)

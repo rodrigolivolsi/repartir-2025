@@ -1,6 +1,6 @@
 # Repartir: Arquitectura de pruebas de aceptación
 
-Adicionalmente a las pruebas de aceptación JS cuya ejecución se describe en [este documento](../src/main/frontend/README.md) existe una versión de pruebas de aceptación inspiradas en el modelo de [Subsecond TDD](https://github.com/subsecondtdd) propuesto por Aslak Hellesoy.
+Adicionalmente a las pruebas de aceptación JS cuya ejecución se describe en [este documento](../src/main/frontend/README.md) existe una versión de pruebas de aceptación inspiradas en el modelo de [Subsecond TDD](https://github.com/subsecondtdd) propuesto por Aslak Hellesoy y sustentadas por el patrón de arquitectura de [Ports & Adapters](https://alistair.cockburn.us/hexagonal-architecture/) de Alistair Cockburn.
 
 El objetivo es tener pruebas de aceptación reutilizables que puedan ejecutarse contra distintos test assemblies, variando así su velocidad de ejecución (y también su significatividad).
 

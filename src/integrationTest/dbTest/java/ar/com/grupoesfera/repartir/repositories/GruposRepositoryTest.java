@@ -3,7 +3,6 @@ package ar.com.grupoesfera.repartir.repositories;
 import ar.com.grupoesfera.repartir.itest.dbTest.fixtures.BaseDeDatosFixture;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,7 +52,7 @@ class GruposRepositoryTest {
         assertThat(grupoRecuperado.getTotal()).isEqualByComparingTo(BigDecimal.valueOf(30025,2));
     }
 
-    @Test @Tag("api")
+    @Test
     void actualizarElTotal() {
 
         Grupo grupo = new Grupo();

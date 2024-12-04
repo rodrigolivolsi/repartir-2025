@@ -4,7 +4,6 @@ import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.pages.GruposPage;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class CrearGrupo extends UITest {
 
-    @Test @Tag("api")
+    @Test
     public void tieneExitoParaElAfterOfficeConTresPersonas() {
 
         dadoQueSePuedeCrearUnGrupoConTresPersonas();

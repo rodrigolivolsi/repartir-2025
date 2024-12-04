@@ -58,7 +58,6 @@ unit-test:
     - ./gradlew test --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:
@@ -73,7 +72,6 @@ db-test:
     - ./gradlew dbTest --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:
@@ -88,7 +86,6 @@ apiControllers-test:
     - ./gradlew apiControllersTest --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:
@@ -103,7 +100,6 @@ apiExterna-test:
     - ./gradlew apiExternaTest --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:
@@ -119,7 +115,6 @@ ui-test:
     - ./gradlew uiTest --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:
@@ -135,7 +130,6 @@ acceptance-test:
     - ./gradlew acceptanceTest --info
   cache:
     - <<: *cache_gradle
-      policy: pull
   artifacts:
     when: always
     reports:

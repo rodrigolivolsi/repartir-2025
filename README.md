@@ -111,10 +111,19 @@ El proyecto cuenta con varios reportes generados por las pruebas automatizadas, 
 
 ## Links de interés
 
-- [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
-- [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
+### Infra
+
 - [Generación de la imagen de Docker utilizada en este proyecto](./docker/README.md)
+
+### Pruebas automatizadas
+
+- [Como ejecutar las pruebas automatizadas](./docs/ejecutar-pruebas.md)
 - [Instrucciones específicas para el frontend de esta aplicación](./src/main/frontend/README.md)
+- [Arquitectura avanzada de pruebas](./docs/arquitectura-de-pruebas.md)
+
+### Que se puede hacer en este repo
+
+- [Algunos ejercicios propuestos para trabajar en este repo](./docs/enunciados-ejercicios.md)
 
 ## IDE
 

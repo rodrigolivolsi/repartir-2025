@@ -12,6 +12,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.assertj.core.api.Assertions.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("Bienvenida")
@@ -26,7 +29,7 @@ public class BienvenidaSteps extends CucumberSteps {
     @Then("se muestra el mensaje de bienvenida")
     public void seMuestraElMensajeDeBienvenida() {
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         wait.until(invisibilityOfElementWithText(By.tagName("p-dialog"), "Repartir"));
     }
 
@@ -49,7 +52,7 @@ public class BienvenidaSteps extends CucumberSteps {
     @Then("puede empezar a usarla")
     public void puedeEmpezarAUsarla() {
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var nuegoGrupoDialog = driver.findElement(By.cssSelector("app-grupo-nuevo"));
         wait.until(textToBePresentInElement(nuegoGrupoDialog, "Nuevo Grupo"));
 
@@ -67,7 +70,7 @@ public class BienvenidaSteps extends CucumberSteps {
         baseDeDatos.estaVacia();
         driver.navigate().to(url("/"));
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         wait.until(visibilityOfElementLocated(By.id("iniciarDialog")));
 
         driver.findElement(By.id("usuarioInput")).sendKeys("julian");

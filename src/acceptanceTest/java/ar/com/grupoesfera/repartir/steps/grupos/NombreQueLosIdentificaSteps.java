@@ -14,6 +14,9 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 
 import org.junit.jupiter.api.DisplayName;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 @DisplayName("Nombre que los identifica")
@@ -26,7 +29,7 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
 
         nombreIndicado = nombre;
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var crearGruposButton = wait.until(elementToBeClickable(By.id("crearGruposButton")));
         crearGruposButton.click();
 
@@ -78,7 +81,7 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
     @Y("debería ser informado que no puede crear un grupo sin nombre")
     public void deberiaSerInformadoQueNoPuedeCrearUnGrupoSinNombre() {
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var mensajesToast = wait.withMessage("Mostro Toast")
                 .until(visibilityOfElementLocated(By.id("mensajesToast")));
         wait.withMessage("Título del Toast es 'Error'")

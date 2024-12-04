@@ -22,28 +22,20 @@ Donde task es "test", "dbTest", etc... y filter la regex a evaluar.
 
 ```
 # specific class
-./gradlew test --tests org.gradle.SomeTestClass
+./gradlew test --tests ar.com.grupoesfera.repartir.model.GrupoTest
 
 # specific class and method
-./gradlew test --tests org.gradle.SomeTestClass.someSpecificMethod
-
-# method name containing spaces
-./gradlew test --tests "org.gradle.SomeTestClass.some method containing spaces"
+./gradlew test --tests ar.com.grupoesfera.repartir.model.GrupoTest.noEstaFormadoCuandoTieneSoloUnMiembro
 
 # all classes at specific package (recursively)
-./gradlew test --tests 'all.in.specific.package*'
+./gradlew test --tests 'ar.com.grupoesfera.repartir.model*'
 
 # specific method at specific package (recursively)
-./gradlew test --tests 'all.in.specific.package*.someSpecificMethod'
+./gradlew test --tests 'ar.com.grupoesfera.repartir*.noEstaFormadoCuandoTieneSoloUnMiembro'
 
-./gradlew test --tests '*IntegTest'
+./gradlew apiControllersTest --tests '*listarCuandoExistenUnUnicoGrupo'
 
-./gradlew test --tests '*IntegTest*ui*'
-
-./gradlew test --tests '*ParameterizedTest.foo*'
-
-# the second iteration of a parameterized test
-./gradlew test --tests '*ParameterizedTest.*[2]'
+./gradlew dbTest --tests '*persistir*Compartida'
 ```
 
 ### Para ejecutar pruebas de aceptación especificas en java
@@ -51,12 +43,9 @@ Donde task es "test", "dbTest", etc... y filter la regex a evaluar.
 > Sirve para pruebas que usan cucumber (hoy, las de aceptacion)
 
 ```
-./gradlew acceptanceTest -Dcucumber.filter.name="<regex>"
+./gradlew acceptanceTest -Dcucumber.filter.name="<nombre del escenario>"
 ```
 
-El comando matchea la regex con los textos dentro de cada archivo .feature, tanto escenarios como reglas como características.
-
-> IMPORTANTE: La regex no puede tener un '\*' ni al principio ni al final.
 
 ### Para ejecutar pruebas unitarias del frontend
 

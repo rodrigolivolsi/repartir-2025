@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS grupo
 (
-    id bigint(20) NOT NULL AUTO_INCREMENT,
+    id decimal(20,0) NOT NULL AUTO_INCREMENT,
     nombre varchar(1000) DEFAULT NULL,
     total decimal(12,2) DEFAULT NULL,
     CONSTRAINT grupo_pk PRIMARY KEY (id)
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS grupo
 
 CREATE TABLE IF NOT EXISTS grupo_miembros
 (
-    grupo_id bigint(20) NOT NULL,
+    grupo_id decimal(20,0) NOT NULL,
     miembro varchar(255) DEFAULT NULL,
     CONSTRAINT grupo_miembros_grupo_id FOREIGN KEY (grupo_id) REFERENCES grupo (id)
 );

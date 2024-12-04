@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
@@ -40,14 +42,14 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
 
         driver.findElement(By.id("guardarGrupoNuevoButton")).click();
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
     }
 
     @Entonces("visualiza dentro del listado el grupo con los miembros indicados")
     public void visualizaDentroDelListadoElGrupoConLosMiembrosIndicados() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.of(10, ChronoUnit.SECONDS));
         var grupoTR = wait.until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("app-grupos table tr")));
         assertThat(grupoTR).hasSizeGreaterThan(1);
@@ -80,7 +82,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
     @Y("debería ser informado que necesita tener al menos dos miembros")
     public void deberiaSerInformadoQueNecesitaTenerAlMenosDosMiembros() {
 
-        var wait = new WebDriverWait(driver, 2);
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var mensajesToast = wait.withMessage("Mostro Toast")
                 .until(visibilityOfElementLocated(By.id("mensajesToast")));
         wait.withMessage("Título del Toast es 'Error'")

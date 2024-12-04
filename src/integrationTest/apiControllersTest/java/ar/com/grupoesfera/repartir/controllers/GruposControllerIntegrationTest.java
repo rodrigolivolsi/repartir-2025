@@ -3,6 +3,8 @@ package ar.com.grupoesfera.repartir.controllers;
 import ar.com.grupoesfera.repartir.itest.fixtures.GruposFixture;
 import ar.com.grupoesfera.repartir.services.GruposService;
 import io.restassured.http.ContentType;
+
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,7 +15,6 @@ import static io.restassured.RestAssured.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static net.javacrumbs.jsonunit.JsonMatchers.*;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +31,7 @@ public class GruposControllerIntegrationTest {
     int randomServerPort;
 
     @Test
+    @Tag("api")
     void listarCuandoNoExistenGrupos() {
 
         when(gruposService.listarGrupos()).thenReturn(emptyList());

@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static ar.com.grupoesfera.repartir.itest.apiControllers.fixtures.Fixture.*;
+import static ar.com.grupoesfera.repartir.itest.dbTest.fixtures.Fixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest

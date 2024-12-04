@@ -5,8 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("integrationTestWithDB")
-class RepartirApplicationTests {
+@ActiveProfiles("integrationTestWithControllers")
+class RepartirApplicationControllerTests {
 
 	@Test
 	void cargaElContextoDeSpringSinGenerarExcepciones() {

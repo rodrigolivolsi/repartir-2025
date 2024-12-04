@@ -2,6 +2,7 @@ package ar.com.grupoesfera.repartir.clients;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +47,7 @@ class PersonasClientTest {
         personasClient = builder.target(PersonasClient.class, construirUrl());
     }
 
-    @Test
+    @Test @Tag("api")
     void recuperarDevuelveUnaPersonaExistente() {
 
         Persona persona = personasClient.recuperarPorId("mariela");

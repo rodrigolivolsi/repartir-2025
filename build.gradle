@@ -116,8 +116,12 @@ testing {
                 java { 
                     srcDirs = [
 						'src/test/java', 
-						'src/integrationTest/apiControllersTest/java'
+						'src/integrationTest/apiControllersTest/java',
+                        'src/integrationTest/apiExternaTest/java'
 					] 
+                }
+                resources { 
+                    srcDirs = ['src/integrationTest/apiExternaTest/resources'] 
                 }
             }
 
@@ -125,7 +129,7 @@ testing {
                 all {
                     testTask.configure {
 						useJUnitPlatform {
-							includeTags 'api'
+							includeTags System.getProperty('tags', '*')
 						}
                     }
                 }

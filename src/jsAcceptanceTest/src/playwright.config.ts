@@ -8,9 +8,9 @@ import { devices } from "../../main/frontend/node_modules/playwright/test";
 const baseURL = "http://localhost:4200";
 
 const testDir = defineBddConfig({
-  features: "./features/*",
-  steps: ["./steps/*", "./fixtures.ts"],
-  featuresRoot: "./",
+  features: "../features/*",
+  steps: ["../steps/*", "./fixtures.ts"],
+  featuresRoot: "../",
 });
 
 const reporter: ReporterDescription[] = [

@@ -12,7 +12,6 @@ import java.util.List;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Crear Grupo")

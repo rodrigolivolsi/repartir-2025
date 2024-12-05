@@ -13,7 +13,14 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -53,13 +60,34 @@ class GruposServiceTest {
         grupoInvalidoSinMiembros.setNombre("Almuerzo");
         grupoInvalidoSinMiembros.setMiembros(emptyList());
 
-        assertThrows(GrupoInvalidoException.class, () -> {
+        GrupoInvalidoException exception = assertThrows(GrupoInvalidoException.class, () -> {
             grupos.crear(grupoInvalidoSinMiembros);
         });
+    
+        assertEquals(GrupoInvalidoException.CodigoError.MIEMBROS_INSUFICIENTES, exception.getCodigoError());
+    
 
         verifyNoInteractions(repositoryMock);
     }
 
+    @Test
+    void crearGrupoLanzaExcepcionSiElGrupoNoTieneNombre() {
+
+        Grupo grupoInvalidoSinNombre = new Grupo();
+        grupoInvalidoSinNombre.setNombre("");
+        grupoInvalidoSinNombre.setMiembros(asList("patricia", "guille"));
+
+        GrupoInvalidoException exception = assertThrows(GrupoInvalidoException.class, () -> {
+            grupos.crear(grupoInvalidoSinNombre);
+        });
+    
+        assertEquals(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO, exception.getCodigoError());
+    
+
+        verifyNoInteractions(repositoryMock);
+    }
+
+    
     @Test
     void recuperarGrupoPorId() {
 

@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Grupo } from '../model/grupo';
 import { Excepcion } from '../model/excepcion';
 import { Gasto } from '../model/gasto';
+import { Respuesta } from '../model/respuesta';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +22,14 @@ export class GrupoService {
       .pipe(catchError(this.falloAlListar));
   }
 
-  crear(nombre: string, miembros: string[]): Observable<{ grupo: Grupo; mensaje: string } > {
+  crear(nombre: string, miembros: string[]): Observable<Respuesta> {
 
     const nuevoGrupo: Grupo = {
       nombre,
       miembros
     };
 
-    return this.http.post<{ grupo: Grupo; mensaje: string }>('/api/grupos', nuevoGrupo)
+    return this.http.post<Respuesta>('/api/grupos', nuevoGrupo)
       .pipe(catchError(this.falloAlGuardar));
   }
 

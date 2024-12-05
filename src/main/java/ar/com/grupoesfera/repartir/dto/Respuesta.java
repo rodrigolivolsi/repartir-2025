@@ -1,20 +1,20 @@
 package ar.com.grupoesfera.repartir.dto;
 
-public class Respuesta<T> {
-    private T datos;
+public class Respuesta<Grupo> {
+    private Grupo grupo;
     private String mensaje;
 
-    public Respuesta(T datos, String mensaje) {
-        this.datos = datos;
+    public Respuesta(Grupo grupo, String mensaje) {
+        this.grupo = grupo;
         this.mensaje = mensaje;
     }
 
-    public T getDatos() {
-        return datos;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setDatos(T datos) {
-        this.datos = datos;
+    public void setGrupo(Grupo datos) {
+        this.grupo = datos;
     }
 
     public String getMensaje() {

@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Grupo } from 'src/app/model/grupo';
 import { IdentificarGrupoPipe } from 'src/app/pipes/identificar-grupo.pipe';
 import { GrupoService } from '../../services/grupo.service';
+import { Respuesta } from 'src/app/model/respuesta';
 
 @Component({
   selector: 'app-grupo-nuevo',
@@ -47,12 +48,11 @@ export class GrupoNuevoComponent implements OnInit {
     this.mostrar = false;
   }
 
-  private guardadoExitoso(grupo: any): void {
-    console.log('GRUPO',grupo);
+  private guardadoExitoso(respuesta: Respuesta):void {
     this.messageService.add({
       severity: 'success',
       summary: 'Éxito',
-      detail: `Grupo '${this.identificarGrupo.transform(grupo.datos)}' creado`,
+      detail: `Grupo '${this.identificarGrupo.transform(respuesta.grupo)}' creado`,
     });
 
     this.guardadoEvent.emit();

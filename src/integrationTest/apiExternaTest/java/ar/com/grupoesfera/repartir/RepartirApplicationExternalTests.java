@@ -6,7 +6,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("integrationTestWithApiExterna")
-class RepartirApplicationTests {
+class RepartirApplicationExternalTests {
 
 	@Test
 	void cargaElContextoDeSpringSinGenerarExcepciones() {

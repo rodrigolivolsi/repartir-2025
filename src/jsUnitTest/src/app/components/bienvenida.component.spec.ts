@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BienvenidaComponent } from './bienvenida.component';
+import { BienvenidaComponent } from '../../../../main/frontend/src/app/components/bienvenida/bienvenida.component';
 
 describe('BienvenidaComponent', () => {
   let component: BienvenidaComponent;

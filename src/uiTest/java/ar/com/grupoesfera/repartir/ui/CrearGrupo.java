@@ -69,7 +69,7 @@ public class CrearGrupo extends UITest {
 
     private void dadoQueSePuedeCrearUnGrupoParaUnaPersona() {
 
-        when(gruposService.crear(any(Grupo.class))).thenThrow(new GrupoInvalidoException());
+        when(gruposService.crear(any(Grupo.class))).thenThrow(new GrupoInvalidoException(GrupoInvalidoException.CodigoError.MIEMBROS_INSUFICIENTES));
     }
 
 }

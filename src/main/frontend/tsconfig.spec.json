@@ -13,7 +13,7 @@
   ],
   "include": [
     "src/**/*.ts",
-    //"../../../jsUnitTest/**/*.ts",
+    //"../../../jsUnitTest/**/*.ts",  --> no es esta ruta. Por que? ni idea
     "../../jsUnitTest/**/*.ts"
   ]
 }

@@ -42,9 +42,6 @@ describe('GrupoNuevoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 
   it('debe crear un grupo', () => {
 

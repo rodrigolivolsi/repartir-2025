@@ -166,17 +166,14 @@ unit-test-js:
     GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
     - echo -e "\e[0Ksection_start:`date +%s`:js_unit_tests\r\e[0KJS unit tests"
-    - npm run test --prefix=src/main/frontend
+    - npm run test-ci --prefix=src/main/frontend
     - echo -e "\e[0Ksection_end:`date +%s`:js_unit_tests\r\e[0K"
   cache:
     - <<: *cache_node_modules
-  # artifacts:
-  #   when: always
-  #   reports:
-  #     junit: build/test-results/unitTestJs/**/TEST-*.xml
-    # name: unit-test-js-coverage
-    # paths:
-    #   - src/main/frontend/coverage-reports/
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/unitTestJs/**/TEST-*.xml
 
 package:
   stage: package

@@ -19,7 +19,10 @@
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
     "paths": {
-      "@angular/core/testing": ["node_modules/@angular/core/testing"]
+      "@angular/core/testing": ["node_modules/@angular/core/testing"],
+      "@angular/common/http/testing": ["node_modules/@angular/common/http/testing"],
+      "primeng/api": ["node_modules/primeng/api"],
+      "rxjs": ["node_modules/rxjs"]
     },
     "typeRoots": [
       "node_modules/@types"

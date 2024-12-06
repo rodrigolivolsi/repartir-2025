@@ -21,11 +21,9 @@
     "paths": {
       "@angular/*": ["node_modules/@angular/*"],
       "primeng/*": ["node_modules/primeng/*"],
+      "@types/*": ["node_modules/@types/*"],
       "rxjs": ["node_modules/rxjs"]
-    },
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

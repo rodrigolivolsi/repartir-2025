@@ -28,8 +28,8 @@ Los tres comandos de npm que se listan en el cuadro chequean que los componentes
 Las implementaciones de estos tests pueden encontrarse en:
 - [Definición de los escenarios en Gherkin](../src/jsAdvancedAcceptanceTest/features/)
 - [Implementación de los steps, delegando la ejecución en un driver del test assembly](../src/jsAdvancedAcceptanceTest/steps/)
-- [Interfaces e implementaciones de los drivers, adapters y el test assembly](../src/main/frontend/test-drivers/)
-- [Fixture de Playwright que permite configurar e inyectar el test assembly en los steps](../src/main/frontend/advancedFixtures.ts)
+- [Interfaces e implementaciones de los drivers, adapters y el test assembly](../src/jsAdvancedAcceptanceTest/src/test-drivers/)
+- [Fixture de Playwright que permite configurar e inyectar el test assembly en los steps](../src/jsAdvancedAcceptanceTest/src/fixtures.ts)
 
 
 

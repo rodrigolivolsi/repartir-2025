@@ -17,7 +17,13 @@
     "target": "ES2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "@angular/*": ["node_modules/@angular/*"],
+      "primeng/*": ["node_modules/primeng/*"],
+      "@types/*": ["node_modules/@types/*"],
+      "rxjs": ["node_modules/rxjs"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

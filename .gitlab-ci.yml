@@ -159,6 +159,22 @@ acceptance-test-js:
       - src/main/frontend/coverage-reports/
       - build/reports/playwright-reports/
 
+unit-test-js:
+  stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:js_unit_tests\r\e[0KJS unit tests"
+    - npm run test-ci --prefix=src/main/frontend
+    - echo -e "\e[0Ksection_end:`date +%s`:js_unit_tests\r\e[0K"
+  cache:
+    - <<: *cache_node_modules
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/unitTestJs/**/TEST-*.xml
+
 package:
   stage: package
   script:

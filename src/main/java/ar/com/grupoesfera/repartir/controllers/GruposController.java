@@ -1,6 +1,5 @@
 package ar.com.grupoesfera.repartir.controllers;
 
-import ar.com.grupoesfera.repartir.dto.Respuesta;
 import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
@@ -50,9 +49,9 @@ public class GruposController {
     }
 
     @PostMapping
-    public ResponseEntity<Respuesta> crear(@RequestBody Grupo grupo) {
+    public ResponseEntity<Grupo> crear(@RequestBody Grupo grupo) {
         Grupo creado = grupos.crear(grupo);
-        return ResponseEntity.ok(new Respuesta<>(creado, "Grupo creado exitosamente"));
+        return ResponseEntity.ok(creado);
     }
 
     @GetMapping("/{id}")

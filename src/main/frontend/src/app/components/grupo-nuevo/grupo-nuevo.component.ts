@@ -3,7 +3,6 @@ import { MessageService } from 'primeng/api';
 import { Grupo } from 'src/app/model/grupo';
 import { IdentificarGrupoPipe } from 'src/app/pipes/identificar-grupo.pipe';
 import { GrupoService } from '../../services/grupo.service';
-import { Respuesta } from 'src/app/model/respuesta';
 
 @Component({
   selector: 'app-grupo-nuevo',
@@ -38,7 +37,7 @@ export class GrupoNuevoComponent implements OnInit {
 
   guardar(): void {
     this.grupoService.crear(this.nombre, this.miembros).subscribe(
-      respuesta => this.guardadoExitoso(respuesta),
+      grupo => this.guardadoExitoso(grupo),
       error => this.guardadoFallido(error)
     );
   }
@@ -48,11 +47,11 @@ export class GrupoNuevoComponent implements OnInit {
     this.mostrar = false;
   }
 
-  private guardadoExitoso(respuesta: Respuesta):void {
+  private guardadoExitoso(grupo: Grupo):void {
     this.messageService.add({
       severity: 'success',
       summary: 'Éxito',
-      detail: `Grupo '${this.identificarGrupo.transform(respuesta.grupo)}' creado`,
+      detail: `Grupo '${this.identificarGrupo.transform(grupo)}' creado`,
     });
 
     this.guardadoEvent.emit();
@@ -63,7 +62,7 @@ export class GrupoNuevoComponent implements OnInit {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: error.mensaje.mensaje,
+      detail: error.mensaje,
     });
   }
 }

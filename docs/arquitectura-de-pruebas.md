@@ -32,5 +32,16 @@ Las implementaciones de estos tests pueden encontrarse en:
 - [Fixture de Playwright que permite configurar e inyectar el test assembly en los steps](../src/jsAdvancedAcceptanceTest/src/fixtures.ts)
 
 
+## Cómo ejecutar un escenario en un único assembly
+
+Por defecto, cualquier escenario declarado se intentará ejecutar en los 3 assemblies. Existen tags para evitar que un escenario se ejecute en un assembly en particular:
+```
+@ignore-assembly-e2e
+@ignore-assembly-mock-api
+@ignore-assembly-backend
+```
+
+
+
 
 

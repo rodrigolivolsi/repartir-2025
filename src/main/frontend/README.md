@@ -59,6 +59,9 @@ npx bddgen
 ```
 
 ### Para ejecutar un único escenario
+
+#### Con la interfaz gráfica de Playwright
+
 Levantar la interfaz gráfica de Playwright con
 ```
 npx playwright test --ui
@@ -69,6 +72,17 @@ Si se desea ver el browser abierto (en lugar de que se ejecute en modo headless)
 ```
 npx playwright test --ui --headed
 ```
+
+
+#### Desde la consola
+
+Usar la opción ```--grep```
+
+```
+$ npm run acceptance-test -- --grep "Mostrar un mensaje de bienvenida"
+```
+
+Consultar [otras opciones que admite Playwright](https://playwright.dev/docs/test-annotations).
 
 
 ## Empaquetar

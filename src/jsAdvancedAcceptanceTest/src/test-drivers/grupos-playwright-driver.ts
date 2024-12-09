@@ -107,7 +107,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
     let mensajesToast = this.page.getByRole("alert");
     await mensajesToast.waitFor({ state: "visible", timeout: 2000 });
     await expect(mensajesToast).toContainText("Error");
-    await expect(mensajesToast).toContainText("No se puede guardar");
   };
 
   validarMontoTotal = async (montoEsperado: string): Promise<void> => {

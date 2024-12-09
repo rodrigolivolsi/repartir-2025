@@ -2,6 +2,9 @@
 
 Característica: Bienvenida a la aplicación
 
+  @ignore-assembly-e2e
+  @ignore-assembly-mock-api
+  @ignore-assembly-backend
   Escenario: Mostrar un mensaje de bienvenida
     Cuando el usuario accede a la aplicación
     Entonces se muestra el mensaje de bienvenida

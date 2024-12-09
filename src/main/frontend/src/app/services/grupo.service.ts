@@ -43,7 +43,7 @@ export class GrupoService {
   }
 
   falloAlGuardar(error: HttpErrorResponse) {
-    return throwError(new Excepcion("No se puede guardar"));
+    return throwError(new Excepcion(error.error));
   }
 
   falloAlListar(error: HttpErrorResponse) {

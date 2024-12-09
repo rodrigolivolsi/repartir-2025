@@ -88,7 +88,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
                 .until(textToBePresentInElement(mensajesToast, "Error"));
         assertThat(mensajesToast.getText())
                 .as("Descripción del Toast")
-                .contains("No se puede guardar");
+                .isNotBlank();
     }
 
     private @NotNull List<WebElement> obtenerGrupo() {

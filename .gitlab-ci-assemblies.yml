@@ -1,0 +1,115 @@
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.caching=true"
+  # GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_PIPELINE_ID'
+
+stages:
+  - build
+  - test
+
+before_script:
+  - export GRADLE_USER_HOME=cache/
+
+.cache_node_modules: &cache_node_modules
+  key:
+    files:
+      - src/main/frontend/package-lock.json
+    prefix: $CI_COMMIT_REF_SLUG
+  paths:
+    - src/main/frontend/node_modules
+  policy: pull
+
+.cache_gradle: &cache_gradle
+  key: default-$CI_COMMIT_REF_SLUG
+  paths:
+    - cache/caches/
+    - cache/notifications/
+    - cache/wrapper/
+  policy: pull
+
+build:
+  stage: build
+  script:
+    - ./gradlew --build-cache assemble --info
+  cache:
+    - <<: *cache_gradle
+      policy: pull-push
+  artifacts:
+    when: on_success
+    paths:
+      - build/classes
+
+instalar dependencias:
+  stage: build
+  script:
+    - npm ci --prefix src/main/frontend
+  cache:
+    - <<: *cache_node_modules
+      policy: pull-push
+
+
+acceptance-test-assembly-e2e:
+  stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0KJS acceptance tests assembly E2E"
+    - npm run acceptance-test:e2e --prefix=src/main/frontend
+    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0K"
+  cache:
+    - <<: *cache_node_modules
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTestAssemblyE2E/**/TEST-*.xml
+    name: acceptance-test-e2e-coverage
+    paths:
+      - src/main/frontend/coverage-reports/
+      - build/reports/playwright-reports/
+
+
+acceptance-test-assembly-mock-api:
+  stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_mock_api\r\e[0KJS acceptance tests assembly Mock Api"
+    - npm run acceptance-test:mock-api --prefix=src/main/frontend
+    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_mock_api\r\e[0K"
+  cache:
+    - <<: *cache_node_modules
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTestAssemblyMockApi/**/TEST-*.xml
+    name: acceptance-test-mock-api-coverage
+    paths:
+      - src/main/frontend/coverage-reports/
+      - build/reports/playwright-reports/
+
+
+
+acceptance-test-assembly-backend:
+  stage: test
+  variables:
+    CI: "true"
+    GRADLEW_PATH: "$CI_PROJECT_DIR"
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_backend\r\e[0KJS acceptance tests assembly Backend"
+    - npm run acceptance-test:backend --prefix=src/main/frontend
+    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_backend\r\e[0K"
+  cache:
+    - <<: *cache_node_modules
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/acceptanceTestAssemblyBackend/**/TEST-*.xml
+    name: acceptance-test-backend-coverage
+    paths:
+      - src/main/frontend/coverage-reports/
+      - build/reports/playwright-reports/
+
+

@@ -217,3 +217,8 @@ deploy-dev:
   script:
     - echo "Deploying application to DEV..."
     - echo "Application successfully deployed."
+
+trigger_job:
+  trigger:
+    include:
+      - local: .gitlab-ci-assemblies.yml

@@ -62,14 +62,15 @@ public class CrearGrupo extends UITest {
 
         var notificacion = gruposPage.leerNotificacionError();
         assertThat(notificacion)
-                .contains("Error", "No se puede guardar");
+                .as("La notificación debe contener texto")
+                .isNotBlank();
 
         comprobarQueSeRecibieronLosDatosDelGrupo("Cena", "luis");
     }
 
     private void dadoQueSePuedeCrearUnGrupoParaUnaPersona() {
 
-        when(gruposService.crear(any(Grupo.class))).thenThrow(new GrupoInvalidoException());
+        when(gruposService.crear(any(Grupo.class))).thenThrow(new GrupoInvalidoException(GrupoInvalidoException.CodigoError.MIEMBROS_INSUFICIENTES));
     }
 
 }

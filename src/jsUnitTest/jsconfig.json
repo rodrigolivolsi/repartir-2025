@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@angular/*": ["../main/frontend/node_modules/@angular/*"],
+        "@types/*": ["../main/frontend/node_modules/@types/*"],
+        "primeng/*": ["../main/frontend/node_modules/primeng/*"],
+        "rxjs": ["../main/frontend/node_modules/rxjs"]
+      },
+      "target": "ES2022",
+      "module": "es2020",
+      "lib": ["es2018", "dom"],
+      "moduleResolution": "node",
+      "types": ["jasmine"],
+      "typeRoots": [
+        "../main/frontend/node_modules/@types"
+      ]
+    },
+    "exclude": [
+      "node_modules",
+      "**/node_modules/*"
+    ]
+  }

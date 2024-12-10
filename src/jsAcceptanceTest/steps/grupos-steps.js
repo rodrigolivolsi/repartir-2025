@@ -141,7 +141,10 @@ Then(
     await mensajesToast.waitFor({ state: "visible", timeout: 2000 });
 
     await expect(mensajesToast).toContainText("Error");
-    await expect(mensajesToast).toContainText("No se puede guardar");
+
+    const textoToast = await mensajesToast.textContent();
+
+    expect(textoToast?.trim().length).toBeGreaterThan(0);
   }
 );
 

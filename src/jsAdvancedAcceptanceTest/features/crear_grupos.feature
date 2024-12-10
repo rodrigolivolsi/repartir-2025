@@ -2,7 +2,7 @@
 Característica: Crear Grupo para repartir gastos
 
   Regla: Los grupos tienen un nombre que los identifica
-    @singleScenario
+
     Escenario: Crea un grupo con nombre
       Dado que el usuario inició Repartir
       Cuando el usuario crea un grupo indicando el nombre 'Regalo de navidad'

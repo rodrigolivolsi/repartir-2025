@@ -5,14 +5,21 @@ import {
   frontend,
   personas,
   projects,
-  reporter,
   testDir,
 } from "./playwright.config.constants";
 
 export default defineConfig({
   testDir,
-  reporter,
   projects,
+  reporter: [
+    [
+      "junit",
+      {
+        outputFile:
+          "../../../build/test-results/acceptanceTestAssemblyE2E/TEST-acceptanceTestAssemblyE2E.xml",
+      },
+    ]
+  ],
   use: {
     screenshot: "only-on-failure",
     trace: "retain-on-failure",

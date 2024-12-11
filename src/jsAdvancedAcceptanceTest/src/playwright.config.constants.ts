@@ -47,13 +47,3 @@ export const testDir = defineBddConfig({
   steps: ["../steps/*", "./fixtures.ts"],
   featuresRoot: "../",
 });
-
-export const reporter: ReporterDescription[] = [
-  [
-    "junit",
-    {
-      outputFile:
-        "../../../build/test-results/advancedAcceptanceTestJs/TEST-advancedAcceptanceTestJs.xml",
-    },
-  ],
-];

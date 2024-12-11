@@ -64,10 +64,6 @@ acceptance-test-assembly-e2e:
     when: always
     reports:
       junit: build/test-results/acceptanceTestAssemblyE2E/**/TEST-*.xml
-    name: acceptance-test-e2e-coverage
-    paths:
-      - src/main/frontend/coverage-reports/
-      - build/reports/playwright-reports/
 
 
 acceptance-test-assembly-mock-api:
@@ -85,10 +81,6 @@ acceptance-test-assembly-mock-api:
     when: always
     reports:
       junit: build/test-results/acceptanceTestAssemblyMockApi/**/TEST-*.xml
-    name: acceptance-test-mock-api-coverage
-    paths:
-      - src/main/frontend/coverage-reports/
-      - build/reports/playwright-reports/
 
 
 
@@ -107,9 +99,5 @@ acceptance-test-assembly-backend:
     when: always
     reports:
       junit: build/test-results/acceptanceTestAssemblyBackend/**/TEST-*.xml
-    name: acceptance-test-backend-coverage
-    paths:
-      - src/main/frontend/coverage-reports/
-      - build/reports/playwright-reports/
 
 

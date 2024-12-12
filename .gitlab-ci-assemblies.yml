@@ -14,7 +14,7 @@ acceptance-test-assembly-e2e:
     - npm run acceptance-test:e2e --prefix=src/main/frontend
     - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0K"
   cache:
-    extends: .cache_node_modules
+    <<: *cache_node_modules
   artifacts:
     when: always
     reports:
@@ -31,7 +31,7 @@ acceptance-test-assembly-mock-api:
     - npm run acceptance-test:mock-api --prefix=src/main/frontend
     - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_mock_api\r\e[0K"
   cache:
-    extends: .cache_node_modules
+    <<: *cache_node_modules
   artifacts:
     when: always
     reports:
@@ -49,7 +49,7 @@ acceptance-test-assembly-backend:
     - npm run acceptance-test:backend --prefix=src/main/frontend
     - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_backend\r\e[0K"
   cache:
-    extends: .cache_node_modules
+    <<: *cache_node_modules
   artifacts:
     when: always
     reports:

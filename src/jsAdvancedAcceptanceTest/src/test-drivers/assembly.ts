@@ -1,18 +1,34 @@
-export class TestAssembly<
-  TAdapter extends unknown,
-  TDriver extends unknown,
-  TDriverName extends string = string
+type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (
+  x: infer I
+) => void
+  ? I
+  : never;
+
+class AssemblyRunner<
+  TAssembly extends Assembly,
+  TAdapter = ReturnType<TAssembly["adapters"][number]["constructor"]>,
+  TDriver = ReturnType<TAssembly["drivers"][number]["constructor"]>,
+  TDriverName extends string = TAssembly["drivers"][number]["name"]
 > {
-  drivers = {} as Record<TDriverName, TDriver>;
-  constructor(private adapters: TAdapter[]) {}
+  constructor(
+    private adapters: TAdapter[],
+    drivers: {
+      name: TDriverName;
+      driver: TDriver;
+    }[]
+  ) {
+    drivers.forEach(({ name, driver }) => {
+      this.agregarDriver(name, driver);
+    });
+  }
 
   /**
    * Agrega un driver al assembly y lo guarda en este assembly con el nombre especificado
    * @param driverName
    * @param driver
    */
-  agregarDriver(driverName: TDriverName, driver: TDriver) {
-    let anyObj = this.drivers;
+  private agregarDriver(driverName: TDriverName, driver: TDriver) {
+    let anyObj = this as any;
     anyObj[driverName] = this.wrapDriver(driver, this.adapters);
   }
 
@@ -41,3 +57,52 @@ export class TestAssembly<
     return new Proxy(driver, handler);
   }
 }
+
+interface Assembly {
+  name: string;
+  adapters: {
+    name: string;
+    constructor: (...args: any) => any;
+  }[];
+  drivers: {
+    name: string;
+    constructor: (...args: any) => any;
+  }[];
+}
+
+export type Lineup = Assembly[];
+
+export function TestAssemblyFactory<TAssembly extends Assembly>(
+  assembly: TAssembly,
+  {
+    adaptersConstructorArgs,
+    driversConstructorArgs,
+  }: {
+    adaptersConstructorArgs: Parameters<
+      TAssembly["adapters"][number]["constructor"]
+    >;
+    driversConstructorArgs: Parameters<
+      TAssembly["drivers"][number]["constructor"]
+    >;
+  }
+) {
+  const adapters = assembly.adapters.map((adapter) =>
+    adapter.constructor(...adaptersConstructorArgs)
+  );
+  const drivers = assembly.drivers.map((driver) => ({
+    name: driver.name,
+    driver: driver.constructor(...driversConstructorArgs),
+  }));
+  return new AssemblyRunner<TAssembly>(
+    adapters,
+    drivers
+  ) as AssemblyRunner<TAssembly> & {
+    [K in TAssembly["drivers"][number]["name"]]: ReturnType<
+      (TAssembly["drivers"][number] & { name: K })["constructor"]
+    >;
+  };
+}
+
+export type TestAssembly<TLineup extends Lineup> = ReturnType<
+  typeof TestAssemblyFactory<TLineup[number]>
+>;

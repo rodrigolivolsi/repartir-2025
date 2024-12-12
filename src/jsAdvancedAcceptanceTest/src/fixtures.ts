@@ -5,28 +5,20 @@ import {
   Page,
 } from "../../main/frontend/node_modules/playwright/test";
 import coverageOptions from "./mcr.config";
-import { TestAssembly } from "./test-drivers/assembly";
-import { BienvenidaDriver } from "./test-drivers/bienvenida-driver";
+import {
+  Lineup,
+  TestAssembly,
+  TestAssemblyFactory,
+} from "./test-drivers/assembly";
 import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
 import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
-import { GruposDriver } from "./test-drivers/grupos-driver";
 import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
 import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver";
 import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 
-interface AssemblyTypes {
-  Adapter: Partial<GruposDriver & BienvenidaDriver>;
-  Driver: Partial<GruposDriver & BienvenidaDriver>;
-  DriverName: DriverName;
-}
-
 export const test = base.extend<{
   autoTestFixture: void;
-  assembly: TestAssembly<
-    AssemblyTypes["Adapter"],
-    AssemblyTypes["Driver"],
-    AssemblyTypes["DriverName"]
-  >;
+  assembly: TestAssembly<typeof lineup>;
 }>({
   autoTestFixture: [
     async ({ page }, use) => {
@@ -62,39 +54,35 @@ export const test = base.extend<{
     { auto: true },
   ],
   assembly: async ({ page, request }, use) => {
-    const assemblyDefinition = ASSEMBLY_DEFINITIONS.find(
+    const assemblyDefinition = lineup.find(
       (a) => a.name === process.env.ASSEMBLY_NAME
     );
 
     if (!assemblyDefinition)
       throw new Error(
-        `Assembly not found. Available assemblies: ${ASSEMBLY_DEFINITIONS.map(
-          (a) => a.name
-        ).join(", ")}`
+        `Assembly not found. Available assemblies: ${lineup
+          .map((a) => a.name)
+          .join(", ")}`
       );
 
-    const adapters = assemblyDefinition.adaptersConstructors.map((c) =>
-      c(page)
-    );
-
-    let testAssembly = new TestAssembly<
-      AssemblyTypes["Adapter"],
-      AssemblyTypes["Driver"],
-      AssemblyTypes["DriverName"]
-    >(adapters);
-
-    assemblyDefinition.drivers.forEach((d) => {
-      testAssembly.agregarDriver(d.name, d.constructor(request, page));
+    let testAssembly = TestAssemblyFactory(assemblyDefinition, {
+      adaptersConstructorArgs: [page],
+      driversConstructorArgs: [request, page],
     });
 
     use(testAssembly);
   },
 });
 
-const ASSEMBLY_DEFINITIONS = [
+const lineup = [
   {
     name: "mock-api",
-    adaptersConstructors: [(page: Page) => new MockApiAdapter(page)],
+    adapters: [
+      {
+        name: "mock-api",
+        constructor: (page: Page) => new MockApiAdapter(page),
+      },
+    ],
     drivers: [
       {
         name: "bienvenida",
@@ -110,7 +98,7 @@ const ASSEMBLY_DEFINITIONS = [
   },
   {
     name: "e2e",
-    adaptersConstructors: [],
+    adapters: [],
     drivers: [
       {
         name: "bienvenida",
@@ -126,7 +114,7 @@ const ASSEMBLY_DEFINITIONS = [
   },
   {
     name: "backend",
-    adaptersConstructors: [],
+    adapters: [],
     drivers: [
       {
         name: "bienvenida",
@@ -140,7 +128,4 @@ const ASSEMBLY_DEFINITIONS = [
       },
     ],
   },
-] as const;
-
-type DriverName =
-  (typeof ASSEMBLY_DEFINITIONS)[number]["drivers"][number]["name"];
+] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies

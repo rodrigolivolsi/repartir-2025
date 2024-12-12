@@ -218,7 +218,7 @@ deploy-dev:
     - echo "Deploying application to DEV..."
     - echo "Application successfully deployed."
 
-acceptance-test-advanced:
+trigger-acceptance-test-advanced:
   trigger:
     include:
       - local: .gitlab-ci-assemblies.yml

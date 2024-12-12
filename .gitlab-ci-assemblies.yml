@@ -1,3 +1,8 @@
+image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
+
+stages:
+  - test
+
 .cache_node_modules: &cache_node_modules
   key:
     files:
@@ -6,7 +11,7 @@
   paths:
     - src/main/frontend/node_modules
   policy: pull
-  
+
 
 acceptance-test-assembly-e2e:
   stage: test

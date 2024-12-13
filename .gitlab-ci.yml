@@ -83,6 +83,42 @@ acceptance-test-js:backend:
     CI: "true"
     GRADLEW_PATH: "$CI_PROJECT_DIR"
   script:
-    - npm run acceptance-test:backend --prefix=src/main/frontend
-  cache:
-    - <<: *cache_node_modules
+    - ./gradlew jacocoTestReport --info
+  artifacts:
+    when: always
+    paths:
+      - build/reports/jacoco
+
+pages:
+  stage: deploy
+  before_script:
+    - apt-get update && apt-get -y install tree
+  script:
+    - mv build/reports public/
+    - mv src/main/frontend/coverage-reports public/
+    - tree ./public -HC '.' -T "REPORTES" -P "index.html|main.html|acceptance.html" --dirsfirst --prune --noreport --charset utf-8 > ./public/index.html
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+
+static-source-code-analysis:
+  stage: analyze
+  script:
+    - ./gradlew pmdMain
+  artifacts:
+    when: always
+    paths:
+      - build/reports/pmd
+
+deploy-dev:
+  stage: deploy
+  script:
+    - echo "Deploying application to DEV..."
+    - echo "Application successfully deployed."
+
+trigger-acceptance-test-advanced:
+  trigger:
+    include:
+      - local: .gitlab-ci-assemblies.yml

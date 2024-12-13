@@ -1,14 +1,8 @@
-type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (
-  x: infer I
-) => void
-  ? I
-  : never;
-
 class AssemblyRunner<
   TAssembly extends Assembly,
-  TAdapter = ReturnType<TAssembly["adapters"][number]["constructor"]>,
-  TDriver = ReturnType<TAssembly["drivers"][number]["constructor"]>,
-  TDriverName extends string = TAssembly["drivers"][number]["name"]
+  TAdapter = Adapter<TAssembly>,
+  TDriver = Driver<TAssembly>,
+  TDriverName = DriverName<TAssembly>
 > {
   constructor(
     private adapters: TAdapter[],
@@ -22,11 +16,6 @@ class AssemblyRunner<
     });
   }
 
-  /**
-   * Agrega un driver al assembly y lo guarda en este assembly con el nombre especificado
-   * @param driverName
-   * @param driver
-   */
   private agregarDriver(driverName: TDriverName, driver: TDriver) {
     let anyObj = this as any;
     anyObj[driverName] = this.wrapDriver(driver, this.adapters);
@@ -78,12 +67,8 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     adaptersConstructorArgs,
     driversConstructorArgs,
   }: {
-    adaptersConstructorArgs: Parameters<
-      TAssembly["adapters"][number]["constructor"]
-    >;
-    driversConstructorArgs: Parameters<
-      TAssembly["drivers"][number]["constructor"]
-    >;
+    adaptersConstructorArgs: Parameters<AdaptersConstructor<TAssembly>>;
+    driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
   }
 ) {
   const adapters = assembly.adapters.map((adapter) =>
@@ -96,13 +81,34 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
   return new AssemblyRunner<TAssembly>(
     adapters,
     drivers
-  ) as AssemblyRunner<TAssembly> & {
-    [K in TAssembly["drivers"][number]["name"]]: ReturnType<
-      (TAssembly["drivers"][number] & { name: K })["constructor"]
-    >;
-  };
+  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>;
 }
 
-export type TestAssembly<TLineup extends Lineup> = ReturnType<
-  typeof TestAssemblyFactory<TLineup[number]>
+export type TestAssembly<T extends Lineup> = ReturnType<
+  typeof TestAssemblyFactory<T[number]>
 >;
+
+type ExtractConstructor<
+  T extends Assembly,
+  U extends "drivers" | "adapters"
+> = T[U][number]["constructor"];
+type AdaptersConstructor<T extends Assembly> = ExtractConstructor<
+  T,
+  "adapters"
+>;
+type DriversConstructor<T extends Assembly> = ExtractConstructor<T, "drivers">;
+
+type ExtractDrivers<T extends Assembly> = T["drivers"][number];
+
+type Adapter<T extends Assembly> = ReturnType<AdaptersConstructor<T>>;
+type Driver<T extends Assembly> = ReturnType<DriversConstructor<T>>;
+type DriverName<T extends Assembly> = ExtractDrivers<T>["name"];
+
+type FilterDriverByName<
+  T extends Assembly,
+  U extends DriverName<T>
+> = ExtractDrivers<T> & { name: U }; // El operador & es intersección. La intersección entre todos los drivers y el objeto { name: U } son los drivers con ese nombre
+
+type DriverRecord<T extends Assembly> = {
+  [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>["constructor"]>;
+};

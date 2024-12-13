@@ -54,18 +54,16 @@ export const test = base.extend<{
     { auto: true },
   ],
   assembly: async ({ page, request }, use) => {
-    const assemblyDefinition = lineup.find(
-      (a) => a.name === process.env.ASSEMBLY_NAME
-    );
+    const assembly = lineup.find((a) => a.name === process.env.ASSEMBLY_NAME);
 
-    if (!assemblyDefinition)
+    if (!assembly)
       throw new Error(
         `Assembly not found. Available assemblies: ${lineup
           .map((a) => a.name)
           .join(", ")}`
       );
 
-    let testAssembly = TestAssemblyFactory(assemblyDefinition, {
+    let testAssembly = TestAssemblyFactory(assembly, {
       adaptersConstructorArgs: [page],
       driversConstructorArgs: [request, page],
     });

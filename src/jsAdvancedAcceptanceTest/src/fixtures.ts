@@ -15,7 +15,6 @@ import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver"
 import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 
 export const test = base.extend<{
-  autoTestFixture: void;
   assembly: TestAssembly<typeof lineup>;
 }>({
   assembly: async ({ page, request }, use) => {

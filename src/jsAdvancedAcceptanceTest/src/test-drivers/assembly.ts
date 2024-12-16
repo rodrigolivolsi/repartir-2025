@@ -1,25 +1,24 @@
-export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
-  constructor(private adapters: TAdapter[]) {}
-
-  /**
-   * Agrega un driver al assembly y lo guarda en este assembly con el nombre especificado
-   * @param driverName
-   * @param driver
-   */
-  agregarDriver(driverName: string, driver: TDriver) {
-    let anyObj = this as any;
-    anyObj[driverName] = this.wrapDriver(driver, this.adapters);
+class AssemblyRunner<
+  TAssembly extends Assembly,
+  TAdapter = Adapter<TAssembly>,
+  TDriver = Driver<TAssembly>,
+  TDriverName = DriverName<TAssembly>
+> {
+  constructor(
+    private adapters: TAdapter[],
+    drivers: {
+      name: TDriverName;
+      driver: TDriver;
+    }[]
+  ) {
+    drivers.forEach(({ name, driver }) => {
+      this.agregarDriver(name, driver);
+    });
   }
 
-  agregarDriverPrincipal(driverName: string, driver: TDriver) {
-    this.agregarDriver(driverName, driver);
-
+  private agregarDriver(driverName: TDriverName, driver: TDriver) {
     let anyObj = this as any;
-    let driverPrincipal = anyObj[driverName];
-
-    // copiamos todos los metodos del driver principal a este assembly para que se puedan llamar directamente
-    // sin hacer referencia al nombre del driver
-    Object.assign(this, driverPrincipal);
+    anyObj[driverName] = this.wrapDriver(driver, this.adapters);
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
@@ -47,3 +46,69 @@ export class TestAssembly<TAdapter extends unknown, TDriver extends unknown> {
     return new Proxy(driver, handler);
   }
 }
+
+interface Assembly {
+  name: string;
+  adapters: {
+    name: string;
+    constructor: (...args: any) => any;
+  }[];
+  drivers: {
+    name: string;
+    constructor: (...args: any) => any;
+  }[];
+}
+
+export type Lineup = Assembly[];
+
+export function TestAssemblyFactory<TAssembly extends Assembly>(
+  assembly: TAssembly,
+  {
+    adaptersConstructorArgs,
+    driversConstructorArgs,
+  }: {
+    adaptersConstructorArgs: Parameters<AdaptersConstructor<TAssembly>>;
+    driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
+  }
+) {
+  const adapters = assembly.adapters.map((adapter) =>
+    adapter.constructor(...adaptersConstructorArgs)
+  );
+  const drivers = assembly.drivers.map((driver) => ({
+    name: driver.name,
+    driver: driver.constructor(...driversConstructorArgs),
+  }));
+  return new AssemblyRunner<TAssembly>(
+    adapters,
+    drivers
+  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>;
+}
+
+export type TestAssembly<T extends Lineup> = ReturnType<
+  typeof TestAssemblyFactory<T[number]>
+>;
+
+type ExtractConstructor<
+  T extends Assembly,
+  U extends "drivers" | "adapters"
+> = T[U][number]["constructor"];
+type AdaptersConstructor<T extends Assembly> = ExtractConstructor<
+  T,
+  "adapters"
+>;
+type DriversConstructor<T extends Assembly> = ExtractConstructor<T, "drivers">;
+
+type ExtractDrivers<T extends Assembly> = T["drivers"][number];
+
+type Adapter<T extends Assembly> = ReturnType<AdaptersConstructor<T>>;
+type Driver<T extends Assembly> = ReturnType<DriversConstructor<T>>;
+type DriverName<T extends Assembly> = ExtractDrivers<T>["name"];
+
+type FilterDriverByName<
+  T extends Assembly,
+  U extends DriverName<T>
+> = ExtractDrivers<T> & { name: U }; // El operador & es intersección. La intersección entre todos los drivers y el objeto { name: U } son los drivers con ese nombre
+
+type DriverRecord<T extends Assembly> = {
+  [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>["constructor"]>;
+};

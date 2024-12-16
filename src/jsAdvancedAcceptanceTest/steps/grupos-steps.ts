@@ -1,11 +1,7 @@
 import { createBdd } from "../../main/frontend/node_modules/playwright-bdd";
 import { test } from "../src/fixtures";
 
-const { Given, When, Then, BeforeAll } = createBdd(test);
-
-BeforeAll(async (...args) => {
-  console.log("asd:::", args);
-});
+const { Given, When, Then } = createBdd(test);
 
 Given("que el usuario inició Repartir", async ({ assembly }) => {
   await assembly.grupos.iniciar();

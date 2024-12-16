@@ -3,8 +3,8 @@ import { test } from "../src/fixtures";
 
 const { Given, When, Then, BeforeAll } = createBdd(test);
 
-BeforeAll(async (asd) => {
-  console.log("asd:::", asd);
+BeforeAll(async (...args) => {
+  console.log("asd:::", args);
 });
 
 Given("que el usuario inició Repartir", async ({ assembly }) => {

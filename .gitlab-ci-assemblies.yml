@@ -1,6 +1,7 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 stages:
+  - build
   - test
 
 .cache_node_modules: &cache_node_modules
@@ -12,6 +13,12 @@ stages:
     - src/main/frontend/node_modules
   policy: pull
 
+build-assembly:
+  stage: build
+  script:
+    - npm run build --workspaces --prefix src/main/frontend
+  cache:
+    - <<: *cache_node_modules
 
 acceptance-test-assembly-e2e:
   stage: test

@@ -1,5 +1,9 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
+default:
+  before_script:
+    - npm run build --workspaces --prefix src/main/frontend
+
 stages:
   - test
 
@@ -12,17 +16,11 @@ stages:
     - src/main/frontend/node_modules
   policy: pull
 
-.build-assembly: &build_assembly
-  before-script:
-    - npm run build --workspaces --prefix src/main/frontend
-
 acceptance-test-assembly-e2e:
   stage: test
   variables:
     CI: "true"
     GRADLEW_PATH: "$CI_PROJECT_DIR"
-  before-script:
-    - <<: *build_assembly
   script:
     - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0KJS acceptance tests assembly E2E"
     - npm run acceptance-test:e2e --prefix=src/main/frontend

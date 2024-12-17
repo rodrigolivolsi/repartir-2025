@@ -9,5 +9,9 @@
   },
   "author": "",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  }
 }

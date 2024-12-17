@@ -7,7 +7,7 @@ import {
   Lineup,
   TestAssembly,
   TestAssemblyFactory,
-} from "../../main/frontend/node_modules/@grupo-esfera/assembly-runner/dist/assembly";
+} from "../../main/frontend/node_modules/@grupo-esfera/assembly-runner/src/assembly";
 import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
 import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
 import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";

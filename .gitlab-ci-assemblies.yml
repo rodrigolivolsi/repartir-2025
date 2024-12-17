@@ -12,7 +12,7 @@ stages:
     - src/main/frontend/node_modules
   policy: pull
 
-.build-assembly:
+.build-assembly: &build_assembly
   before-script:
     - npm run build --workspaces --prefix src/main/frontend
 

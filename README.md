@@ -22,6 +22,7 @@ La aplicación está compuesta por 3 componentes principales:
 ```
 cd src/main/frontend
 npm install
+npm run build
 ```
 
 ### Ejecutar la aplicación

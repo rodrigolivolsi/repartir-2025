@@ -26,6 +26,7 @@ npx playwright@1.48.1 install
 
 ```
 npm install
+npm run build
 npm run start
 ```
 
@@ -88,5 +89,5 @@ Consultar [otras opciones que admite Playwright](https://playwright.dev/docs/tes
 ## Empaquetar
 
 ```
-npm run build 
+npm run build
 ```

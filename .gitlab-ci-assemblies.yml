@@ -1,5 +1,9 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
+default:
+  before_script:
+    - npm run build --workspaces --prefix src/main/frontend
+
 stages:
   - test
 
@@ -11,7 +15,6 @@ stages:
   paths:
     - src/main/frontend/node_modules
   policy: pull
-
 
 acceptance-test-assembly-e2e:
   stage: test

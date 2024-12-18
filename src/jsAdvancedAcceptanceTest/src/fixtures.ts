@@ -7,7 +7,7 @@ import {
   Lineup,
   TestAssembly,
   TestAssemblyFactory,
-} from "./test-drivers/assembly";
+} from "../../main/frontend/node_modules/@grupo-esfera/assembly-runner/src/assembly";
 import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
 import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
 import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
@@ -19,7 +19,6 @@ export const test = base.extend<{
 }>({
   assembly: async ({ page, request }, use) => {
     const assembly = lineup.find((a) => a.name === process.env.ASSEMBLY_NAME);
-
     if (!assembly)
       throw new Error(
         `Assembly not found. Available assemblies: ${lineup

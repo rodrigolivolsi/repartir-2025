@@ -36,7 +36,6 @@ out/
 
 ### Frontend ###
 src/main/frontend/node_modules
-src/main/frontend/dist
 src/main/frontend/.angular
 
 src/main/frontend/.features-gen/
@@ -53,4 +52,4 @@ src/jsAdvancedAcceptanceTest/src/test-results/
 src/jsAdvancedAcceptanceTest/src/monocart-report/
 src/jsAdvancedAcceptanceTest/src/coverage-reports/
 nul
-
+**/dist

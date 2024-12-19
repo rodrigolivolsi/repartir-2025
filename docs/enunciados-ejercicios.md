@@ -34,7 +34,7 @@ Agregar las pruebas necesarias para verificar que se cumpla esta regla y luego i
 Si se produce un error en la API de personas, ni el backend ni el frontend informan al usuario y la aplicación se sigue comportando como si no hubiese pasado nada. Sería preferible que al producirse un error, el backend informara el problema al frontend y el frontend no permitiera seguir operando hasta que se resuelva.
 
 Se debe decidir que tipo de pruebas se quieren agregar para verificar la implementación deseada. 
-
+[Ver solución](https://gitlab.com/grupo-esfera/capacitacion/recursos/repartir/-/merge_requests/48/diffs)
 
 ## Ejercicio 4
 ### Agregar una prueba de aceptación multi assembly

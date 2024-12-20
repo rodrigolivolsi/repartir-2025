@@ -1,5 +1,20 @@
 # Repartir: Enunciados de ejercicios propuestos
 
+## Recomendaciones
+
+1. Ejecutar todos los pasos de [Setup del proyecto](../README.md#setup-del-proyecto)
+2. Probar de levantar la aplicación siguiendo las instrucciones de [Ejecutar la aplicación](../README.md#ejecutar-la-aplicación) y accediendo a http://localhost:4200
+3. Probar de ejecutar las pruebas de aceptación al menos una vez con
+```
+cd src/main/frontend
+npm run acceptance-test
+npm run acceptance-test:e2e
+```
+4. Este último paso tal vez requiera la instalación de los drivers de Playwright ejecutando
+```
+npx -y playwright@1.48.1 install --with-deps
+```
+
 ## Ejercicio 1
 ### Nueva regla: El monto total de gastos no puede ser negativo
 

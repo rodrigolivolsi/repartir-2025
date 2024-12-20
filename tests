@@ -11,7 +11,7 @@ runJavaTest(){
 }
 
 runJsAcceptanceTest(){
-  npm run acceptance-test --prefix=src/main/frontend || exit 1
+  npm run acceptance-test --prefix=src/main/frontend -- "$@"|| exit 1
 }
 
 runJSTest(){

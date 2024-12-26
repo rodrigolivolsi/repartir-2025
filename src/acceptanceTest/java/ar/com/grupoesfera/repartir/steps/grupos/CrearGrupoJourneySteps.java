@@ -23,7 +23,7 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
     public void elUsuarioIniciaLaAplicacion() {
 
         driver.navigate().to(url("/"));
-        driver.findElement(By.id("usuarioInput")).sendKeys("Juan");
+        driver.findElement(By.id("usuarioInput")).sendKeys("julian");
         var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton"));
         iniciarButton.click();
     }

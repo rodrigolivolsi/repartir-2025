@@ -18,7 +18,7 @@ public class ListarGrupos extends UITest {
         dadoQueExisteSoloElGrupoCampamentoConRocioYMacarena();
 
         driver.navigate().to(url("/"));
-        driver.findElement(By.id("usuarioInput")).sendKeys("Juan");
+        driver.findElement(By.id("usuarioInput")).sendKeys("julian");
         
         var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton"));
         iniciarButton.click();

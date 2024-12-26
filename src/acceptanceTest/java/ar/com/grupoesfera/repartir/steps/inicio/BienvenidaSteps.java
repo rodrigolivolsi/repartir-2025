@@ -41,7 +41,7 @@ public class BienvenidaSteps extends CucumberSteps {
 
     @When("decidió iniciar")
     public void decidioIniciar() {
-
+        driver.findElement(By.id("usuarioInput")).sendKeys("Juan");
         var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton"));
         iniciarButton.click();
 

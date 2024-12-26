@@ -17,6 +17,8 @@
   <p-footer>
     <p-button id="iniciarBienvenidaButton" label="Iniciar" (onClick)="iniciar()"
               icon="pi pi-check"
-              styleClass="p-button-secondary p-button-lg p-button-rounded"></p-button>
+              styleClass="p-button-secondary p-button-lg p-button-rounded"
+              [disabled]="!nombre || nombre.trim() === ''"
+              ></p-button>
   </p-footer>
 </p-dialog>

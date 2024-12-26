@@ -1,5 +1,8 @@
 package ar.com.grupoesfera.repartir.ui;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +29,32 @@ public class Bienvenida extends UITest {
     }
 
     @Test
+    public void sePuedeIniciarLuegoDeColocarUnUsuario() {
+        driver.navigate().to(url("/"));
+
+        var usuarioInput = driver.findElement(By.id("usuarioInput"));
+        usuarioInput.sendKeys("Juan");
+
+        var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton")).findElement(By.tagName("button"));
+        assertTrue(iniciarButton.isEnabled());
+    }
+
+    @Test
+    public void noSePuedeIniciarSinColocarUnUsuario() {
+        driver.navigate().to(url("/"));
+
+        var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton")).findElement(By.tagName("button"));
+        
+        assertFalse(iniciarButton.isEnabled());
+    }
+
+    @Test
     public void sePuedeAgregarGruposLuegoDePresionarIniciar() {
 
         driver.navigate().to(url("/"));
+        
+        var usuarioInput = driver.findElement(By.id("usuarioInput"));
+        usuarioInput.sendKeys("Juan");
 
         var iniciarButton = driver.findElement(By.id("iniciarBienvenidaButton"));
         iniciarButton.click();

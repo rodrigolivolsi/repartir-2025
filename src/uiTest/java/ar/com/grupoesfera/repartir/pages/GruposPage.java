@@ -20,6 +20,7 @@ public class GruposPage extends UITest.PageObject {
     public GruposPage ir() {
 
         this.driver().navigate().to(url("/"));
+        this.driver().findElement(By.id("usuarioInput")).sendKeys("Juan");
         var iniciarButton = this.driver().findElement(By.id("iniciarBienvenidaButton"));
         iniciarButton.click();
 

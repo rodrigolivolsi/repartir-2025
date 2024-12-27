@@ -80,3 +80,5 @@ Ejemplo:
       driversConstructorArgs: [request, page],
     });
 ```
+
+Los tipos de adapters y drivers disponibles para utilizar en el factory **TestAssemblyFactory** están dados por el Lineup. Los objetos **page** y **request** son de tipo **Page** y **ApiRequestContext** respectivamente y fueron definidos en la declaración del Lineup en el ejemplo anterior.

@@ -16,11 +16,11 @@ En la imagen, cada conjunto de bloques representa un assembly. Estos pueden conf
 
 ### Denifir el Lineup
 
-Al conjunto de assemblies disponibles lo llamamos Lineup. El Lineup es un array de objetos que deben cumplir con el sguiente contrato:
+Al conjunto de assemblies disponibles lo llamamos Lineup. El Lineup es un array de objetos que deben cumplir con el siguiente contrato:
 
 1. Tener nombre
 1. Lista de adaptadores. (Podría no tener ninguno. Sería el caso donde se prueba al sistema de punta a punta y no se adapta ninguna de sus partes).
-1. Drivers. La liste de objetos que van a guiar o ejecutar la prueba. (Podría usar un web driver si voy a interactuar con la web o un http driver si voy a interactuar con http, para ejercitar un servicio rest por ejemplo)
+1. Drivers. La lista de objetos que van a guiar o ejecutar la prueba. (Podría usar un web driver si voy a interactuar con la web o un http driver si voy a interactuar con http, para ejercitar un servicio rest por ejemplo)
 
 Ejemplo:
 

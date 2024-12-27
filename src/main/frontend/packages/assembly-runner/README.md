@@ -82,3 +82,10 @@ Ejemplo:
 ```
 
 Los tipos de adapters y drivers disponibles para utilizar en el factory **TestAssemblyFactory** están dados por el Lineup. Los objetos **page** y **request** son de tipo **Page** y **ApiRequestContext** respectivamente y fueron definidos en la declaración del Lineup en el ejemplo anterior.
+
+
+## Caso de uso: Repartir
+
+Repartir es una web app diseñada para ser un catálogo de tipos de pruebas. Por eso su estructura de carpetas no sigue ningún estándar de alguna tecnología en particular. Allí se puede encontrar un ejemplo de uso funcional del Assembly Runner.
+
+Ver este documento: [Arquitectura de pruebas](../../../../../docs/arquitectura-de-pruebas.md)

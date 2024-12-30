@@ -30,14 +30,14 @@ class AssemblyRunner<
           for (let i = 0; i < adapters.length; i++) {
             let adapter = adapters[i];
             const adapterMethod = adapter?.[methodName as keyof typeof adapter];
-            if (typeof adapterMethod === "function") {
+            if (typeof adapterMethod === 'function') {
               await adapterMethod(...args);
             }
           }
 
           // por ultimo invoca el mismo metodo sobre el driver
           const driverMethod = driver?.[methodName as keyof typeof driver];
-          if (typeof driverMethod === "function") {
+          if (typeof driverMethod === 'function') {
             await driverMethod(...args);
           }
         };
@@ -71,7 +71,6 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
   }
 ) {
-
   const adaptersConstructorArgsIterable = toIterable(adaptersConstructorArgs);
   const driversConstructorArgsIterable = toIterable(driversConstructorArgs);
 
@@ -94,19 +93,19 @@ export type TestAssembly<T extends Lineup> = ReturnType<
 
 type ExtractConstructor<
   T extends Assembly,
-  U extends "drivers" | "adapters"
-> = T[U][number]["constructor"];
+  U extends 'drivers' | 'adapters'
+> = T[U][number]['constructor'];
 type AdaptersConstructor<T extends Assembly> = ExtractConstructor<
   T,
-  "adapters"
+  'adapters'
 >;
-type DriversConstructor<T extends Assembly> = ExtractConstructor<T, "drivers">;
+type DriversConstructor<T extends Assembly> = ExtractConstructor<T, 'drivers'>;
 
-type ExtractDrivers<T extends Assembly> = T["drivers"][number];
+type ExtractDrivers<T extends Assembly> = T['drivers'][number];
 
 type Adapter<T extends Assembly> = ReturnType<AdaptersConstructor<T>>;
 type Driver<T extends Assembly> = ReturnType<DriversConstructor<T>>;
-type DriverName<T extends Assembly> = ExtractDrivers<T>["name"];
+type DriverName<T extends Assembly> = ExtractDrivers<T>['name'];
 
 type FilterDriverByName<
   T extends Assembly,
@@ -114,9 +113,8 @@ type FilterDriverByName<
 > = ExtractDrivers<T> & { name: U }; // El operador & es intersección. La intersección entre todos los drivers y el objeto { name: U } son los drivers con ese nombre
 
 type DriverRecord<T extends Assembly> = {
-  [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>["constructor"]>;
+  [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>['constructor']>;
 };
-
 
 function toIterable<T extends any[]>(args: T): Iterable<T[number]> {
   return args as unknown as Iterable<T[number]>;

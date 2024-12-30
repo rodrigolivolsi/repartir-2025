@@ -37,13 +37,11 @@ const lineup = [
     drivers: [
       {
         name: "bienvenida",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new BienvenidaPlaywrightDriver(page),
+        constructor: (_: APIRequestContext, page: Page) => new BienvenidaPlaywrightDriver(page),
       },
       {
         name: "grupos",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new GruposPlaywrightDriver(page),
+        constructor: (_: APIRequestContext, page: Page) => new GruposPlaywrightDriver(page),
       },
     ],
   },
@@ -53,13 +51,11 @@ const lineup = [
     drivers: [
       {
         name: "bienvenida",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new BienvenidaPlaywrightDriver(page),
+        constructor: (_: APIRequestContext, page: Page) => new BienvenidaPlaywrightDriver(page),
       },
       {
         name: "grupos",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new GruposPlaywrightDriver(page),
+        constructor: (_: APIRequestContext, page: Page) => new GruposPlaywrightDriver(page),
       },
     ],
   },
@@ -68,21 +64,20 @@ const lineup = [
 
 ### Crear el assembly
 
-Al ejecutar los tests, es necesario utilizar un assembly específico. Este paquete tiene como objetivo simplificar la selección y configuración de un assembly, permitiendo que un test se ejecute en cualquiera de los assemblies definidos en el Lineup.
+Al ejecutar los tests, es necesario utilizar un assembly específico. Este paquete tiene como objetivo simplificar la configuración de un assembly, permitiendo que un test se ejecute en cualquiera de los assemblies definidos en el Lineup.
 
 Ejemplo:
 
 ```typescript
-    const assembly = lineup.find((a) => a.name === 'e2e');
+const assembly = lineup.find((a) => a.name === "e2e");
 
-    let testAssembly = TestAssemblyFactory(assembly, {
-      adaptersConstructorArgs: [page],
-      driversConstructorArgs: [request, page],
-    });
+let testAssembly = TestAssemblyFactory(assembly, {
+  adaptersConstructorArgs: [page],
+  driversConstructorArgs: [request, page],
+});
 ```
 
 Los tipos de adapters y drivers disponibles para utilizar en el factory **TestAssemblyFactory** están dados por el Lineup. Los objetos **page** y **request** son de tipo **Page** y **ApiRequestContext** respectivamente y fueron definidos en la declaración del Lineup en el ejemplo anterior.
-
 
 ## Caso de uso: Repartir
 

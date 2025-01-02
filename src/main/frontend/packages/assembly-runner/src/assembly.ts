@@ -38,7 +38,7 @@ class AssemblyRunner<
           // por ultimo invoca el mismo metodo sobre el driver
           const driverMethod = driver?.[methodName as keyof typeof driver];
           if (typeof driverMethod === 'function') {
-            await driverMethod(...args);
+            return await driverMethod(...args);
           }
         };
       },

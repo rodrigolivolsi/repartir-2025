@@ -8,7 +8,6 @@ import { GruposDriver } from "./grupos-driver";
 export class GruposPlaywrightDriver implements GruposDriver {
   private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
   private miembrosDeGrupoEsperados: Array<string> = [];
-  private context: any = {};
 
   constructor(private page: Page) {}
 
@@ -42,7 +41,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     await this.page.locator("#nombreGrupoNuevoInput").fill("Grupo inválido");
     await this.page.locator("#miembrosGrupoNuevoInput").fill("Oscar");
     await this.page.keyboard.press("Enter");
-    
+
     await this.page.locator("#guardarGrupoNuevoButton").click();
   };
 

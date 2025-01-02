@@ -2,12 +2,12 @@ import {
   Page,
   expect,
 } from "../../../main/frontend/node_modules/playwright/test";
+import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 import { GruposDriver } from "./grupos-driver";
 
 export class GruposPlaywrightDriver implements GruposDriver {
   private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
   private miembrosDeGrupoEsperados: Array<string> = [];
-  private context: any = {};
 
   constructor(private page: Page) {}
 
@@ -26,9 +26,9 @@ export class GruposPlaywrightDriver implements GruposDriver {
     await this.page.locator("#iniciarBienvenidaButton").click();
   };
 
-  crearCon = async (nombre: string): Promise<void> => {
+  crearCon = async (nombre: string): Promise<Grupo> => {
     let miembros = ["Victor", "Brenda"];
-    await this.crearConNombreYMiembros(nombre, miembros);
+    return await this.crearConNombreYMiembros(nombre, miembros);
   };
 
   crearConMiembros = async (miembros: Array<string>): Promise<void> => {
@@ -37,16 +37,23 @@ export class GruposPlaywrightDriver implements GruposDriver {
   };
 
   crearConUnUnicoMiembro = async (): Promise<void> => {
-    let nombre = "Grupo inválido";
-    let miembros = ["Oscar"];
-    await this.crearConNombreYMiembros(nombre, miembros);
+    await this.page.locator("#crearGruposButton").click();
+    await this.page.locator("#nombreGrupoNuevoInput").fill("Grupo inválido");
+    await this.page.locator("#miembrosGrupoNuevoInput").fill("Oscar");
+    await this.page.keyboard.press("Enter");
+
+    await this.page.locator("#guardarGrupoNuevoButton").click();
   };
 
   private async crearConNombreYMiembros(
     nombre: string,
     miembros: Array<string>
-  ): Promise<void> {
+  ): Promise<Grupo> {
     this.nombreDeGrupoEsperado = nombre;
+    const gruposAntesDeCrearUnoNuevo = await this.page
+      .locator("app-grupos table tr")
+      .count();
+
     await this.page.locator("#crearGruposButton").click();
     await this.page.locator("#nombreGrupoNuevoInput").fill(nombre);
 
@@ -57,17 +64,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }
 
     await this.page.locator("#guardarGrupoNuevoButton").click();
-  }
-
-  crear = async (): Promise<void> => {
-    const gruposAntesDeCrearUnoNuevo = await this.page
-      .locator("app-grupos table tr")
-      .count();
-
-    let nombre = "Grupo de 4";
-    let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
-
-    await this.crearConNombreYMiembros(nombre, miembros);
 
     await this.page.waitForFunction((gruposAntesDeCrearUnoNuevo) => {
       const gruposAhora = document.querySelectorAll(
@@ -75,11 +71,23 @@ export class GruposPlaywrightDriver implements GruposDriver {
       ).length;
       return gruposAhora > gruposAntesDeCrearUnoNuevo;
     }, gruposAntesDeCrearUnoNuevo);
+
     let ultimaFila = this.page.locator("app-grupos table tr").last();
-
     let grupoId = await ultimaFila.locator("td:nth-child(1)").textContent();
+    const grupoCreado: Grupo = {
+      id : grupoId ? parseInt(grupoId): -1,
+      nombre: '',
+      miembros:  []
+    };
+    return grupoCreado;
 
-    this.context.grupoId = grupoId;
+  }
+
+  crear = async (): Promise<Grupo> => {
+    let nombre = "Grupo de 4";
+    let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
+
+    return await this.crearConNombreYMiembros(nombre, miembros);
   };
 
   validarNombreDeGrupo = async (): Promise<void> => {
@@ -109,9 +117,9 @@ export class GruposPlaywrightDriver implements GruposDriver {
     await expect(mensajesToast).toContainText("Error");
   };
 
-  validarMontoTotal = async (montoEsperado: string): Promise<void> => {
+  validarMontoTotal = async (montoEsperado: string, grupo: Grupo): Promise<void> => {
     let filaConGrupoId = this.page.locator(
-      `app-grupos table tr:has(td:nth-child(1):text("${this.context.grupoId}"))`
+      `app-grupos table tr:has(td:nth-child(1):text("${grupo.id}"))`
     );
     let monto = await filaConGrupoId.locator("td:nth-child(3)");
 

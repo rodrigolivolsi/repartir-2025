@@ -13,9 +13,11 @@ import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright
 import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
 import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver";
 import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
+import { World } from "./world";
 
 export const test = base.extend<{
   assembly: TestAssembly<typeof lineup>;
+  world: World;
 }>({
   assembly: async ({ page, request }, use) => {
     const assembly = lineup.find((a) => a.name === process.env.ASSEMBLY_NAME);
@@ -33,6 +35,10 @@ export const test = base.extend<{
 
     use(testAssembly);
   },
+  world: async ({}, use) => {
+    const world: World = {};
+    use(world)
+  }
 });
 
 const lineup = [

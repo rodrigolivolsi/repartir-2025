@@ -29,12 +29,12 @@ export class GruposHttpDriver implements GruposDriver {
     expect(pedido.ok()).toBeTruthy();
   };
 
-  crearCon = async (nombre: string): Promise<void> => {
+  crearCon = async (nombre: string): Promise<Grupo> => {
     let nuevoGrupo: Grupo = {
       nombre: nombre,
       miembros: ["Jose", "Elena"],
     };
-    await this.crearGrupo(nuevoGrupo);
+    return await this.crearGrupo(nuevoGrupo);
   };
 
   private async crearGrupo(nuevoGrupo: Grupo) {
@@ -48,6 +48,7 @@ export class GruposHttpDriver implements GruposDriver {
     this.idGrupo = grupoCreado.id;
     this.nombreGrupo = nuevoGrupo.nombre;
     this.miembrosGrupo = nuevoGrupo.miembros;
+    return grupoCreado;
   }
 
   crearConMiembros = async (miembros: Array<string>): Promise<void> => {
@@ -69,12 +70,12 @@ export class GruposHttpDriver implements GruposDriver {
     expect(respuestaCrear.ok()).toBeFalsy();
   };
 
-  crear = async (): Promise<void> => {
+  crear = async (): Promise<Grupo> => {
     let nuevoGrupo: Grupo = {
       nombre: "Futbol de los martes",
       miembros: ["Nico", "Tizi", "Santi"],
     };
-    await this.crearGrupo(nuevoGrupo);
+    return await this.crearGrupo(nuevoGrupo);
   };
 
   validarNombreDeGrupo = async (): Promise<void> => {
@@ -102,7 +103,7 @@ export class GruposHttpDriver implements GruposDriver {
     // nada
   };
 
-  validarMontoTotal = async (montoEsperado: string): Promise<void> => {
+  validarMontoTotal = async (montoEsperado: string, grupo:Grupo): Promise<void> => {
     let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
     expect(nuevoGrupo?.total?.toString()).toEqual(montoEsperado);
   };

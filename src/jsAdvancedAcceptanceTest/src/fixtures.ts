@@ -1,13 +1,13 @@
-import { test as base } from "../../main/frontend/node_modules/playwright-bdd";
-import {
-  APIRequestContext,
-  Page,
-} from "../../main/frontend/node_modules/playwright/test";
 import {
   Lineup,
   TestAssembly,
   TestAssemblyFactory,
 } from "../../main/frontend/node_modules/@grupo-esfera/assembly-runner/src/assembly";
+import { test as base } from "../../main/frontend/node_modules/playwright-bdd";
+import {
+  APIRequestContext,
+  Page,
+} from "../../main/frontend/node_modules/playwright/test";
 import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
 import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
 import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
@@ -17,7 +17,7 @@ import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 export const test = base.extend<{
   assembly: TestAssembly<typeof lineup>;
 }>({
-  assembly: async ({ page, request }, use) => {
+  assembly: async ({ page, request }, use, asd) => {
     const assembly = lineup.find((a) => a.name === process.env.ASSEMBLY_NAME);
     if (!assembly)
       throw new Error(

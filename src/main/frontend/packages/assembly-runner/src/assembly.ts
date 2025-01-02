@@ -67,18 +67,16 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     adaptersConstructorArgs,
     driversConstructorArgs,
   }: {
-    adaptersConstructorArgs: Iterable<
-      Parameters<AdaptersConstructor<TAssembly>>
-    >;
-    driversConstructorArgs: Iterable<Parameters<DriversConstructor<TAssembly>>>;
+    adaptersConstructorArgs: Parameters<AdaptersConstructor<TAssembly>>;
+    driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
   }
 ) {
   const adapters = assembly.adapters.map((adapter) =>
-    adapter.constructor(...adaptersConstructorArgs)
+    adapter.constructor(...(adaptersConstructorArgs as Iterable<any>))
   );
   const drivers = assembly.drivers.map((driver) => ({
     name: driver.name,
-    driver: driver.constructor(...driversConstructorArgs),
+    driver: driver.constructor(...(driversConstructorArgs as Iterable<any>)),
   }));
   return new AssemblyRunner<TAssembly>(
     adapters,

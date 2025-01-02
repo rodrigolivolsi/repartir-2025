@@ -1,3 +1,4 @@
+import { fail } from "assert";
 import { createBdd } from "../../main/frontend/node_modules/playwright-bdd";
 import { test } from "../src/fixtures";
 
@@ -9,8 +10,8 @@ Given("que el usuario inició Repartir", async ({ assembly }) => {
 
 When(
   "el usuario crea un grupo indicando el nombre {string}",
-  async ({ assembly }, nombre) => {
-    await assembly.grupos.crearCon(nombre);
+  async ({ assembly, world}, nombre) => {
+    world.grupo = await assembly.grupos.crearCon(nombre);
   }
 );
 
@@ -21,14 +22,17 @@ When(
   }
 );
 
-When("el usuario crea un grupo", async ({ assembly }) => {
-  await assembly.grupos.crear();
+When("el usuario crea un grupo", async ({ assembly, world}) => {
+  world.grupo = await assembly.grupos.crear();
 });
 
 Then(
   "debería visualizar dentro del listado el grupo con total $ {string}",
-  async ({ assembly }, montoEsperado) => {
-    await assembly.grupos.validarMontoTotal(montoEsperado);
+  async ({ assembly, world}, montoEsperado) => {
+    if(!world.grupo){
+      fail("Grupo no encontrado");
+    }
+    await assembly.grupos.validarMontoTotal(montoEsperado, world.grupo);
   }
 );
 

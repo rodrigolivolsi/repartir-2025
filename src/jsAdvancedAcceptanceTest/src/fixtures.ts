@@ -17,7 +17,7 @@ import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 export const test = base.extend<{
   assembly: TestAssembly<typeof lineup>;
 }>({
-  assembly: async ({ page, request }, use, asd) => {
+  assembly: async ({ page, request }, use) => {
     const assembly = lineup.find((a) => a.name === process.env.ASSEMBLY_NAME);
     if (!assembly)
       throw new Error(

@@ -47,16 +47,45 @@ class AssemblyRunner<
   }
 }
 
-interface Assembly {
-  name: string;
-  adapters: {
-    name: string;
-    constructor: (...args: any) => any;
-  }[];
-  drivers: {
-    name: string;
-    constructor: (...args: any) => any;
-  }[];
+type Assembly = {
+  readonly name: string;
+  readonly drivers: ReadonlyArray<{
+    readonly name: string;
+    readonly constructor: (...args: any) => any;
+  }>;
+  readonly adapters: ReadonlyArray<{
+    readonly name: string;
+    readonly constructor: (...args: any) => any;
+  }>;
+};
+
+export function createAssembly<
+  N extends string,
+  DN extends string,
+  D extends ReadonlyArray<{
+    readonly name: DN;
+    readonly constructor: (...args: any) => any;
+  }>,
+  AN extends string,
+  A extends ReadonlyArray<{
+    readonly name: AN;
+    readonly constructor: (
+      ...args: any
+    ) => Partial<ReturnType<D[number]['constructor']>>;
+  }>
+>(
+  name: N,
+  config: { drivers: D; adapters: A }
+): Readonly<{
+  name: N;
+  drivers: D;
+  adapters: A;
+}> {
+  return {
+    name,
+    drivers: config.drivers,
+    adapters: config.adapters,
+  } as const;
 }
 
 export type Lineup = Assembly[];

@@ -1,7 +1,7 @@
 import {
   APIRequestContext,
   expect,
-} from "../../../main/frontend/node_modules/playwright/test";
+} from "playwright/test";
 import { GruposDriver } from "./grupos-driver";
 import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 
@@ -29,20 +29,6 @@ export class GruposHttpDriver implements GruposDriver {
     expect(pedido.ok()).toBeTruthy();
   };
 
-  private async crearGrupo(nuevoGrupo: Grupo) {
-    const respuestaCrear = await this.request.post("/api/grupos", {
-      data: nuevoGrupo,
-    });
-    expect(respuestaCrear.ok()).toBeTruthy();
-    let grupoCreado = (await respuestaCrear.json()) as Grupo;
-    expect(grupoCreado.id).toBeTruthy();
-
-    this.idGrupo = grupoCreado.id;
-    this.nombreGrupo = nuevoGrupo.nombre;
-    this.miembrosGrupo = nuevoGrupo.miembros;
-    return grupoCreado;
-  }
-
   crearConUnUnicoMiembro = async (): Promise<void> => {
     let nuevoGrupo: Grupo = {
       nombre: "Grupo invalido",
@@ -59,7 +45,7 @@ export class GruposHttpDriver implements GruposDriver {
     expect(nuevoGrupo?.nombre).toBe(this.nombreGrupo);
   };
 
-  crearConNombreYMiembros = async (nombre: string, miembros: Array<string>): Promise<Grupo> => {
+  crearGrupo = async (nombre: string, miembros: Array<string>): Promise<Grupo> => {
     let nuevoGrupo: Grupo = {
       nombre,
       miembros,

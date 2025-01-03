@@ -35,7 +35,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
     await this.page.locator("#guardarGrupoNuevoButton").click();
   };
 
-  crearConNombreYMiembros = async (
+  crearGrupo = async (
     nombre: string,
     miembros: Array<string>
   ): Promise<Grupo> =>{

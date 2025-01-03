@@ -59,7 +59,7 @@ export class MockApiAdapter
     );
   }
 
-  crearConNombreYMiembros = async (
+  crearGrupo = async (
     nombre: string,
     miembros: string[]
   ): Promise<Grupo>  => {

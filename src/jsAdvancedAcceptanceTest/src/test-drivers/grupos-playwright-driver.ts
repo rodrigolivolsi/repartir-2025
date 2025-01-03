@@ -49,13 +49,15 @@ export class GruposPlaywrightDriver implements GruposDriver {
     nombre: string,
     miembros: Array<string>
   ): Promise<Grupo> {
-    this.nombreDeGrupoEsperado = nombre;
+    const fecha = new Date();
+    const nombreFecha =`${nombre}_${fecha.getTime()}`; 
+    this.nombreDeGrupoEsperado = nombreFecha;
     const gruposAntesDeCrearUnoNuevo = await this.page
       .locator("app-grupos table tr")
       .count();
 
     await this.page.locator("#crearGruposButton").click();
-    await this.page.locator("#nombreGrupoNuevoInput").fill(nombre);
+    await this.page.locator("#nombreGrupoNuevoInput").fill(nombreFecha);
 
     for (let i = 0; i < miembros.length; i++) {
       await this.page.locator("#miembrosGrupoNuevoInput").fill(miembros[i]);
@@ -71,10 +73,10 @@ export class GruposPlaywrightDriver implements GruposDriver {
       ).length;
       return gruposAhora > gruposAntesDeCrearUnoNuevo;
     }, gruposAntesDeCrearUnoNuevo);
-
-    let ultimaFila = this.page.locator("app-grupos table tr").last();
-    let grupoId = await ultimaFila.locator("td:nth-child(1)").textContent();
-    const grupoCreado: Grupo = {
+    
+    const grupoFila = await this.page.locator("app-grupos table tr",{hasText:nombreFecha});
+    let grupoId = await grupoFila.locator("td:nth-child(1)").textContent();
+    const grupoCreado: Grupo = {//TODO completar datos de Grupo
       id : grupoId ? parseInt(grupoId): -1,
       nombre: '',
       miembros:  []

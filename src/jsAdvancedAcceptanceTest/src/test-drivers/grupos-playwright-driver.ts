@@ -75,11 +75,12 @@ export class GruposPlaywrightDriver implements GruposDriver {
     }, gruposAntesDeCrearUnoNuevo);
     
     const grupoFila = await this.page.locator("app-grupos table tr",{hasText:nombreFecha});
-    let grupoId = await grupoFila.locator("td:nth-child(1)").textContent();
-    const grupoCreado: Grupo = {//TODO completar datos de Grupo
+    const grupoId = await grupoFila.locator("td:nth-child(1)").textContent();
+    
+    const grupoCreado: Grupo = {
       id : grupoId ? parseInt(grupoId): -1,
-      nombre: '',
-      miembros:  []
+      nombre: nombreFecha,
+      miembros
     };
     return grupoCreado;
 

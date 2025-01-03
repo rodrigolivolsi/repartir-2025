@@ -121,9 +121,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
   };
 
   validarMontoTotal = async (montoEsperado: string, grupo: Grupo): Promise<void> => {
-    let filaConGrupoId = this.page.locator(
-      `app-grupos table tr:has(td:nth-child(1):text("${grupo.id}"))`
-    );
+    const filaConGrupoId = await this.page.locator("app-grupos table tr",{hasText:grupo.nombre});
     let monto = await filaConGrupoId.locator("td:nth-child(3)");
 
     await expect(monto).toContainText(montoEsperado);

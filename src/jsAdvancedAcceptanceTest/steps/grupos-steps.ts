@@ -11,19 +11,19 @@ Given("que el usuario inició Repartir", async ({ assembly }) => {
 When(
   "el usuario crea un grupo indicando el nombre {string}",
   async ({ assembly, world}, nombre) => {
-    world.grupo = await assembly.grupos.crearCon(nombre);
+    world.grupo = await assembly.grupos.crearConNombreYMiembros(generarNombreUnico(nombre),["Victor", "Brenda"]);
   }
 );
 
 When(
   "el usuario crea un grupo indicando que sus miembros son {string} y {string}",
-  async ({ assembly }, miembro1, miembro2) => {
-    await assembly.grupos.crearConMiembros([miembro1, miembro2]);
+  async ({ assembly }, miembro1, miembro2) => {  
+    await assembly.grupos.crearConNombreYMiembros(generarNombreUnico("Grupo de Prueba"),[miembro1, miembro2]);
   }
 );
 
 When("el usuario crea un grupo", async ({ assembly, world}) => {
-  world.grupo = await assembly.grupos.crear();
+  world.grupo = await assembly.grupos.crearConNombreYMiembros(generarNombreUnico("Grupo de 4"),["Guido", "Laura", "Mariano", "Juan Cruz"]);
 });
 
 Then(
@@ -65,3 +65,9 @@ Then(
     await assembly.grupos.validarMiembrosDeGrupo();
   }
 );
+
+function generarNombreUnico (nombre:string) {
+  const fecha = new Date();
+  const nombreFecha =`${nombre}_${fecha.getTime()}`; 
+  return nombreFecha;
+}

@@ -76,13 +76,13 @@ const lineup = [
     drivers: [
       {
         name: "bienvenida",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new BienvenidaHttpDriver(_),
+        constructor: (request: APIRequestContext, _: Page) =>
+          new BienvenidaHttpDriver(request),
       },
       {
         name: "grupos",
-        constructor: (_: APIRequestContext, page: Page) =>
-          new GruposHttpDriver(_),
+        constructor: (request: APIRequestContext, _: Page) =>
+          new GruposHttpDriver(request),
       },
     ],
     adapters: [],

@@ -85,7 +85,7 @@ export function createAssembly<
     name,
     drivers: config.drivers,
     adapters: config.adapters,
-  } as const;
+  } as const satisfies Assembly;
 }
 
 export type Lineup = Assembly[];

@@ -47,7 +47,7 @@ class AssemblyRunner<
   }
 }
 
-type Assembly = {
+interface Assembly {
   readonly name: string;
   readonly drivers: ReadonlyArray<{
     readonly name: string;
@@ -57,7 +57,7 @@ type Assembly = {
     readonly name: string;
     readonly constructor: (...args: any) => any;
   }>;
-};
+}
 
 export function createAssembly<
   N extends string,

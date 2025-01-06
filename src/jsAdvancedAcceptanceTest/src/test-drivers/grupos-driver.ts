@@ -1,11 +1,11 @@
+import { Grupo } from "../../../main/frontend/src/app/model/grupo";
+
 export interface GruposDriver {
   iniciar(): Promise<void>;
-  crearCon(nombre: string): Promise<void>;
-  crearConMiembros(miembros: Array<string>): Promise<void>;
+  crearGrupo(nombre: string, miembros: Array<string>): Promise<Grupo>;
   crearConUnUnicoMiembro(): Promise<void>;
-  crear(): Promise<void>;
   validarNombreDeGrupo(): Promise<void>;
   validarMiembrosDeGrupo(): Promise<void>;
   validarMensajeDeAlMenosDosMiembros(): Promise<void>;
-  validarMontoTotal(montoEsperado: string): Promise<void>;
-}
+  validarMontoTotal(montoEsperado: string, grupo:Grupo): Promise<void>;
+  }

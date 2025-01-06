@@ -59,26 +59,10 @@ export class MockApiAdapter
     );
   }
 
-  crearCon = async (nombre: string): Promise<void> => {
-    let miembros = ["Victor", "Brenda"];
-    await this.prepararGuardarGrupo(nombre, miembros);
-  };
-
-  crearConMiembros = async (miembros: Array<string>): Promise<void> => {
-    let nombre = "Grupo de Prueba";
-    await this.prepararGuardarGrupo(nombre, miembros);
-  };
-
-  crear = async (): Promise<void> => {
-    let nombre = "Grupo de 4";
-    let miembros = ["Guido", "Laura", "Mariano", "Juan Cruz"];
-    await this.prepararGuardarGrupo(nombre, miembros);
-  };
-
-  private async prepararGuardarGrupo(
+  crearGrupo = async (
     nombre: string,
     miembros: string[]
-  ): Promise<void> {
+  ): Promise<Grupo>  => {
     this.grupoCreado.nombre = nombre;
     this.grupoCreado.miembros = miembros;
 
@@ -97,6 +81,8 @@ export class MockApiAdapter
         });
       }
     });
+
+    return this.grupoCreado;
   }
 
   crearConUnUnicoMiembro = async (): Promise<void> => {

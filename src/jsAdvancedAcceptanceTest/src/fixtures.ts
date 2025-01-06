@@ -10,7 +10,7 @@ import {
 } from "../../main/frontend/node_modules/@grupo-esfera/assembly-runner/src/assembly";
 import { BienvenidaHttpDriver } from "./test-drivers/bienvenida-http-driver";
 import { BienvenidaPlaywrightDriver } from "./test-drivers/bienvenida-playwright-driver";
-import { GruposHttpDriver } from "./test-drivers/grupos-https-driver";
+import { GruposHttpDriver } from "./test-drivers/grupos-http-driver";
 import { GruposPlaywrightDriver } from "./test-drivers/grupos-playwright-driver";
 import { MockApiAdapter } from "./test-drivers/mockApi-adapter";
 import { World } from "./world";

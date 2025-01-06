@@ -1,7 +1,7 @@
 import {
   APIRequestContext,
   expect,
-} from "playwright/test";
+} from "../../../main/frontend/node_modules/playwright/test";
 import { GruposDriver } from "./grupos-driver";
 import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 

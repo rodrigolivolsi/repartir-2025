@@ -48,15 +48,44 @@ class AssemblyRunner<
 }
 
 interface Assembly {
-  name: string;
-  adapters: {
-    name: string;
-    constructor: (...args: any) => any;
-  }[];
-  drivers: {
-    name: string;
-    constructor: (...args: any) => any;
-  }[];
+  readonly name: string;
+  readonly drivers: ReadonlyArray<{
+    readonly name: string;
+    readonly constructor: (...args: any) => any;
+  }>;
+  readonly adapters: ReadonlyArray<{
+    readonly name: string;
+    readonly constructor: (...args: any) => any;
+  }>;
+}
+
+export function createAssembly<
+  N extends string,
+  DN extends string,
+  D extends ReadonlyArray<{
+    readonly name: DN;
+    readonly constructor: (...args: any) => any;
+  }>,
+  AN extends string,
+  A extends ReadonlyArray<{
+    readonly name: AN;
+    readonly constructor: (
+      ...args: any
+    ) => Partial<ReturnType<D[number]['constructor']>>;
+  }>
+>(
+  name: N,
+  config: { drivers: D; adapters: A }
+): Readonly<{
+  name: N;
+  drivers: D;
+  adapters: A;
+}> {
+  return {
+    name,
+    drivers: config.drivers,
+    adapters: config.adapters,
+  } as const satisfies Assembly;
 }
 
 export type Lineup = Assembly[];
@@ -71,15 +100,12 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
   }
 ) {
-  const adaptersConstructorArgsIterable = toIterable(adaptersConstructorArgs);
-  const driversConstructorArgsIterable = toIterable(driversConstructorArgs);
-
   const adapters = assembly.adapters.map((adapter) =>
-    adapter.constructor(...adaptersConstructorArgsIterable)
+    adapter.constructor(...(adaptersConstructorArgs as Iterable<any>))
   );
   const drivers = assembly.drivers.map((driver) => ({
     name: driver.name,
-    driver: driver.constructor(...driversConstructorArgsIterable),
+    driver: driver.constructor(...(driversConstructorArgs as Iterable<any>)),
   }));
   return new AssemblyRunner<TAssembly>(
     adapters,
@@ -115,7 +141,3 @@ type FilterDriverByName<
 type DriverRecord<T extends Assembly> = {
   [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>['constructor']>;
 };
-
-function toIterable<T extends any[]>(args: T): Iterable<T[number]> {
-  return args as unknown as Iterable<T[number]>;
-}

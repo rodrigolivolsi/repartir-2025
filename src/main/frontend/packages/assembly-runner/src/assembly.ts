@@ -26,20 +26,24 @@ class AssemblyRunner<
       get(target, propName, receiver) {
         if (propName in target) {
           const prop = target[propName];
-          if (typeof prop === 'function') {
+          if (prop instanceof Function) {
             if (prop.constructor.name === 'AsyncFunction')
               return async function (...args: unknown[]) {
                 adapters.forEach(async (adapter) => {
-                  const adapterMethod = adapter[propName] as Function;
-                  await adapterMethod(...args);
+                  const adapterMethod = adapter[propName];
+                  if (adapterMethod instanceof Function)
+                    // we know its a function because its the same as target[propName] but it can be undefined
+                    await adapterMethod(...args);
                 });
                 return await prop(...args);
               };
             else
               return function (...args: unknown[]) {
                 adapters.forEach(async (adapter) => {
-                  const adapterMethod = adapter[propName] as Function;
-                  adapterMethod(...args);
+                  const adapterMethod = adapter[propName];
+                  if (adapterMethod instanceof Function)
+                    // we know its a function because its the same as target[propName] but it can be undefined
+                    await adapterMethod(...args);
                 });
                 return prop(...args);
               };

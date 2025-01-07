@@ -22,27 +22,6 @@ class AssemblyRunner<
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
-    /*const handler: ProxyHandler = {
-      get(target, methodName, receiver) {
-        return async function (...args: any[]) {
-          // cada vez que se invoca un metodo sobre el driver, recorre la lista de adapters y si ese adapter tiene
-          // una implementación para ese método, la invoca, pasandole los argumentos
-          for (let i = 0; i < adapters.length; i++) {
-            let adapter = adapters[i];
-            const adapterMethod = adapter?.[methodName as keyof typeof adapter];
-            if (typeof adapterMethod === 'function') {
-              await adapterMethod(...args);
-            }
-          }
-
-          // por ultimo invoca el mismo metodo sobre el driver
-          const driverMethod = driver?.[methodName as keyof typeof driver];
-          if (typeof driverMethod === 'function') {
-            return await driverMethod(...args);
-          }
-        };
-      },
-    };*/
     const handler: ProxyHandler<TDriver> = {
       get(target, propName, receiver) {
         if (propName in target) {

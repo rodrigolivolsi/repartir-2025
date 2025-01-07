@@ -1,7 +1,7 @@
 class AssemblyRunner<
   TAssembly extends Assembly,
-  TAdapter = Adapter<TAssembly>,
-  TDriver = Driver<TAssembly>,
+  TAdapter extends Record<string | symbol, unknown> = Adapter<TAssembly>,
+  TDriver extends Record<string | symbol, unknown> = Driver<TAssembly>,
   TDriverName = DriverName<TAssembly>
 > {
   constructor(
@@ -22,8 +22,8 @@ class AssemblyRunner<
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
-    const handler = {
-      get(target: any, methodName: string, receiver: any) {
+    /*const handler: ProxyHandler = {
+      get(target, methodName, receiver) {
         return async function (...args: any[]) {
           // cada vez que se invoca un metodo sobre el driver, recorre la lista de adapters y si ese adapter tiene
           // una implementación para ese método, la invoca, pasandole los argumentos
@@ -42,7 +42,34 @@ class AssemblyRunner<
           }
         };
       },
+    };*/
+    const handler: ProxyHandler<TDriver> = {
+      get(target, propName, receiver) {
+        if (propName in target) {
+          const prop = target[propName];
+          if (typeof prop === 'function') {
+            if (prop.constructor.name === 'AsyncFunction')
+              return async function (...args: unknown[]) {
+                adapters.forEach(async (adapter) => {
+                  const adapterMethod = adapter[propName] as Function;
+                  await adapterMethod(...args);
+                });
+                return await prop(...args);
+              };
+            else
+              return function (...args: unknown[]) {
+                adapters.forEach(async (adapter) => {
+                  const adapterMethod = adapter[propName] as Function;
+                  adapterMethod(...args);
+                });
+                return prop(...args);
+              };
+          }
+        }
+        return Reflect.get(target, propName, receiver);
+      },
     };
+
     return new Proxy(driver, handler);
   }
 }

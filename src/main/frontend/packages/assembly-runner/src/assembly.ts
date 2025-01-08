@@ -23,33 +23,33 @@ class AssemblyRunner<
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
     const handler: ProxyHandler<TDriver> = {
-      get(target, propName, receiver) {
-        if (propName in target) {
-          const prop = target[propName];
-          if (prop instanceof Function) {
-            if (prop.constructor.name === 'AsyncFunction')
-              return async function (...args: unknown[]) {
+      get(driver, propName, receiver) {
+        if (propName in driver) {
+          const driverProperty = driver[propName];
+          if (driverProperty instanceof Function) {
+            if (driverProperty.constructor.name === 'AsyncFunction')
+              return async (...args: unknown[]) => {
                 adapters.forEach(async (adapter) => {
-                  const adapterMethod = adapter[propName];
-                  if (adapterMethod instanceof Function)
+                  const adapterProperty = adapter[propName];
+                  if (adapterProperty instanceof Function)
                     // we know its a function because its the same as target[propName] but it can be undefined
-                    await adapterMethod(...args);
+                    await adapterProperty.apply(adapter, args);
                 });
-                return await prop(...args);
+                return await driverProperty.apply(driver, args);
               };
             else
-              return function (...args: unknown[]) {
+              return (...args: unknown[]) => {
                 adapters.forEach(async (adapter) => {
-                  const adapterMethod = adapter[propName];
-                  if (adapterMethod instanceof Function)
+                  const adapterProperty = adapter[propName];
+                  if (adapterProperty instanceof Function)
                     // we know its a function because its the same as target[propName] but it can be undefined
-                    await adapterMethod(...args);
+                    await adapterProperty.apply(adapter, args);
                 });
-                return prop(...args);
+                return driverProperty.apply(driver, args);
               };
           }
         }
-        return Reflect.get(target, propName, receiver);
+        return Reflect.get(driver, propName, receiver);
       },
     };
 

@@ -1,5 +1,5 @@
-import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 import { Page } from "../../../main/frontend/node_modules/playwright/test";
+import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 import { BienvenidaDriver } from "./bienvenida-driver";
 import { GruposDriver } from "./grupos-driver";
 
@@ -21,15 +21,6 @@ export class MockApiAdapter
   };
 
   constructor(private page: Page) {}
-
-  /*
-   * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
-   * el transpilador elimina los métodos pero no los atributos. Ejemplo:
-   *
-   * miMetodo = async(parametro: tipo): Promise<void> => {
-   *  // implementacion del metodo
-   * }
-   */
 
   acceder = async (): Promise<void> => {
     await this.iniciarAplicacion();
@@ -59,10 +50,7 @@ export class MockApiAdapter
     );
   }
 
-  crearGrupo = async (
-    nombre: string,
-    miembros: string[]
-  ): Promise<Grupo>  => {
+  crearGrupo = async (nombre: string, miembros: string[]): Promise<Grupo> => {
     this.grupoCreado.nombre = nombre;
     this.grupoCreado.miembros = miembros;
 
@@ -83,7 +71,7 @@ export class MockApiAdapter
     });
 
     return this.grupoCreado;
-  }
+  };
 
   crearConUnUnicoMiembro = async (): Promise<void> => {
     await this.page.route("**/api/grupos", async (route) => {

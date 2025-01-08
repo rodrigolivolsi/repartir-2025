@@ -11,15 +11,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
 
   constructor(private page: Page) {}
 
-  /*
-   * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
-   * el transpilador elimina los métodos pero no los atributos. Ejemplo:
-   *
-   * miMetodo = async(parametro: tipo): Promise<void> => {
-   *  // implementacion del metodo
-   * }
-   */
-
   iniciar = async (): Promise<void> => {
     await this.page.goto("/");
     await this.page.getByRole("textbox").fill("julian");
@@ -38,7 +29,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
   crearGrupo = async (
     nombre: string,
     miembros: Array<string>
-  ): Promise<Grupo> =>{
+  ): Promise<Grupo> => {
     this.nombreDeGrupoEsperado = nombre;
     const gruposAntesDeCrearUnoNuevo = await this.page
       .locator("app-grupos table tr")
@@ -61,18 +52,19 @@ export class GruposPlaywrightDriver implements GruposDriver {
       ).length;
       return gruposAhora > gruposAntesDeCrearUnoNuevo;
     }, gruposAntesDeCrearUnoNuevo);
-    
-    const grupoFila = await this.page.locator("app-grupos table tr",{hasText:nombre});
+
+    const grupoFila = await this.page.locator("app-grupos table tr", {
+      hasText: nombre,
+    });
     const grupoId = await grupoFila.locator("td:nth-child(1)").textContent();
-    
+
     const grupoCreado: Grupo = {
-      id : grupoId ? parseInt(grupoId): -1,
+      id: grupoId ? parseInt(grupoId) : -1,
       nombre: nombre,
-      miembros
+      miembros,
     };
     return grupoCreado;
-
-  }
+  };
 
   validarNombreDeGrupo = async (): Promise<void> => {
     await expect(this.page.getByRole("alert")).toContainText(
@@ -101,8 +93,13 @@ export class GruposPlaywrightDriver implements GruposDriver {
     await expect(mensajesToast).toContainText("Error");
   };
 
-  validarMontoTotal = async (montoEsperado: string, grupo: Grupo): Promise<void> => {
-    const filaConGrupoId = await this.page.locator("app-grupos table tr",{hasText:grupo.nombre});
+  validarMontoTotal = async (
+    montoEsperado: string,
+    grupo: Grupo
+  ): Promise<void> => {
+    const filaConGrupoId = await this.page.locator("app-grupos table tr", {
+      hasText: grupo.nombre,
+    });
     let monto = await filaConGrupoId.locator("td:nth-child(3)");
 
     await expect(monto).toContainText(montoEsperado);

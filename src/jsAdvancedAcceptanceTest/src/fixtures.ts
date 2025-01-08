@@ -38,8 +38,8 @@ export const test = base.extend<{
   },
   world: async ({}, use) => {
     const world: World = {};
-    use(world)
-  }
+    use(world);
+  },
 });
 
 const lineup = [

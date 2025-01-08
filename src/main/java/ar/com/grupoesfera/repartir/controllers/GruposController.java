@@ -80,21 +80,10 @@ public class GruposController {
 
         ResponseEntity<Grupo> response;
 
-        try {
-
-            Grupo grupo = grupos.agregarGasto(id, gasto);
-
-            response = ResponseEntity.ok(grupo);
-
-        } catch (GrupoNoEncontradoException e) {
-
-            response = ResponseEntity.notFound().build();
-
-        } catch (Exception e) {
-
-            response = ResponseEntity.internalServerError().build();
-        }
+        Grupo grupo = grupos.agregarGasto(id, gasto);
+        response = ResponseEntity.ok(grupo);
 
         return response;
     }
+    
 }

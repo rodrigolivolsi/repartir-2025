@@ -1,7 +1,7 @@
 class AssemblyRunner<
   TAssembly extends Assembly,
-  TAdapter = Adapter<TAssembly>,
-  TDriver = Driver<TAssembly>,
+  TAdapter extends Record<string | symbol, unknown> = Adapter<TAssembly>,
+  TDriver extends Record<string | symbol, unknown> = Driver<TAssembly>,
   TDriverName = DriverName<TAssembly>
 > {
   constructor(
@@ -22,27 +22,37 @@ class AssemblyRunner<
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
-    const handler = {
-      get(target: any, methodName: string, receiver: any) {
-        return async function (...args: any[]) {
-          // cada vez que se invoca un metodo sobre el driver, recorre la lista de adapters y si ese adapter tiene
-          // una implementación para ese método, la invoca, pasandole los argumentos
-          for (let i = 0; i < adapters.length; i++) {
-            let adapter = adapters[i];
-            const adapterMethod = adapter?.[methodName as keyof typeof adapter];
-            if (typeof adapterMethod === 'function') {
-              await adapterMethod(...args);
-            }
+    const handler: ProxyHandler<TDriver> = {
+      get(target, propName, receiver) {
+        if (propName in target) {
+          const prop = target[propName];
+          if (prop instanceof Function) {
+            if (prop.constructor.name === 'AsyncFunction')
+              return async function (...args: unknown[]) {
+                adapters.forEach(async (adapter) => {
+                  const adapterMethod = adapter[propName];
+                  if (adapterMethod instanceof Function)
+                    // we know its a function because its the same as target[propName] but it can be undefined
+                    await adapterMethod(...args);
+                });
+                return await prop(...args);
+              };
+            else
+              return function (...args: unknown[]) {
+                adapters.forEach(async (adapter) => {
+                  const adapterMethod = adapter[propName];
+                  if (adapterMethod instanceof Function)
+                    // we know its a function because its the same as target[propName] but it can be undefined
+                    await adapterMethod(...args);
+                });
+                return prop(...args);
+              };
           }
-
-          // por ultimo invoca el mismo metodo sobre el driver
-          const driverMethod = driver?.[methodName as keyof typeof driver];
-          if (typeof driverMethod === 'function') {
-            return await driverMethod(...args);
-          }
-        };
+        }
+        return Reflect.get(target, propName, receiver);
       },
     };
+
     return new Proxy(driver, handler);
   }
 }

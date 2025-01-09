@@ -32,7 +32,7 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         | uiTest                          | ```./gradlew uiTest```              |                         |
 | NPM                     | jsAcceptanceTest                | ```npm run acceptance-test```           | ```src/main/frontend``` |
 |                         | jsAdvancedAcceptanceTest        | ```npm run acceptance-test:e2e```       | ```src/main/frontend``` |
-|                         |                                 | ```npm run  acceptance-test:mock-api```  |                         |
+|                         |                                 | ```npm run acceptance-test:mock-api```  |                         |
 |                         |                                 | ```npm run acceptance-test:backend```   |                         |
 
 

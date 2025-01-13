@@ -43,3 +43,38 @@ test("cuando se invoca un metodo en el driver, se llama el método correspondien
 
   expect(spy).toHaveBeenCalled();
 })
+
+test("cuando se invoca un metodo en el driver con parametros, se llama el método correspondiente del adapter con parametros", async () => {
+  const testADapter =new TestAdapter();
+  const spy = vi.spyOn(testADapter, "hacerAlgoConParametros");
+  const parametro1 ="hola mundo";
+  const parametro2 = 1;
+  
+  const lineup = [
+    createAssembly("assembly-con-adapter", {
+      drivers: [
+        {
+          name: "testDriver",
+          constructor: () =>
+            new TestDriver(),
+        },
+      ],
+      adapters: [
+        {
+          name: "testAdapter",
+          constructor: () => testADapter,
+        },
+      ],
+    })
+  ] as const satisfies Lineup;
+
+  const testAssembly = TestAssemblyFactory(lineup[0], {
+    adaptersConstructorArgs: [],
+    driversConstructorArgs: [],
+  });
+
+  testAssembly.testDriver.hacerAlgoConParametros(parametro1,parametro2);
+
+  expect(spy).toHaveBeenCalled();
+  expect(spy).toHaveBeenCalledWith(parametro1,parametro2);
+})

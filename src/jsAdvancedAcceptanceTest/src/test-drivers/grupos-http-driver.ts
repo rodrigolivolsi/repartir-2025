@@ -2,8 +2,8 @@ import {
   APIRequestContext,
   expect,
 } from "../../../main/frontend/node_modules/playwright/test";
-import { GruposDriver } from "./grupos-driver";
 import { Grupo } from "../../../main/frontend/src/app/model/grupo";
+import { GruposDriver } from "./grupos-driver";
 
 export class GruposHttpDriver implements GruposDriver {
   constructor(private request: APIRequestContext) {}
@@ -11,15 +11,6 @@ export class GruposHttpDriver implements GruposDriver {
   private nombreGrupo: string = "";
   private idGrupo: number | undefined;
   private miembrosGrupo: string[] = [];
-
-  /*
-   * Los métodos deben ser declarados de la siguiente manera porque al convertirse esta clase de TS a JS y perder su tipo (pasa a ser de tipo "any")
-   * el transpilador elimina los métodos pero no los atributos. Ejemplo:
-   *
-   * miMetodo = async(parametro: tipo): Promise<void> => {
-   *  // implementacion del metodo
-   * }
-   */
 
   iniciar = async (): Promise<void> => {
     const inicio = await this.request.get("/api/grupos");
@@ -45,12 +36,15 @@ export class GruposHttpDriver implements GruposDriver {
     expect(nuevoGrupo?.nombre).toBe(this.nombreGrupo);
   };
 
-  crearGrupo = async (nombre: string, miembros: Array<string>): Promise<Grupo> => {
+  crearGrupo = async (
+    nombre: string,
+    miembros: Array<string>
+  ): Promise<Grupo> => {
     let nuevoGrupo: Grupo = {
       nombre,
       miembros,
     };
-    
+
     const respuestaCrear = await this.request.post("/api/grupos", {
       data: nuevoGrupo,
     });
@@ -62,7 +56,7 @@ export class GruposHttpDriver implements GruposDriver {
     this.nombreGrupo = nuevoGrupo.nombre;
     this.miembrosGrupo = nuevoGrupo.miembros;
     return grupoCreado;
-  } 
+  };
 
   private async buscarNuevoGrupoEnListado(): Promise<Grupo | undefined> {
     const listado = await this.request.get("/api/grupos");
@@ -84,7 +78,10 @@ export class GruposHttpDriver implements GruposDriver {
     // nada
   };
 
-  validarMontoTotal = async (montoEsperado: string, grupo:Grupo): Promise<void> => {
+  validarMontoTotal = async (
+    montoEsperado: string,
+    grupo: Grupo
+  ): Promise<void> => {
     let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
     expect(nuevoGrupo?.total?.toString()).toEqual(montoEsperado);
   };

@@ -30,10 +30,10 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         | dbTest                          | ```./gradlew dbTest```              |                         |
 |                         | test                            | ```./gradlew test```                |                         |
 |                         | uiTest                          | ```./gradlew uiTest```              |                         |
-| NPM                     | jsAcceptanceTest                | ```npm acceptance-test```           | ```src/main/frontend``` |
-|                         | jsAdvancedAcceptanceTest        | ```npm acceptance-test:e2e```       | ```src/main/frontend``` |
-|                         |                                 | ```npm acceptance-test:mock-api```  |                         |
-|                         |                                 | ```npm acceptance-test:backend```   |                         |
+| NPM                     | jsAcceptanceTest                | ```npm run acceptance-test```           | ```src/main/frontend``` |
+|                         | jsAdvancedAcceptanceTest        | ```npm run acceptance-test:e2e```       | ```src/main/frontend``` |
+|                         |                                 | ```npm run acceptance-test:mock-api```  |                         |
+|                         |                                 | ```npm run acceptance-test:backend```   |                         |
 
 
 Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican a continuación.

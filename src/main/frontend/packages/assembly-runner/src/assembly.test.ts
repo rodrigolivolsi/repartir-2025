@@ -13,8 +13,8 @@ test('my types work properly1', () => {
 });
 
 test("cuando se invoca un metodo en el driver, se llama el método correspondiente del adapter", async () => {
-
-  const spy = vi.spyOn(new TestAdapter(), "hacerAlgo");
+  const testADapter =new TestAdapter();
+  const spy = vi.spyOn(testADapter, "hacerAlgo");
 
   const lineup = [
     createAssembly("assembly-con-adapter", {
@@ -28,7 +28,7 @@ test("cuando se invoca un metodo en el driver, se llama el método correspondien
       adapters: [
         {
           name: "testAdapter",
-          constructor: () => spy,
+          constructor: () => testADapter,
         },
       ],
     })

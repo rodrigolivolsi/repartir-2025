@@ -121,10 +121,17 @@ test("los tipos del lineup son correctos", () => {
   });
 });
 
+test("El assembly tiene la estructura esperada", () => {
+  expectTypeOf(testAssembly.name).toBeString();
+
+  expectTypeOf(testAssembly.drivers).toBeArray();
+  expectTypeOf(testAssembly.adapters).toBeArray();
+});
+
 test("los métodos pueden ser lambda o no lambda", () => {
   const testDriver = new TestDriver();
   const testAdapter = new TestAdapter();
-  
+
 
   expect(() => testDriver.haceralgoLambda()).not.toThrow();
   expect(() => testDriver.haceralgoNoLambda()).not.toThrow();

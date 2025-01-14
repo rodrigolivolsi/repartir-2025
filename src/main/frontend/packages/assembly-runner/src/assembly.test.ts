@@ -60,6 +60,13 @@ test("cuando se invoca un metodo en el driver con parametros, se llama el métod
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith(parametro1, parametro2);
 });
+// suma?
+test("las firmas de los métodos del adapter son iguales a las del driver", () => {
+  const driverMethodSignature = expectTypeOf(testDriver.hacerAlgoConParametros).parameters;
+  const adapterMethodSignature = expectTypeOf(testAdapter.hacerAlgoConParametros).parameters;
+
+  expectTypeOf(driverMethodSignature).toEqualTypeOf(adapterMethodSignature);
+});
 
 test("puede no existir método de adapter que se corresponda con el del driver", async () => {
   const testAdapterVacio = {};
@@ -97,3 +104,33 @@ test("cuando se invoca un metodo en el driver que retorna un string, retorna un 
 
   expect(spy.mock.results[0].value).toBe(result);
 });
+//suma?
+test("los valores de retorno del driver y adapter coinciden", () => {
+  const driverReturnType = expectTypeOf(testDriver.hacerAlgoQueRetornaUnString).returns;
+  const adapterReturnType = expectTypeOf(testAdapter.hacerAlgoQueRetornaUnString).returns;
+
+  expectTypeOf(driverReturnType).toEqualTypeOf(adapterReturnType);
+});
+
+test("los tipos del lineup son correctos", () => {
+  expectTypeOf(lineup).toHaveProperty("drivers");
+  expectTypeOf(lineup).toHaveProperty("adapters");
+  expectTypeOf(lineup.drivers[0]).toMatchTypeOf({
+    name: expect.any(String),
+    constructor: expect.any(Function),
+  });
+});
+
+test("los métodos pueden ser lambda o no lambda", () => {
+  const testDriver = new TestDriver();
+  const testAdapter = new TestAdapter();
+  
+
+  expect(() => testDriver.haceralgoLambda()).not.toThrow();
+  expect(() => testDriver.haceralgoNoLambda()).not.toThrow();
+
+  expect(() => testAdapter.haceralgoLambda()).not.toThrow();
+  expect(() => testAdapter.haceralgoNoLambda()).not.toThrow();
+});
+
+

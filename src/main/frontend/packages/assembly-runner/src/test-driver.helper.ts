@@ -1,10 +1,8 @@
 export class TestDriver  {
 
-  hacerAlgo(){
+  hacerAlgo(){}
 
-  }
-
-  hacerAlgoConParametros(cadena:string,contador:number){
-
-  }
- }
+  hacerAlgoConParametros(cadena:string,contador:number){}
+  
+  hacerAlgoSinAdapter(){}
+}

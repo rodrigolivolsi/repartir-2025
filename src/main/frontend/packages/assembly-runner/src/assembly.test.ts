@@ -49,7 +49,7 @@ test("cuando se invoca un metodo en el driver con parametros, se llama el métod
   const spy = vi.spyOn(testADapter, "hacerAlgoConParametros");
   const parametro1 ="hola mundo";
   const parametro2 = 1;
-  
+
   const lineup = [
     createAssembly("assembly-con-adapter", {
       drivers: [
@@ -78,3 +78,35 @@ test("cuando se invoca un metodo en el driver con parametros, se llama el métod
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith(parametro1,parametro2);
 })
+
+test("puede no existir método de adapter que se corresponda con el del driver", async () => {
+  const testAdapterVacio = {};
+
+  const lineup = [
+    createAssembly("assembly-sin-metodo-adapter", {
+      drivers: [
+        {
+          name: "testDriver",
+          constructor: () => new TestDriver(),
+        },
+      ],
+      adapters: [
+        {
+          name: "testAdapter",
+          constructor: () => testAdapterVacio, 
+        },
+      ],
+    }),
+  ] as const satisfies Lineup;
+
+
+  const testAssembly = TestAssemblyFactory(lineup[0], {
+    adaptersConstructorArgs: [],
+    driversConstructorArgs: [],
+  });
+
+  const resultado = testAssembly.testDriver.hacerAlgoSinAdapter();
+
+  expect(resultado).toBeUndefined(); 
+  expect(() => testAssembly.testDriver.hacerAlgoSinAdapter()).not.toThrow();
+});

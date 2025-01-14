@@ -1,10 +1,8 @@
 export class TestAdapter  {
 
-  hacerAlgo(){
+  hacerAlgo(){}
 
-  }
-
-  hacerAlgoConParametros(cadena:string,contador:number){
-
-  }
- }
+  hacerAlgoConParametros(cadena:string,contador:number){}
+  
+  hacerAlgoQueRetornaUnString(){return "hola mundo"}
+}

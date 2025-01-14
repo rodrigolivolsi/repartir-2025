@@ -110,3 +110,38 @@ test("puede no existir método de adapter que se corresponda con el del driver",
   expect(resultado).toBeUndefined(); 
   expect(() => testAssembly.testDriver.hacerAlgoSinAdapter()).not.toThrow();
 });
+
+test("cuando se invoca un metodo en el driver que retorna un string, retorna un string ddel método correspondiente del adapter", async () => {
+  const testADapter =new TestAdapter();
+  const testDriver = new TestDriver();
+  
+  const spy = vi.spyOn(testADapter, "hacerAlgoQueRetornaUnString");
+
+  const lineup = [
+    createAssembly("assembly-con-adapter", {
+      drivers: [
+        {
+          name: "testDriver",
+          constructor: () =>
+            testDriver,
+        },
+      ],
+      adapters: [
+        {
+          name: "testAdapter",
+          constructor: () => testADapter,
+        },
+      ],
+    })
+  ] as const satisfies Lineup;
+
+  const testAssembly = TestAssemblyFactory(lineup[0], {
+    adaptersConstructorArgs: [],
+    driversConstructorArgs: [],
+  });
+
+  const result = testAssembly.testDriver.hacerAlgoQueRetornaUnString();
+  
+  expect(spy.mock.results[0].value).toBe(result);
+
+})

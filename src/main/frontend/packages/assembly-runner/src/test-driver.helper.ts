@@ -5,4 +5,6 @@ export class TestDriver  {
   hacerAlgoConParametros(cadena:string,contador:number){}
   
   hacerAlgoSinAdapter(){}
+
+  hacerAlgoQueRetornaUnString(){return "hola mundo"}
 }

@@ -1,17 +1,29 @@
 export class TestAdapter  {
 
-  hacerAlgo(){}
+  async hacerAlgo(): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, 100));
+  }
 
-  hacerAlgoConParametros(cadena:string,contador:number){}
+  async hacerAlgoConParametros(cadena: string, contador: number): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 100);
+    });
+  }
 
-  hacerAlgoQueRetornaUnString(){return "hola mundo"}
+  async hacerAlgoQueRetornaUnString(): Promise<string> {
+    return new Promise((resolve) => setTimeout(() => resolve("hola mundo"), 100));
+  }
 
-  haceralgoLambda = () => {}
+  haceralgoLambda = async (n1: number, n2: number): Promise<number> => {
+    return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
+  };
 
+  async haceralgoNoLambda(n1: number, n2: number): Promise<number> {
+    return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
+  }
 
-  haceralgoNoLambda(){}
-
-  hacerAlgoAsincrono(): Promise<string> {
-    return new Promise((resolve) => setTimeout(() => resolve("resultado asincrónico"), 100));
+  hacerAlgoSincrono(): string {
+    return "resultado sincrónico";
   }
 }
+

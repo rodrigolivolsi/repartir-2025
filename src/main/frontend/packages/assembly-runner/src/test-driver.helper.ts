@@ -1,19 +1,33 @@
 export class TestDriver  {
 
-  hacerAlgo(){}
+    async hacerAlgo(): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, 100));
+    }
 
-  hacerAlgoConParametros(cadena:string,contador:number){}
+    async hacerAlgoConParametros(cadena: string, contador: number): Promise<void> {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 100);
+      });
+    }
 
-  hacerAlgoSinAdapter(texto: string){ return  texto}
-
-  hacerAlgoQueRetornaUnString(){return "hola mundo"}
-
-  haceralgoLambda = () => {}
+    async hacerAlgoSinAdapter(texto: string): Promise<string> {
+      return new Promise((resolve) => setTimeout(() => resolve(texto), 100));
+    }
 
 
-  haceralgoNoLambda(){}
+    async hacerAlgoQueRetornaUnString(): Promise<string> {
+      return new Promise((resolve) => setTimeout(() => resolve("hola mundo"), 100));
+    }
 
-  hacerAlgoAsincrono(): Promise<string> {
-    return new Promise((resolve) => setTimeout(() => resolve("resultado asincrónico"), 100));
-  }
+    haceralgoLambda = async (n1: number, n2: number): Promise<number> => {
+      return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
+    };
+
+    async haceralgoNoLambda(n1: number, n2: number): Promise<number> {
+      return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
+    }
+
+    hacerAlgoSincrono(): string {
+      return "resultado sincrónico";
+    }
 }

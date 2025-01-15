@@ -20,6 +20,7 @@ La aplicación está compuesta por 3 componentes principales:
 ### Setup del proyecto
 
 ```
+Ver pasos del Setup del ambiente en src/main/frontend/README.md
 cd src/main/frontend
 npm install
 npm run build
@@ -141,3 +142,19 @@ Es recomendable instalar los siguientes plugins:
 - [Gradle for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle)
 - [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=RobinGROSS.mycucumberautocomplete)
 - [Angular Essentials](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
+
+
+## Posibles errores
+
+### Al correr npm run build en src/main/frontend
+
+Si se obtiene un error de este estilo:
+
+```
+[error] SyntaxError: Unexpected end of input
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:152:18)
+    at ModuleLoader.moduleProvider (node:internal/modules/esm/loader:299:14)
+```
+- Correr npm install
+- Si ya lo hiciste, chequear en el main.ts o algún otro archivo si hay imports que dice que no encuentra.
+- Borrar la carpeta node_modules y volver a correr el npm install

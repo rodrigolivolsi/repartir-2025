@@ -94,7 +94,7 @@ test("los tipos del lineup son correctos", () => {
   expectTypeOf(lineup.drivers[0]).toMatchTypeOf({
     name: expect.any(String),
     constructor: expect.any(Function),
-  });//
+  });
 });
 
 test("los métodos pueden ser lambda o no lambda", async () => {
@@ -119,5 +119,36 @@ test("Un método sincrono debe funcionar sin await", async () => {
 
   expect( resultadoDriverSinAwait).toBe("resultado sincrónico");
   expect( spy.mock.results[0]?.value).toBe("resultado sincrónico");
+});
+
+test('el driver deberia quedar igual una vez creado el assembly', () => {
+  const driverPrueba = {
+    async hacerAlgo(): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, 100));
+    },
+
+
+    haceAlgoLambda: () => {},
+
+    haceAlgoNoLambda() {},
+
+  };
+
+  const lineUp = createAssembly('prueba', {
+    drivers: [
+      {
+        name: 'test',
+        constructor: () => driverPrueba,
+      },
+    ],
+    adapters: [],
+  });
+
+  const testAssembly = TestAssemblyFactory(lineUp, {
+    driversConstructorArgs: [],
+    adaptersConstructorArgs: [],
+  });
+
+  expectTypeOf(testAssembly['test']).toMatchTypeOf(driverPrueba);
 });
 

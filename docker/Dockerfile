@@ -1,6 +1,6 @@
 FROM markhobson/maven-chrome:jdk-17
 
-ENV NODE_VERSION=18.20.4
+ENV NODE_VERSION=22.13.0
 RUN  apt-get update && apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
@@ -11,7 +11,6 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
-RUN apt-get install -y netcat
 RUN npx -y playwright@1.48.1 install --with-deps
 
 CMD ["bash"]

@@ -17,6 +17,7 @@ cd docker
 echo $GITLAB_TOKEN | docker login registry.gitlab.com -u [USER_NAME] --password-stdin
 ```
 donde $GITLAB_TOKEN es un Access Token generado desde la página de perfil del usuario que se va a conectar y [USER_NAME] es el nombre de dicho usuario.
+* Iniciar Docker Desktop si no fue iniciado antes.
 * Buildear la imagen
 ```
 docker build -t registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir . 

@@ -4,7 +4,7 @@
 ## Setup del ambiente:
 
 
-Disponibilizar `node v18.20.4` en `NODE_PATH` 
+Disponibilizar `node v22.13.0` en `NODE_PATH` 
 
 ```
 export PATH=${NODE_PATH}/bin:${PATH}

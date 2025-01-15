@@ -5,7 +5,7 @@
 - JDK 17
 - Docker (Solo para correr la demo)
 - Chrome
-- Node 18
+- Node 22.13.0
 
 ## Arquitectura general
 

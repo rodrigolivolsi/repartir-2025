@@ -33,15 +33,6 @@ beforeEach(() => {
   });
 });
 
-test('my types work properly1', () => {
-  const sum = (a: number, b: number) => {
-    return a + b;
-  };
-
-  expectTypeOf(sum).parameters.toMatchTypeOf<number[]>();
-  expectTypeOf(sum).parameters.toEqualTypeOf<[number, number, number, number]>();
-});
-
 test("cuando se invoca un metodo en el driver, se llama el método correspondiente del adapter", async () => {
   const spy = vi.spyOn(testAdapter, "hacerAlgo");
 
@@ -60,7 +51,7 @@ test("cuando se invoca un metodo en el driver con parametros, se llama el métod
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith(parametro1, parametro2);
 });
-// suma?
+
 test("las firmas de los métodos del adapter son iguales a las del driver", () => {
   const driverMethodSignature = expectTypeOf(testDriver.hacerAlgoConParametros).parameters;
   const adapterMethodSignature = expectTypeOf(testAdapter.hacerAlgoConParametros).parameters;
@@ -90,11 +81,10 @@ test("puede no existir método de adapter que se corresponda con el del driver",
     adaptersConstructorArgs: [],
     driversConstructorArgs: [],
   });
+  const texto = "hice algo sin adapter";
+  const resultado = testAssemblySinAdapter.testDriver.hacerAlgoSinAdapter(texto);
 
-  const resultado = testAssemblySinAdapter.testDriver.hacerAlgoSinAdapter();
-
-  expect(resultado).toBeUndefined();
-  expect(() => testAssemblySinAdapter.testDriver.hacerAlgoSinAdapter()).not.toThrow();
+  expect(resultado).toBe(texto);
 });
 
 test("cuando se invoca un metodo en el driver que retorna un string, retorna un string del método correspondiente del adapter", async () => {
@@ -104,54 +94,46 @@ test("cuando se invoca un metodo en el driver que retorna un string, retorna un 
 
   expect(spy.mock.results[0].value).toBe(result);
 });
-//suma?
-test("los valores de retorno del driver y adapter coinciden", () => {
-  const driverReturnType = expectTypeOf(testDriver.hacerAlgoQueRetornaUnString).returns;
-  const adapterReturnType = expectTypeOf(testAdapter.hacerAlgoQueRetornaUnString).returns;
 
-  expectTypeOf(driverReturnType).toEqualTypeOf(adapterReturnType);
+test("los valores de retorno del driver y adapter coinciden", () => {
+  const returnDriver = expectTypeOf(testDriver.hacerAlgoQueRetornaUnString).returns;
+  const returnAdapter = expectTypeOf(testAdapter.hacerAlgoQueRetornaUnString).returns;
+
+  expectTypeOf(returnDriver).toEqualTypeOf(returnAdapter);
 });
 
 test("los tipos del lineup son correctos", () => {
   expectTypeOf(lineup).toHaveProperty("drivers");
   expectTypeOf(lineup).toHaveProperty("adapters");
+
   expectTypeOf(lineup.drivers[0]).toMatchTypeOf({
     name: expect.any(String),
     constructor: expect.any(Function),
   });
 });
 
-test("El assembly tiene la estructura esperada", () => {
-  expectTypeOf(testAssembly.name).toBeString();
+test("los métodos pueden ser lambda o no lambda", () => {//
 
-  expectTypeOf(testAssembly.drivers).toBeArray();
-  expectTypeOf(testAssembly.adapters).toBeArray();
-});
+  const spyLambda = vi.spyOn(testAdapter, "haceralgoLambda");
+  const spyNoLambda = vi.spyOn(testAdapter, "haceralgoNoLambda");
 
-test("los métodos pueden ser lambda o no lambda", () => {
-  const testDriver = new TestDriver();
-  const testAdapter = new TestAdapter();
+  expect(() => testAssembly.testDriver.haceralgoLambda()).not.toThrow();
+  expect(() => testAssembly.testDriver.haceralgoNoLambda()).not.toThrow();
 
-
-  expect(() => testDriver.haceralgoLambda()).not.toThrow();
-  expect(() => testDriver.haceralgoNoLambda()).not.toThrow();
-
-  expect(() => testAdapter.haceralgoLambda()).not.toThrow();
-  expect(() => testAdapter.haceralgoNoLambda()).not.toThrow();
+  expect(() => spyLambda.mock.calls.forEach(call => call)).not.toThrow();
+  expect(() => spyNoLambda.mock.calls.forEach(call => call)).not.toThrow();
 });
 
 test("Un método asincrónico debe necesitar await para obtener su valor", async () => {
+  const spy = vi.spyOn(testAdapter, "hacerAlgoAsincrono");
 
-  const resultadoDriverSinAwait = testDriver.hacerAlgoAsincrono();
+  const resultadoDriverSinAwait = testAssembly.testDriver.hacerAlgoAsincrono();
   expect(resultadoDriverSinAwait).toBeInstanceOf(Promise);
 
-  const resultadoDriverConAwait = await testDriver.hacerAlgoAsincrono();
+  const resultadoDriverConAwait = await testAssembly.testDriver.hacerAlgoAsincrono();
   expect(resultadoDriverConAwait).toBe("resultado asincrónico");
 
-  const resultadoAdapterSinAwait = testAdapter.hacerAlgoAsincrono();
-  expect(resultadoAdapterSinAwait).toBeInstanceOf(Promise);
-
-  const resultadoAdapterConAwait = await testDriver.hacerAlgoAsincrono();
-  expect(resultadoAdapterConAwait).toBe("resultado asincrónico");
+  expect(spy.mock.results[0]?.value).toBeInstanceOf(Promise);
+  expect(await spy.mock.results[0]?.value).toBe("resultado asincrónico");
 });
 

@@ -9,7 +9,7 @@ let lineup: Lineup[0];
 let testAssembly: ReturnType<typeof TestAssemblyFactory>;
 
 beforeEach(() => {
-  testAdapter = new TestAdapter();
+  testAdapter  = new TestAdapter();
   testDriver = new TestDriver();
 
   lineup = createAssembly("assembly-con-adapter", {
@@ -140,4 +140,18 @@ test("los métodos pueden ser lambda o no lambda", () => {
   expect(() => testAdapter.haceralgoNoLambda()).not.toThrow();
 });
 
+test("Un método asincrónico debe necesitar await para obtener su valor", async () => {
+
+  const resultadoDriverSinAwait = testDriver.hacerAlgoAsincrono();
+  expect(resultadoDriverSinAwait).toBeInstanceOf(Promise);
+
+  const resultadoDriverConAwait = await testDriver.hacerAlgoAsincrono();
+  expect(resultadoDriverConAwait).toBe("resultado asincrónico");
+
+  const resultadoAdapterSinAwait = testAdapter.hacerAlgoAsincrono();
+  expect(resultadoAdapterSinAwait).toBeInstanceOf(Promise);
+
+  const resultadoAdapterConAwait = await testDriver.hacerAlgoAsincrono();
+  expect(resultadoAdapterConAwait).toBe("resultado asincrónico");
+});
 

@@ -12,4 +12,8 @@ export class TestDriver  {
 
 
   haceralgoNoLambda(){}
+
+  hacerAlgoAsincrono(): Promise<string> {
+    return new Promise((resolve) => setTimeout(() => resolve("resultado asincrónico"), 100));
+  }
 }

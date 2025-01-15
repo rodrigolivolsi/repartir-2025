@@ -10,4 +10,8 @@ export class TestAdapter  {
 
 
   haceralgoNoLambda(){}
+
+  hacerAlgoAsincrono(): Promise<string> {
+    return new Promise((resolve) => setTimeout(() => resolve("resultado asincrónico"), 100));
+  }
 }

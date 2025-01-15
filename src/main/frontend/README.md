@@ -22,6 +22,12 @@ Instalar drivers para playright
 npx playwright@1.48.1 install
 ```
 
+Si devuelve un error por dependencias, ejecutar
+
+```
+npx playwright install-deps
+```
+
 ## Iniciar
 
 ```

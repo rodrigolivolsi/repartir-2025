@@ -15,6 +15,7 @@ En la carpeta [```src```](../src/) existen subcarpetas con la implementación de
 | ```jsAdvancedAcceptanceTest```            | de aceptación                     | JS + Playwright + bdd-gen     | Pruebas de aceptación reutilizables en múltiples assemblies siguiendo el modelo de Subsecond TDD y el patrón de Ports & Adapters. Ver [Arquitectura de pruebas](./arquitectura-de-pruebas.md)                                                           |
 | ```test```                                | unitarias                         | java                          | Pruebas unitarias de cada uno de los componentes del backend                                                                                                                                                                                            |
 | ```uiTest```                              | de UI                             | java + Selenium               | Pruebas del comportamiento de la interfaz gráfica implementadas con la tecnología del backend                                                                                                                                                           |
+| ```jsUnitTest```                                | unitarias                         | JS                          | Pruebas unitarias de cada uno de los componentes del frontend  
 
 
 ## Ejecución de pruebas
@@ -34,7 +35,7 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         | jsAdvancedAcceptanceTest        | ```npm run acceptance-test:e2e```       | ```src/main/frontend``` |
 |                         |                                 | ```npm run acceptance-test:mock-api```  |                         |
 |                         |                                 | ```npm run acceptance-test:backend```   |                         |
-
+|                         | jsUnitTest                      | ```npm run test```                      | ```src/main/frontend``` |
 
 Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican a continuación.
 

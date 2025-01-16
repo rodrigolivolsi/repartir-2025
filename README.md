@@ -19,8 +19,9 @@ La aplicación está compuesta por 3 componentes principales:
 
 ### Setup del proyecto
 
+
+Ver pasos del Setup del ambiente en el [README del frontend](./src/main/frontend/README.md)
 ```
-Ver pasos del Setup del ambiente en src/main/frontend/README.md
 cd src/main/frontend
 npm install
 npm run build

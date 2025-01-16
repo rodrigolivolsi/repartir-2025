@@ -2,6 +2,7 @@ image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
 default:
   before_script:
+    - npm ci --prefix src/main/frontend
     - npm run build --workspaces --prefix src/main/frontend
 
 stages:

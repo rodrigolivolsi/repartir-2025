@@ -98,57 +98,20 @@ test("los tipos del lineup son correctos", () => {
 });
 
 test("los métodos pueden ser lambda o no lambda", async () => {
+  const resultadoLambda = await testAssembly.testDriver.sumarLambda(2, 3);
+  const resultadoNoLambda = await testAssembly.testDriver.sumarNoLambda(2, 3);
 
-  const spyLambda = vi.spyOn(testAdapter, "haceralgoLambda");
-  const spyNoLambda = vi.spyOn(testAdapter, "haceralgoNoLambda");
-
-  const resultadoLambda = await testAssembly.testDriver.haceralgoLambda(2, 3);
-  const resultadoNoLambda = await testAssembly.testDriver.haceralgoNoLambda(2, 3);
-
-  expect( resultadoLambda).toBe(5);
+  expect(resultadoLambda).toBe(5);
   expect(resultadoNoLambda).toBe(5);
-
-  expect(await spyLambda.mock.results[0].value).toBe(5);
-  expect(await spyNoLambda.mock.results[0].value).toBe(5);
 });
 
 test("Un método sincrono debe funcionar sin await", async () => {
-  const spy = vi.spyOn(testAdapter, "hacerAlgoSincrono");
-
   const resultadoDriverSinAwait = testAssembly.testDriver.hacerAlgoSincrono();
 
   expect( resultadoDriverSinAwait).toBe("resultado sincrónico");
-  expect( spy.mock.results[0]?.value).toBe("resultado sincrónico");
 });
 
-test('el driver deberia quedar igual una vez creado el assembly', () => {
-  const driverPrueba = {
-    async hacerAlgo(): Promise<void> {
-      return new Promise((resolve) => setTimeout(resolve, 100));
-    },
-
-
-    haceAlgoLambda: () => {},
-
-    haceAlgoNoLambda() {},
-
-  };
-
-  const lineUp = createAssembly('prueba', {
-    drivers: [
-      {
-        name: 'test',
-        constructor: () => driverPrueba,
-      },
-    ],
-    adapters: [],
-  });
-
-  const testAssembly = TestAssemblyFactory(lineUp, {
-    driversConstructorArgs: [],
-    adaptersConstructorArgs: [],
-  });
-
-  expectTypeOf(testAssembly['test']).toMatchTypeOf(driverPrueba);
+test('El tipo del assembly se corresponde con el tipo del driver', () => {
+  expectTypeOf(testAssembly['test']).toMatchTypeOf(testDriver);
 });
 

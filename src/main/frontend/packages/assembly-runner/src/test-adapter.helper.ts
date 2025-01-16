@@ -14,11 +14,11 @@ export class TestAdapter  {
     return new Promise((resolve) => setTimeout(() => resolve("hola mundo"), 100));
   }
 
-  haceralgoLambda = async (n1: number, n2: number): Promise<number> => {
+  sumarLambda = async (n1: number, n2: number): Promise<number> => {
     return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
   };
 
-  async haceralgoNoLambda(n1: number, n2: number): Promise<number> {
+  async sumarNoLambda(n1: number, n2: number): Promise<number> {
     return new Promise((resolve) => setTimeout(() => resolve(n1 + n2), 100));
   }
 

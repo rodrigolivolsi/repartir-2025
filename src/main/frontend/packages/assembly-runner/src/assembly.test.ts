@@ -25,7 +25,7 @@ beforeEach(() => {
         constructor: () => testAdapter,
       },
     ],
-  }) as const satisfies Lineup[0];
+  })  satisfies Lineup[0];
 
   testAssembly = TestAssemblyFactory(lineup, {
     adaptersConstructorArgs: [],
@@ -75,7 +75,7 @@ test("puede no existir método de adapter que se corresponda con el del driver",
         constructor: () => testAdapterVacio,
       },
     ],
-  }) as const satisfies Lineup[0];
+  }) satisfies Lineup[0];
 
   const testAssemblySinAdapter = TestAssemblyFactory(lineupSinMetodoAdapter, {
     adaptersConstructorArgs: [],

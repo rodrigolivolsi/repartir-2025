@@ -7,6 +7,8 @@ stages:
 install:
   stage: install
   script:
+    - echo "Limpiando cache"
+    - npm cache clean --force
     - echo "Instalando dependencias"
     - npm ci --prefix src/main/frontend/packages/assembly-runner
 

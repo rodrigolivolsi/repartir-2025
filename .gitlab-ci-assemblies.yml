@@ -10,7 +10,7 @@ install:
     - echo "Limpiando cache"
     - npm cache clean --force
     - echo "Instalando dependencias"
-    - npm ci --prefix src/main/frontend/packages/assembly-runner
+    - npm ci --prefix src/main/frontend/
 
 test-assembly:
   stage: test

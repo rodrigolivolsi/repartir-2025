@@ -1,71 +1,43 @@
 image: registry.gitlab.com/grupo-esfera/capacitacion/recursos/repartir
 
+stages:
+  - install
+  - test
+
 default:
   before_script:
     - npm ci --prefix src/main/frontend
-    - npm run build --workspaces --prefix src/main/frontend
 
-stages:
-  - test
-
-.cache_node_modules: &cache_node_modules
-  key:
-    files:
-      - src/main/frontend/package-lock.json
-    prefix: $CI_COMMIT_REF_SLUG
-  paths:
-    - src/main/frontend/node_modules
-  policy: pull
-
-acceptance-test-assembly-e2e:
-  stage: test
-  variables:
-    CI: "true"
-    GRADLEW_PATH: "$CI_PROJECT_DIR"
+install:
+  stage: install
   script:
-    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0KJS acceptance tests assembly E2E"
-    - npm run acceptance-test:e2e --prefix=src/main/frontend
-    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_e2e\r\e[0K"
+    - echo "Instalando dependencias"
+    - npm ci --prefix src/main/frontend
   cache:
-    - <<: *cache_node_modules
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+      prefix: $CI_COMMIT_REF_SLUG
+    paths:
+      - src/main/frontend/node_modules
+
+test-assembly:
+  stage: test
+  script:
+    - echo "Ejecutando pruebas"
+    - cd src/main/frontend
+    - npm test
+  cache:
+    key:
+      files:
+        - src/main/frontend/package-lock.json
+      prefix: $CI_COMMIT_REF_SLUG
+    paths:
+      - src/main/frontend/node_modules
   artifacts:
     when: always
     reports:
-      junit: build/test-results/acceptanceTestAssemblyE2E/**/TEST-*.xml
-
-
-acceptance-test-assembly-mock-api:
-  stage: test
-  variables:
-    CI: "true"
-    GRADLEW_PATH: "$CI_PROJECT_DIR"
-  script:
-    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_mock_api\r\e[0KJS acceptance tests assembly Mock Api"
-    - npm run acceptance-test:mock-api --prefix=src/main/frontend
-    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_mock_api\r\e[0K"
-  cache:
-    - <<: *cache_node_modules
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/acceptanceTestAssemblyMockApi/**/TEST-*.xml
-
-
-
-acceptance-test-assembly-backend:
-  stage: test
-  variables:
-    CI: "true"
-    GRADLEW_PATH: "$CI_PROJECT_DIR"
-  script:
-    - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests_assembly_backend\r\e[0KJS acceptance tests assembly Backend"
-    - npm run acceptance-test:backend --prefix=src/main/frontend
-    - echo -e "\e[0Ksection_end:`date +%s`:js_acceptance_tests_assembly_backend\r\e[0K"
-  cache:
-    - <<: *cache_node_modules
-  artifacts:
-    when: always
-    reports:
-      junit: build/test-results/acceptanceTestAssemblyBackend/**/TEST-*.xml
-
+      junit: build/test-results/**/TEST-*.xml
+    paths:
+      - build/test-results/
 

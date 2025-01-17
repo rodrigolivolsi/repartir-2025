@@ -4,36 +4,18 @@ stages:
   - install
   - test
 
-default:
-  before_script:
-    - npm ci --prefix src/main/frontend
-
 install:
   stage: install
   script:
     - echo "Instalando dependencias"
-    - npm ci --prefix src/main/frontend
-  cache:
-    key:
-      files:
-        - src/main/frontend/package-lock.json
-      prefix: $CI_COMMIT_REF_SLUG
-    paths:
-      - src/main/frontend/node_modules
+    - npm ci --prefix src/main/frontend/packages/assembly-runner
 
 test-assembly:
   stage: test
   script:
-    - echo "Ejecutando pruebas"
-    - cd src/main/frontend
+    - echo "Ejecutando pruebas asssembly"
+    - cd src/main/frontend/packages/assembly-runner
     - npm test
-  cache:
-    key:
-      files:
-        - src/main/frontend/package-lock.json
-      prefix: $CI_COMMIT_REF_SLUG
-    paths:
-      - src/main/frontend/node_modules
   artifacts:
     when: always
     reports:

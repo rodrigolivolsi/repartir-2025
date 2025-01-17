@@ -6,15 +6,16 @@ En la carpeta [```src```](../src/) existen subcarpetas con la implementación de
 
 | Subcarpeta                                | Tipo de prueba                    | Tecnologías principales       | Descripción                                               |
 |-------------------------------------------|-----------------------------------|-------------------------------|-----------------------------------------------------------|
-| ```acceptanceTest```                      | de aceptación                     | java + Cucumber + Selenuim    | Pruebas de aceptación de la aplicación. Los mismos escenarios reciben múltiples implementaciones en este proyecto. Esta es la implementación utilizando java y Selenium.                                                                                |
-| ```fastAcceptanceTest```                  | de aceptación                     | java + Cucumber + Selenuim    | Experimento para demostrar como las mismas pruebas de aceptación anteriores (```acceptanceTest```) se pueden implementar con un test assembly más acotado. En este caso, contra el modelo, sin pasar por la interfaz gráfica ni por otros componentes.  |
-| ```integrationTest/apiControllersTest```  | de componentes / de API           | java                          | Pruebas de los controladores sin mockear las dependencias. Testean varios componentes desplegados en el container.                                                                                                                                      |
+| ```acceptanceTest```                      | de aceptación                     | java + Cucumber + Selenium    | Pruebas de aceptación de la aplicación. Los mismos escenarios reciben múltiples implementaciones en este proyecto. Esta es la implementación utilizando java y Selenium.                                                                                |
+| ```fastAcceptanceTest```                  | de aceptación                     | java + Cucumber    | Experimento para demostrar como las mismas pruebas de aceptación anteriores (```acceptanceTest```) se pueden implementar con un test assembly más acotado. En este caso, contra el modelo, sin pasar por la interfaz gráfica ni por otros componentes.  |
+| ```integrationTest/apiControllersTest```  | de componentes / de API           | java                          | Pruebas de los controladores mockeando la capa de servicios. Testean varios componentes desplegados en el container.                                                                                                                                   |
 | ```integrationTest/apiExternaTest```      | de componentes / de integración   | java + WireMock + Feign       | Pruebas de los clientes que interfacean con sistemas externos                                                                                                                                                                                           |
 | ```integrationTest/dbTest```              | de componentes                    | java                          | Pruebas de los repositorios de datos utilizando una base de datos "real"                                                                                                                                                                                |
 | ```jsAcceptanceTest```                    | de aceptación                     | JS + Playwright + bdd-gen     | Las mismas pruebas de aceptación de ```acceptanceTest``` pero implementadas ahora en la capa del frontend                                                                                                                                               |
 | ```jsAdvancedAcceptanceTest```            | de aceptación                     | JS + Playwright + bdd-gen     | Pruebas de aceptación reutilizables en múltiples assemblies siguiendo el modelo de Subsecond TDD y el patrón de Ports & Adapters. Ver [Arquitectura de pruebas](./arquitectura-de-pruebas.md)                                                           |
 | ```test```                                | unitarias                         | java                          | Pruebas unitarias de cada uno de los componentes del backend                                                                                                                                                                                            |
 | ```uiTest```                              | de UI                             | java + Selenium               | Pruebas del comportamiento de la interfaz gráfica implementadas con la tecnología del backend                                                                                                                                                           |
+| ```jsUnitTest```                                | unitarias                         | JS + Angular                   | Pruebas unitarias de cada uno de los componentes del frontend  
 
 
 ## Ejecución de pruebas
@@ -34,7 +35,7 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         | jsAdvancedAcceptanceTest        | ```npm run acceptance-test:e2e```       | ```src/main/frontend``` |
 |                         |                                 | ```npm run acceptance-test:mock-api```  |                         |
 |                         |                                 | ```npm run acceptance-test:backend```   |                         |
-
+|                         | jsUnitTest                      | ```npm run test```                      | ```src/main/frontend``` |
 
 Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican a continuación.
 

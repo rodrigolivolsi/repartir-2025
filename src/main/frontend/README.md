@@ -69,15 +69,20 @@ npx bddgen
 
 #### Con la interfaz gráfica de Playwright
 
-Levantar la interfaz gráfica de Playwright con
+Levantar la interfaz gráfica de Playwright con (se le pasa alguno de los archivos de configuración dado que no están en el lugar por default)
 ```
-npx playwright test --ui
+npx playwright test --config ../../jsAcceptanceTest/src/playwright.config.ts --ui
+```
+
+También puede hacerse ejecutando alguno de los comandos propios y agregándole el parámetro 'ui'
+```
+npm run acceptance-test -- --ui
 ```
 Desde ahí se puede elegir qué escenario correr.
 
-Si se desea ver el browser abierto (en lugar de que se ejecute en modo headless), agregar el parámetro --headed:
+Si se desea ver el browser abierto (en lugar de que se ejecute en modo headless), agregar el parámetro --headed a cualquiera de los comandos previos:
 ```
-npx playwright test --ui --headed
+npx playwright test --config ../../jsAcceptanceTest/src/playwright.config.ts --ui --headed
 ```
 
 

@@ -144,7 +144,7 @@ acceptance-test-js:
   variables:
     CI: "true"
     GRADLEW_PATH: "$CI_PROJECT_DIR"
-  before-script:
+  before_script:
     - npm install -D playwright-bdd
   script:
     - echo -e "\e[0Ksection_start:`date +%s`:js_acceptance_tests\r\e[0KJS acceptance tests"

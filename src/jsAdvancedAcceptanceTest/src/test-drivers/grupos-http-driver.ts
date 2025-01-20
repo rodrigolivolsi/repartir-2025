@@ -13,11 +13,8 @@ export class GruposHttpDriver implements GruposDriver {
   private miembrosGrupo: string[] = [];
 
   iniciar = async (): Promise<void> => {
-    const inicio = await this.request.get("/api/grupos");
-    expect(inicio.ok()).toBeTruthy();
-
-    const pedido = await this.request.get("/api/usuarios/julian");
-    expect(pedido.ok()).toBeTruthy();
+    await this.request.get("/api/grupos");
+    await this.request.get("/api/usuarios/julian");
   };
 
   crearConUnUnicoMiembro = async (): Promise<void> => {

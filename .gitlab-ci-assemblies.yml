@@ -11,6 +11,8 @@ install:
     - npm cache clean --force
     - echo "Instalando dependencias"
     - npm ci --prefix src/main/frontend/packages/assembly-runner
+    - echo "Verificando instalación de vitest"
+    - npm ls vitest --prefix src/main/frontend/packages/assembly-runner
 
 test-assembly:
   stage: test

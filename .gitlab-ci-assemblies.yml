@@ -12,15 +12,15 @@ install:
     - echo "Instalando dependencias"
     - npm ci --prefix src/main/frontend/packages/assembly-runner
     - echo "Verificando instalación de vitest"
-    - npm ls vitest --prefix src/main/frontend/packages/assembly-runner || true
-    - ls -la src/main/frontend/packages/assembly-runner/node_modules/.bin
+    - npm ls vitest --prefix src/main/frontend/packages/assembly-runner
+    - ls -la src/main/frontend/packages/assembly-runner/node_modules/.bin/
 
 test-assembly:
   stage: test
   script:
     - echo "Ejecutando pruebas assembly"
     - cd src/main/frontend/packages/assembly-runner
-    - ./node_modules/.bin/vitest
+    - npx vitest
   artifacts:
     when: always
     reports:

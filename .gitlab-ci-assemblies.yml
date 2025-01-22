@@ -4,16 +4,24 @@ stages:
   - install
   - test
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - src/main/frontend/packages/assembly-runner/node_modules/
+
 install:
   stage: install
   script:
-    - echo "Limpiando cache"
+    - echo "Limpiando cache de npm"
     - npm cache clean --force
-    - echo "Instalando dependencias"
+    - echo "Instalando dependencias en assembly-runner"
     - npm ci --prefix src/main/frontend/packages/assembly-runner
     - echo "Verificando instalación de vitest"
     - npm ls vitest --prefix src/main/frontend/packages/assembly-runner
-    - ls -la src/main/frontend/packages/assembly-runner/node_modules/.bin/
+  artifacts:
+    paths:
+      - src/main/frontend/packages/assembly-runner/node_modules/
+    expire_in: 1 week
 
 test-assembly:
   stage: test

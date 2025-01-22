@@ -31,7 +31,5 @@ test-assembly:
     - npx vitest
   artifacts:
     when: always
-    reports:
-      junit: build/test-results/**/TEST-*.xml
     paths:
       - build/test-results/

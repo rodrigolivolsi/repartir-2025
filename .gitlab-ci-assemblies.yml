@@ -16,8 +16,6 @@ install:
     - npm cache clean --force
     - echo "Instalando dependencias en assembly-runner"
     - npm ci --prefix src/main/frontend/packages/assembly-runner
-    - echo "Verificando instalación de vitest"
-    - npm ls vitest --prefix src/main/frontend/packages/assembly-runner
   artifacts:
     paths:
       - src/main/frontend/packages/assembly-runner/node_modules/
@@ -28,7 +26,7 @@ test-assembly:
   script:
     - echo "Ejecutando pruebas assembly"
     - cd src/main/frontend/packages/assembly-runner
-    - npx vitest
+    - npm test
   artifacts:
     when: always
     paths:

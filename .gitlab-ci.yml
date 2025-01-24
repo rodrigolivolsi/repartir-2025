@@ -47,8 +47,8 @@ build:
 instalar dependencias:
   stage: build
   script:
-    - npm run check-compile --prefix src/main/frontend
     - npm ci --prefix src/main/frontend
+    - npm run check-compile --prefix src/main/frontend
   cache:
     - <<: *cache_node_modules
       policy: pull-push

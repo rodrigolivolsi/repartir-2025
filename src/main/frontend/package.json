@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "npm run build --workspaces && npm run build:app",
+    "build": "npm run check-compile && npm run build --workspaces && npm run build:app",
     "build:app": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -13,7 +13,8 @@
     "acceptance-test:e2e": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.e2e.ts && cross-env ASSEMBLY_NAME=e2e npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.e2e.ts --grep-invert @ignore-assembly-e2e",
     "acceptance-test:mock-api": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.mockApi.ts && cross-env ASSEMBLY_NAME=mock-api npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.mockApi.ts --grep-invert @ignore-assembly-mock-api",
     "acceptance-test:backend": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts && cross-env ASSEMBLY_NAME=backend npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts --grep-invert @ignore-assembly-backend",
-    "wiremock": "wiremock"
+    "wiremock": "wiremock",
+    "check-compile": "npx tsc --noEmit --skipLibCheck"
   },
   "private": true,
   "dependencies": {

@@ -44,7 +44,7 @@ build:
     paths:
       - build/classes
 
-instalar dependencias y chequear compilacion:
+instalar y chequear:
   stage: build
   script:
     - npm ci --prefix src/main/frontend

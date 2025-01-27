@@ -44,10 +44,11 @@ build:
     paths:
       - build/classes
 
-instalar dependencias:
+instalar y chequear:
   stage: build
   script:
     - npm ci --prefix src/main/frontend
+    - npm run check-compile --prefix src/main/frontend
   cache:
     - <<: *cache_node_modules
       policy: pull-push

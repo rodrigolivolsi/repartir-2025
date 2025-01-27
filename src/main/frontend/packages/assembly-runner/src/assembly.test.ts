@@ -1,4 +1,4 @@
-import { expectTypeOf,expect, vi } from 'vitest';
+import { expectTypeOf,expect, vi, test } from 'vitest';
 import { TestDriver } from './test-driver.helper';
 import { TestAdapter } from './test-adapter.helper';
 import { createAssembly, Lineup, TestAssemblyFactory } from './assembly';

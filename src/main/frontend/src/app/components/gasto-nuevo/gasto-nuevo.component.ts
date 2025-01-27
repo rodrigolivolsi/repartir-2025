@@ -15,7 +15,7 @@ export class GastoNuevoComponent implements OnInit {
 
   mostrar: boolean = false;
 
-  grupo: Grupo ;
+  grupo: Grupo = { nombre: '', miembros: []};
 
   monto: number = 0.0;
 

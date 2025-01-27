@@ -16,6 +16,7 @@ En la carpeta [```src```](../src/) existen subcarpetas con la implementación de
 | ```test```                                | unitarias                         | java                          | Pruebas unitarias de cada uno de los componentes del backend                                                                                                                                                                                            |
 | ```uiTest```                              | de UI                             | java + Selenium               | Pruebas del comportamiento de la interfaz gráfica implementadas con la tecnología del backend                                                                                                                                                           |
 | ```jsUnitTest```                                | unitarias                         | JS + Angular                   | Pruebas unitarias de cada uno de los componentes del frontend  
+| ```assemblyTest```                              | Unitarias                             | JS + Vitest               | Pruebas del comportamiento del assembly                                                                                                                                                           |
 
 
 ## Ejecución de pruebas
@@ -36,6 +37,7 @@ Estas pruebas se ejecutan con gradle o con npm dependiendo de la tecnología que
 |                         |                                 | ```npm run acceptance-test:mock-api```  |                         |
 |                         |                                 | ```npm run acceptance-test:backend```   |                         |
 |                         | jsUnitTest                      | ```npm run test```                      | ```src/main/frontend``` |
+|                         | assemblyTest           | ```npm run test```                      | ```src/main/frontend/packages/assembly-runner``` |
 
 Aparte hay algunos otros comandos útiles y filtros que se pueden aplicar, que se explican a continuación.
 

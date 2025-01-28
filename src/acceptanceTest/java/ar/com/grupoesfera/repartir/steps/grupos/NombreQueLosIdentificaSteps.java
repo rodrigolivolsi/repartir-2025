@@ -6,6 +6,8 @@ import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
@@ -49,10 +52,13 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
     @Entonces("debería visualizar dentro del listado el grupo con el nombre indicado")
     public void deberiaVisualizarDentroDelListadoElGrupoConElNombreIndicado() {
 
-        var grupoTR = driver.findElements(By.cssSelector("app-grupos table tr"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        List<WebElement> grupoTR = wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
+            By.cssSelector("app-grupos table tr"), 1));
+
         assertThat(grupoTR).hasSizeGreaterThan(1);
 
-        var campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
+        List<WebElement> campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
         assertThat(campoTDs.get(0).getText()).isNotEmpty();
         assertThat(campoTDs.get(1).getText()).isEqualTo(nombreIndicado);
     }

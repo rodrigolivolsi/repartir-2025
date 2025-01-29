@@ -30,7 +30,7 @@ export const test = base.extend<{
       );
 
     const testAssembly = TestAssemblyFactory(assembly, {
-      adaptersConstructorArgs: [page],
+      adaptersConstructorArgs: { "mock-api": [page] },
       driversConstructorArgs: { bienvenida: [request, page], grupos: [request, page] },
     });
 

@@ -2,10 +2,14 @@ class AssemblyRunner<
   TAssembly extends Assembly,
   TAdapter extends Record<string | symbol, unknown> = Adapter<TAssembly>,
   TDriver extends Record<string | symbol, unknown> = Driver<TAssembly>,
-  TDriverName = DriverName<TAssembly>
+  TDriverName = DriverName<TAssembly>,
+  TestAdapterName = AdapterName<TAssembly>
 > {
   constructor(
-    private adapters: TAdapter[],
+    private adapters: {
+      name: TestAdapterName;
+      adapter: TAdapter;
+    }[],
     drivers: {
       name: TDriverName;
       driver: TDriver;
@@ -18,7 +22,8 @@ class AssemblyRunner<
 
   private agregarDriver(driverName: TDriverName, driver: TDriver) {
     let anyObj = this as any;
-    anyObj[driverName] = this.wrapDriver(driver, this.adapters);
+    const adaptersSinNombre = this.adapters.map((adapterConNombre) => adapterConNombre.adapter);
+    anyObj[driverName] = this.wrapDriver(driver, adaptersSinNombre);
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
@@ -106,7 +111,11 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     adaptersConstructorArgs,
     driversConstructorArgs,
   }: {
-    adaptersConstructorArgs: Parameters<AdaptersConstructor<TAssembly>>;
+    adaptersConstructorArgs: {
+      [K in AdapterName<TAssembly>]: Parameters<
+        FilterAdapterByName<TAssembly, K>['constructor']
+      >;
+    };
     driversConstructorArgs: {
       [K in DriverName<TAssembly>]: Parameters<
         FilterDriverByName<TAssembly, K>['constructor']
@@ -114,9 +123,10 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     };
   }
 ) {
-  const adapters = assembly.adapters.map((adapter) =>
-    adapter.constructor(...(adaptersConstructorArgs as Iterable<any>))
-  );
+  const adapters = assembly.adapters.map((adapter) => ({
+    name: adapter.name,
+    adapter: adapter.constructor(...adaptersConstructorArgs[adapter.name as keyof typeof adaptersConstructorArgs] as Iterable<any>)
+  }));
   const drivers = assembly.drivers.map((driver) => ({
     name: driver.name,
     driver: driver.constructor(...driversConstructorArgs[driver.name as keyof typeof driversConstructorArgs] as Iterable<any>),
@@ -124,7 +134,7 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
   return new AssemblyRunner<TAssembly>(
     adapters,
     drivers
-  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>;
+  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>  & AdapterRecord<TAssembly>;
 }
 
 export type TestAssembly<T extends Lineup> = ReturnType<
@@ -142,10 +152,12 @@ type AdaptersConstructor<T extends Assembly> = ExtractConstructor<
 type DriversConstructor<T extends Assembly> = ExtractConstructor<T, 'drivers'>;
 
 type ExtractDrivers<T extends Assembly> = T['drivers'][number];
+type ExtractAdapters<T extends Assembly> = T['adapters'][number];
 
 type Adapter<T extends Assembly> = ReturnType<AdaptersConstructor<T>>;
 type Driver<T extends Assembly> = ReturnType<DriversConstructor<T>>;
 type DriverName<T extends Assembly> = ExtractDrivers<T>['name'];
+type AdapterName<T extends Assembly> = ExtractAdapters<T>['name'];
 
 type FilterDriverByName<
   T extends Assembly,
@@ -154,4 +166,13 @@ type FilterDriverByName<
 
 type DriverRecord<T extends Assembly> = {
   [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>['constructor']>;
+};
+
+type FilterAdapterByName<
+  T extends Assembly,
+  U extends AdapterName<T>
+> = ExtractAdapters<T> & { name: U };
+
+type AdapterRecord<T extends Assembly> = {
+  [K in AdapterName<T>]: ReturnType<FilterAdapterByName<T, K>['constructor']>;
 };

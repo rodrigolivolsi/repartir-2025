@@ -30,7 +30,7 @@ beforeEach(() => {
   })  satisfies Lineup[0];
 
   testAssembly = TestAssemblyFactory(lineup, {
-    adaptersConstructorArgs: [],
+    adaptersConstructorArgs: { testAdapter: [] },
     driversConstructorArgs: {testDriver: []},
   });
 });
@@ -80,7 +80,7 @@ test("puede no existir método de adapter que se corresponda con el del driver",
   }) satisfies Lineup[0];
 
   const testAssemblySinAdapter = TestAssemblyFactory(lineupSinMetodoAdapter, {
-    adaptersConstructorArgs: [],
+    adaptersConstructorArgs: { testAdapter: [] },
     driversConstructorArgs: {testDriver: []},
   });
   const texto = "hice algo sin adapter";
@@ -144,7 +144,7 @@ test("si cada driver tiene parametros distintos en el constructor no debe afecta
   }) satisfies Lineup[0];
 
   const testAssemblySinUnicidad = TestAssemblyFactory(lineupSinUnicidad, {
-    adaptersConstructorArgs: [],
+    adaptersConstructorArgs: { testAdapter: [] },
     driversConstructorArgs: { bienvenida: ["cadena"], grupos: [1, "hola"] },
   });
 

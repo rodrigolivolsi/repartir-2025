@@ -1,7 +1,9 @@
-import { expectTypeOf,expect, vi, test } from 'vitest';
+import { expectTypeOf, expect, vi, test } from 'vitest';
 import { TestDriver } from './test-driver.helper';
 import { TestAdapter } from './test-adapter.helper';
 import { createAssembly, Lineup, TestAssemblyFactory } from './assembly';
+import { TestDriverConTitulo } from './test-driver-con-titulo.helper';
+import { TestAdapterConTitulo } from './test-adapter-con-titulo.helper';
 
 let testAdapter: TestAdapter;
 let testDriver: TestDriver;
@@ -29,7 +31,7 @@ beforeEach(() => {
 
   testAssembly = TestAssemblyFactory(lineup, {
     adaptersConstructorArgs: [],
-    driversConstructorArgs: [],
+    driversConstructorArgs: {testDriver: []},
   });
 });
 
@@ -79,7 +81,7 @@ test("puede no existir método de adapter que se corresponda con el del driver",
 
   const testAssemblySinAdapter = TestAssemblyFactory(lineupSinMetodoAdapter, {
     adaptersConstructorArgs: [],
-    driversConstructorArgs: [],
+    driversConstructorArgs: {testDriver: []},
   });
   const texto = "hice algo sin adapter";
   const resultado = await testAssemblySinAdapter.testDriver.hacerAlgoSinAdapter(texto);
@@ -115,3 +117,38 @@ test('El tipo del assembly se corresponde con el tipo del driver', () => {
   expectTypeOf(testAssembly['test']).toMatchTypeOf(testDriver);
 });
 
+test("si cada driver tiene parametros distintos en el constructor no debe afectar que llame al método correspondiente del adapter", async () => {
+  const testAdapterConTitulo  = new TestAdapterConTitulo();
+  const spy = vi.spyOn(testAdapterConTitulo, "hacerAlgoQueRetornaElTitulo");
+
+  const lineupSinUnicidad = createAssembly("assembly-sin-unicidad", {
+    drivers: [
+      {
+        name: "bienvenida",
+        constructor: (someString: string) =>
+          new TestDriverConTitulo(someString),
+      },
+      {
+        name: "grupos",
+        constructor: (someNumber: number, someString: string) =>
+          new TestDriver(),
+      },
+
+    ],
+    adapters: [
+      {
+        name: "testAdapter",
+        constructor: () => testAdapterConTitulo,
+      },
+    ],
+  }) satisfies Lineup[0];
+
+  const testAssemblySinUnicidad = TestAssemblyFactory(lineupSinUnicidad, {
+    adaptersConstructorArgs: [],
+    driversConstructorArgs: { bienvenida: ["cadena"], grupos: [1, "hola"] },
+  });
+
+  await testAssemblySinUnicidad.bienvenida.hacerAlgoQueRetornaElTitulo();
+
+  expect(spy).toHaveBeenCalled();
+});

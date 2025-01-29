@@ -31,7 +31,7 @@ export const test = base.extend<{
 
     const testAssembly = TestAssemblyFactory(assembly, {
       adaptersConstructorArgs: [page],
-      driversConstructorArgs: [request, page],
+      driversConstructorArgs: { bienvenida: [request, page], grupos: [request, page] },
     });
 
     use(testAssembly);

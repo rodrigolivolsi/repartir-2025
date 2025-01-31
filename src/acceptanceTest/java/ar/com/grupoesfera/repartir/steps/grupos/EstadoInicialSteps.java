@@ -52,8 +52,6 @@ public class EstadoInicialSteps extends CucumberSteps {
         List<WebElement> grupoTR = wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
             By.cssSelector("app-grupos table tr"), 1));
 
-        assertThat(grupoTR).hasSizeGreaterThan(1);
-
         List<WebElement> campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
 
         assertThat(campoTDs.get(0).getText()).isNotEmpty();

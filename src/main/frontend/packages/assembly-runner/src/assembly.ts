@@ -2,14 +2,10 @@ class AssemblyRunner<
   TAssembly extends Assembly,
   TAdapter extends Record<string | symbol, unknown> = Adapter<TAssembly>,
   TDriver extends Record<string | symbol, unknown> = Driver<TAssembly>,
-  TDriverName = DriverName<TAssembly>,
-  TestAdapterName = AdapterName<TAssembly>
+  TDriverName = DriverName<TAssembly>
 > {
   constructor(
-    private adapters: {
-      name: TestAdapterName;
-      adapter: TAdapter;
-    }[],
+    private adapters: TAdapter[],
     drivers: {
       name: TDriverName;
       driver: TDriver;
@@ -22,8 +18,7 @@ class AssemblyRunner<
 
   private agregarDriver(driverName: TDriverName, driver: TDriver) {
     let anyObj = this as any;
-    const adaptersSinNombre = this.adapters.map((adapterConNombre) => adapterConNombre.adapter);
-    anyObj[driverName] = this.wrapDriver(driver, adaptersSinNombre);
+    anyObj[driverName] = this.wrapDriver(driver, this.adapters);
   }
 
   private wrapDriver(driver: TDriver, adapters: TAdapter[]) {
@@ -123,18 +118,28 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     };
   }
 ) {
-  const adapters = assembly.adapters.map((adapter) => ({
-    name: adapter.name,
-    adapter: adapter.constructor(...adaptersConstructorArgs[adapter.name as keyof typeof adaptersConstructorArgs] as Iterable<any>)
-  }));
+  const adapters = assembly.adapters.map((adapter) =>
+    adapter.constructor(
+      ...(adaptersConstructorArgs[
+        adapter.name as keyof typeof adaptersConstructorArgs
+      ] as Iterable<any>)
+    )
+  );
+
   const drivers = assembly.drivers.map((driver) => ({
     name: driver.name,
-    driver: driver.constructor(...driversConstructorArgs[driver.name as keyof typeof driversConstructorArgs] as Iterable<any>),
+    driver: driver.constructor(
+      ...(driversConstructorArgs[
+        driver.name as keyof typeof driversConstructorArgs
+      ] as Iterable<any>)
+    ),
   }));
   return new AssemblyRunner<TAssembly>(
     adapters,
     drivers
-  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>  & AdapterRecord<TAssembly>;
+  ) as AssemblyRunner<TAssembly> &
+    DriverRecord<TAssembly> &
+    AdapterRecord<TAssembly>;
 }
 
 export type TestAssembly<T extends Lineup> = ReturnType<

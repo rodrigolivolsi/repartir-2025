@@ -138,8 +138,7 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     adapters,
     drivers
   ) as AssemblyRunner<TAssembly> &
-    DriverRecord<TAssembly> &
-    AdapterRecord<TAssembly>;
+    DriverRecord<TAssembly>;
 }
 
 export type TestAssembly<T extends Lineup> = ReturnType<
@@ -177,7 +176,3 @@ type FilterAdapterByName<
   T extends Assembly,
   U extends AdapterName<T>
 > = ExtractAdapters<T> & { name: U };
-
-type AdapterRecord<T extends Assembly> = {
-  [K in AdapterName<T>]: ReturnType<FilterAdapterByName<T, K>['constructor']>;
-};

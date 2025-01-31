@@ -106,21 +106,39 @@ export function TestAssemblyFactory<TAssembly extends Assembly>(
     adaptersConstructorArgs,
     driversConstructorArgs,
   }: {
-    adaptersConstructorArgs: Parameters<AdaptersConstructor<TAssembly>>;
-    driversConstructorArgs: Parameters<DriversConstructor<TAssembly>>;
+    adaptersConstructorArgs: {
+      [K in AdapterName<TAssembly>]: Parameters<
+        FilterAdapterByName<TAssembly, K>['constructor']
+      >;
+    };
+    driversConstructorArgs: {
+      [K in DriverName<TAssembly>]: Parameters<
+        FilterDriverByName<TAssembly, K>['constructor']
+      >;
+    };
   }
 ) {
   const adapters = assembly.adapters.map((adapter) =>
-    adapter.constructor(...(adaptersConstructorArgs as Iterable<any>))
+    adapter.constructor(
+      ...(adaptersConstructorArgs[
+        adapter.name as keyof typeof adaptersConstructorArgs
+      ] as Iterable<any>)
+    )
   );
+
   const drivers = assembly.drivers.map((driver) => ({
     name: driver.name,
-    driver: driver.constructor(...(driversConstructorArgs as Iterable<any>)),
+    driver: driver.constructor(
+      ...(driversConstructorArgs[
+        driver.name as keyof typeof driversConstructorArgs
+      ] as Iterable<any>)
+    ),
   }));
   return new AssemblyRunner<TAssembly>(
     adapters,
     drivers
-  ) as AssemblyRunner<TAssembly> & DriverRecord<TAssembly>;
+  ) as AssemblyRunner<TAssembly> &
+    DriverRecord<TAssembly>;
 }
 
 export type TestAssembly<T extends Lineup> = ReturnType<
@@ -138,10 +156,12 @@ type AdaptersConstructor<T extends Assembly> = ExtractConstructor<
 type DriversConstructor<T extends Assembly> = ExtractConstructor<T, 'drivers'>;
 
 type ExtractDrivers<T extends Assembly> = T['drivers'][number];
+type ExtractAdapters<T extends Assembly> = T['adapters'][number];
 
 type Adapter<T extends Assembly> = ReturnType<AdaptersConstructor<T>>;
 type Driver<T extends Assembly> = ReturnType<DriversConstructor<T>>;
 type DriverName<T extends Assembly> = ExtractDrivers<T>['name'];
+type AdapterName<T extends Assembly> = ExtractAdapters<T>['name'];
 
 type FilterDriverByName<
   T extends Assembly,
@@ -151,3 +171,8 @@ type FilterDriverByName<
 type DriverRecord<T extends Assembly> = {
   [K in DriverName<T>]: ReturnType<FilterDriverByName<T, K>['constructor']>;
 };
+
+type FilterAdapterByName<
+  T extends Assembly,
+  U extends AdapterName<T>
+> = ExtractAdapters<T> & { name: U };

@@ -5,6 +5,8 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +14,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 
@@ -44,10 +47,15 @@ public class EstadoInicialSteps extends CucumberSteps {
 
     @Entonces("debería visualiza dentro del listado el grupo creado con total {string}")
     public void deberiaVisualizaDentroDelListadoElGrupoCreadoConTotal$(String monto) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        var grupoTR = driver.findElements(By.cssSelector("app-grupos table tr"));
+        List<WebElement> grupoTR = wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
+            By.cssSelector("app-grupos table tr"), 1));
 
-        var campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
+        assertThat(grupoTR).hasSizeGreaterThan(1);
+
+        List<WebElement> campoTDs = grupoTR.get(1).findElements(By.tagName("td"));
+
         assertThat(campoTDs.get(0).getText()).isNotEmpty();
         assertThat(campoTDs.get(2).getText()).isEqualTo(monto);
     }

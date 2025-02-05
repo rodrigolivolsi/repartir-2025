@@ -21,6 +21,10 @@ export default defineConfig({
         })
       );
 
+      config.env.testData = {
+          apiKey: config.env.API_KEY
+      }
+
       // Make sure to return the config object as it might have been modified by the plugin.
       return config;
     },

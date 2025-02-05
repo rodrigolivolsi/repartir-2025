@@ -15,7 +15,7 @@
     "acceptance-test:backend": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts && cross-env ASSEMBLY_NAME=backend npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts --grep-invert @ignore-assembly-backend",
     "wiremock": "wiremock",
     "check-compile": "npx tsc --noEmit --skipLibCheck",
-    "cy:test": "cypress run --e2e --env API_KEY=mock-api"
+    "cy:test": "cypress run --e2e --env ASSEMBLY_NAME=e2e"
   },
   "private": true,
   "dependencies": {

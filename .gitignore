@@ -53,3 +53,6 @@ src/jsAdvancedAcceptanceTest/src/monocart-report/
 src/jsAdvancedAcceptanceTest/src/coverage-reports/
 nul
 **/dist
+
+
+src/main/frontend/cypress/screenshots/

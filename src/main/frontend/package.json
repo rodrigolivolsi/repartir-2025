@@ -14,7 +14,8 @@
     "acceptance-test:mock-api": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.mockApi.ts && cross-env ASSEMBLY_NAME=mock-api npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.mockApi.ts --grep-invert @ignore-assembly-mock-api",
     "acceptance-test:backend": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts && cross-env ASSEMBLY_NAME=backend npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts --grep-invert @ignore-assembly-backend",
     "wiremock": "wiremock",
-    "check-compile": "npx tsc --noEmit --skipLibCheck"
+    "check-compile": "npx tsc --noEmit --skipLibCheck",
+    "cy:open": "cypress open"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "cross-env": "^7.0.3",
+    "cypress": "^14.0.2",
     "jasmine-core": "~3.8.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",

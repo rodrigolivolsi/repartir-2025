@@ -20,10 +20,11 @@ import './commands'
 // require('./commands')
 
 import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driver";
+import { BienvenidaHttpDriver2 } from 'cypress/drivers/bienvenida-http-driver';
 import { createAssembly, Lineup, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
 
 before(function() {
-    const adapterVacio = {};
+
     const lineup = [
       createAssembly("e2e", {
         drivers: [
@@ -33,12 +34,17 @@ before(function() {
               new BienvenidaCypressDriver(),
           }
         ],
-        adapters: [
+        adapters: [],
+      }),
+      createAssembly("backend", {
+        drivers: [
           {
-            name: "adapter",
-            constructor: () => adapterVacio,
-          },
+            name: "bienvenida",
+            constructor: () =>
+              new BienvenidaHttpDriver2(),
+          }
         ],
+        adapters: [],
       }),
     ] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
   
@@ -50,6 +56,8 @@ before(function() {
             .join(", ")}`
         );
       }
+
+      cy.task('log', `Using assembly: ${assembly.name}`);
 
     const testAssembly = TestAssemblyFactory(assembly, {
         adaptersConstructorArgs: { adapter: [] },

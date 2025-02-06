@@ -1,5 +1,7 @@
 import { BienvenidaDriver } from "../../../../jsAdvancedAcceptanceTest/src/test-drivers/bienvenida-driver";
 
+// Preferimos utilizar la misma interfaz que estamos usando en la version con Playwright y por ese motivo los metodos
+// son asincrónicos a pesar de que no lo necesiten en este caso.
 export class BienvenidaCypressDriver implements BienvenidaDriver {
     constructor() {}
 
@@ -13,12 +15,11 @@ export class BienvenidaCypressDriver implements BienvenidaDriver {
       cy.get('#nuevoGrupoDialog').should('be.visible');
     }
   
-    acceder = (): Promise<void> => {
+    async acceder(): Promise<void> {
       cy.visit("/");
-      return Promise.resolve();
     }
   
-    validarMensajeDeBienvenida = async (): Promise<void> => {
+    async validarMensajeDeBienvenida(): Promise<void> {
       cy.get(':nth-child(1) > .pl-4').should('contain', 'Repartir');
     };
 

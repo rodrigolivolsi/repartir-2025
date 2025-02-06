@@ -16,8 +16,7 @@ export class BienvenidaCypressDriver implements BienvenidaDriver {
     }
   
     validarMensajeDeBienvenida = async (): Promise<void> => {
-        cy.get("p-dialog").should("have.text", "Repartir");
-      //await dialog.waitFor({ state: "hidden", timeout: 2000 });
+      cy.get(':nth-child(1) > .pl-4').should('contain', 'Repartir');
     };
 
   }

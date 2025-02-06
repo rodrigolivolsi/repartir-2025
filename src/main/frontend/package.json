@@ -15,7 +15,10 @@
     "acceptance-test:backend": "npx bddgen --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts && cross-env ASSEMBLY_NAME=backend npx playwright test --config ../../jsAdvancedAcceptanceTest/src/playwright.config.http.ts --grep-invert @ignore-assembly-backend",
     "wiremock": "wiremock",
     "check-compile": "npx tsc --noEmit --skipLibCheck",
-    "cy:test": "cypress run --e2e --env ASSEMBLY_NAME=e2e"
+    "cy:test": "cypress run --e2e --env ASSEMBLY_NAME=e2e",
+    "acceptance-test-cy": "start-server-and-test 'npm run start-servers' \"http://localhost:8080|http://localhost:8081|http://localhost:4200\" cy:test",
+    "start-servers": "concurrently \"npm run start:api\" \"npm run start\" \"npm run wiremock -- --port 8081\"",
+    "start:api": "node ../../../iniciar-backend.js"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +49,7 @@
     "@playwright/test": "1.48.1",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
+    "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "cypress": "^14.0.2",
     "jasmine-core": "~3.8.0",
@@ -59,6 +63,7 @@
     "monocart-reporter": "^2.9.6",
     "playwright": "1.48.1",
     "playwright-bdd": "^7.5.0",
+    "start-server-and-test": "^2.0.10",
     "ts-node": "^10.0.0",
     "typescript": "~4.9.3",
     "wiremock": "^3.9.1"

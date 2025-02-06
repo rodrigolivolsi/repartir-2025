@@ -21,6 +21,13 @@ export default defineConfig({
         })
       );
 
+      on('task', {
+        log(mensaje) {
+          console.log(mensaje);
+          return null;
+        }
+      })
+
       // Make sure to return the config object as it might have been modified by the plugin.
       return config;
     },

@@ -46,7 +46,7 @@ before(function() {
         ],
         adapters: [],
       }),
-    ] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
+    ] satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
   
     const assembly = lineup.find((a) => a.name === Cypress.env('ASSEMBLY_NAME'));
       if (!assembly) {

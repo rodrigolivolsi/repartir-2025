@@ -17,7 +17,7 @@
     "check-compile": "npx tsc --noEmit --skipLibCheck",
     "cy-acceptance-test:e2e": "cypress run --e2e --headed --no-exit --env ASSEMBLY_NAME=e2e",
     "cy-acceptance-test:backend": "cypress run --e2e --headed --no-exit --env ASSEMBLY_NAME=backend",
-    "acceptance-test-cy": "start-server-and-test 'npm run start-servers' \"http://localhost:8080|http://localhost:8081|http://localhost:4200\" cy:test",
+    "acceptance-test-cy": "start-server-and-test 'npm run start-servers' \"http://localhost:8080|http://localhost:8081|http://localhost:4200\" cy-acceptance-test:backend",
     "start-servers": "concurrently \"npm run start:api\" \"npm run start\" \"npm run wiremock -- --port 8081\"",
     "start:api": "node ../../../iniciar-backend.js"
   },

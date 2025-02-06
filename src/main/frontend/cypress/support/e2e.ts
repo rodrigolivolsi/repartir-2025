@@ -18,3 +18,45 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driver";
+import { createAssembly, Lineup, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
+
+before(function() {
+    const adapterVacio = {};
+    const lineup = [
+      createAssembly("e2e", {
+        drivers: [
+          {
+            name: "bienvenida",
+            constructor: () =>
+              new BienvenidaCypressDriver(),
+          }
+        ],
+        adapters: [
+          {
+            name: "adapter",
+            constructor: () => adapterVacio,
+          },
+        ],
+      }),
+    ] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
+  
+    const assembly = lineup.find((a) => a.name === Cypress.env('ASSEMBLY_NAME'));
+      if (!assembly) {
+        throw new Error(
+          `Assembly not found. Available assemblies: ${lineup
+            .map((a) => a.name)
+            .join(", ")}`
+        );
+      }
+
+    const testAssembly = TestAssemblyFactory(assembly, {
+        adaptersConstructorArgs: { adapter: [] },
+        driversConstructorArgs: { bienvenida: [] },
+    });
+
+    Object.assign(this, {
+      assembly: testAssembly
+    })
+  })

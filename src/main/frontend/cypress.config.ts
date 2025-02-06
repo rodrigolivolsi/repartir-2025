@@ -23,6 +23,8 @@ export default defineConfig({
         })
       );
 
+      console.log('#################ARMANDO EL ASSEMBLY')
+      console.log(config.env.ASSEMBLY_NAME)
       const assembly = lineup.find((a) => a.name === config.env.ASSEMBLY_NAME);
       if (!assembly)
         throw new Error(
@@ -30,12 +32,12 @@ export default defineConfig({
             .map((a) => a.name)
             .join(", ")}`
         );
-
+      
       const testAssembly = TestAssemblyFactory(assembly, {
-        //adaptersConstructorArgs: { },
-        driversConstructorArgs: { bienvenida: [] },
+        adaptersConstructorArgs: [],
+        driversConstructorArgs: [],
       });
-
+      console.log(testAssembly)
       config.env.assembly = testAssembly;
 
       // Make sure to return the config object as it might have been modified by the plugin.
@@ -43,6 +45,8 @@ export default defineConfig({
     },
   },
 });
+
+const adapterVacio = {};
 
 const lineup = [
   createAssembly("e2e", {
@@ -53,6 +57,11 @@ const lineup = [
           new BienvenidaCypressDriver(),
       }
     ],
-    adapters: [],
+    adapters: [
+      {
+        name: "adapter",
+        constructor: () => adapterVacio,
+      },
+    ],
   })
 ] as const satisfies Lineup;

@@ -5,22 +5,19 @@ export class BienvenidaHttpDriver2 implements BienvenidaDriver {
     private inicio: any = undefined;
     private pedido: any = undefined;
   
-    acceder = async (): Promise<void> => {
-        cy.visit("noexiste");
-        expect(true).to.be.false;
-      //this.inicio = await this.request.get("/api/grupos");
+    acceder = (): void => {
+      cy.wrap(fetch("/api/grupos").then(respuesta => this.inicio = respuesta));
     };
   
-    iniciar = async (): Promise<void> => {
-        expect(1).to.be.equal(2);
-      //this.pedido = await this.request.get("/api/usuarios/julian");
+    iniciar = (): void => {
+      cy.wrap(fetch("/api/usuarios/julian").then(respuesta => this.pedido = respuesta));
     };
   
-    validarMensajeDeBienvenida = async (): Promise<void> => {
-      //expect(this.inicio.ok()).toBeTruthy();
+    validarMensajeDeBienvenida =  (): void => {
+      expect(this.inicio.status).to.be.equal(200);
     };
   
-    validarQueSePuedeUsar = async (): Promise<void> => {
-      //expect(this.pedido.ok()).toBeTruthy();
+    validarQueSePuedeUsar =  (): void => {
+      expect(this.pedido.status).to.be.equal(200);
     };
   }

@@ -7,3 +7,11 @@ When("el usuario accede a la aplicación", function() {
 Then("se muestra el mensaje de bienvenida", function() {
   this.assembly.bienvenida.validarMensajeDeBienvenida();
 });
+
+When("decidió iniciar", function () {
+  this.assembly.bienvenida.iniciar();
+});
+
+Then("puede empezar a usarla", function () {
+  this.assembly.bienvenida.validarQueSePuedeUsar();
+});

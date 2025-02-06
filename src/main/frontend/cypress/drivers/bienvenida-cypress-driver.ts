@@ -3,11 +3,14 @@ import { BienvenidaDriver } from "../../../../jsAdvancedAcceptanceTest/src/test-
 export class BienvenidaCypressDriver implements BienvenidaDriver {
     constructor() {}
 
-    iniciar(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async iniciar(): Promise<void> {
+      cy.get('#usuarioInput').type("julian");
+      cy.get('#iniciarBienvenidaButton').click();
     }
-    validarQueSePuedeUsar(): Promise<void> {
-        throw new Error("Method not implemented.");
+
+    async validarQueSePuedeUsar(): Promise<void> {
+      cy.get('#crearGruposButton').click();
+      cy.get('#nuevoGrupoDialog').should('be.visible');
     }
   
     acceder = (): Promise<void> => {

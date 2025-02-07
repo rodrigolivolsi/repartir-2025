@@ -6,11 +6,11 @@ export class BienvenidaHttpDriver2 implements BienvenidaDriver {
     private pedido: any = undefined;
   
     acceder = (): void => {
-      cy.wrap(fetch("/api/grupos").then(respuesta => this.inicio = respuesta));
+      cy.request("/api/grupos").then(respuesta => this.inicio = respuesta);
     };
   
     iniciar = (): void => {
-      cy.wrap(fetch("/api/usuarios/julian").then(respuesta => this.pedido = respuesta));
+      cy.request("/api/usuarios/julian").then(respuesta => this.pedido = respuesta);
     };
   
     validarMensajeDeBienvenida =  (): void => {

@@ -21,33 +21,33 @@ import './commands'
 
 import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driver";
 import { BienvenidaHttpDriver2 } from 'cypress/drivers/bienvenida-http-driver';
-import { createAssembly, Lineup, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
+import { createAssembly, Lineup, TestAssembly, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
+
+const lineup = [
+  createAssembly("e2e", {
+    drivers: [
+      {
+        name: "bienvenida",
+        constructor: () =>
+          new BienvenidaCypressDriver(),
+      }
+    ],
+    adapters: [],
+  }),
+  createAssembly("backend", {
+    drivers: [
+      {
+        name: "bienvenida",
+        constructor: () =>
+          new BienvenidaHttpDriver2(),
+      }
+    ],
+    adapters: [],
+  }),
+] satisfies Lineup
 
 before(function() {
 
-    const lineup = [
-      createAssembly("e2e", {
-        drivers: [
-          {
-            name: "bienvenida",
-            constructor: () =>
-              new BienvenidaCypressDriver(),
-          }
-        ],
-        adapters: [],
-      }),
-      createAssembly("backend", {
-        drivers: [
-          {
-            name: "bienvenida",
-            constructor: () =>
-              new BienvenidaHttpDriver2(),
-          }
-        ],
-        adapters: [],
-      }),
-    ] satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
-  
     const assembly = lineup.find((a) => a.name === Cypress.env('ASSEMBLY_NAME'));
       if (!assembly) {
         throw new Error(
@@ -64,7 +64,13 @@ before(function() {
         driversConstructorArgs: { bienvenida: [] },
     });
 
-    Object.assign(this, {
-      assembly: testAssembly
-    })
-  })
+    Object.assign(this, new CustomContext(testAssembly));
+  });
+
+  export class CustomContext extends Mocha.Context {
+    assembly: TestAssembly<typeof lineup>;
+    constructor(testAssembly: TestAssembly<typeof lineup>) {
+      super();
+      this.assembly = testAssembly;
+    }
+  }

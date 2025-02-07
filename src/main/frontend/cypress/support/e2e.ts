@@ -20,7 +20,7 @@ import './commands'
 // require('./commands')
 
 import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driver";
-import { BienvenidaHttpDriver2 } from 'cypress/drivers/bienvenida-http-driver';
+import { BienvenidaCypressHttpDriver } from 'cypress/drivers/bienvenida-http-driver';
 import { createAssembly, Lineup, TestAssembly, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
 
 const lineup = [
@@ -39,7 +39,7 @@ const lineup = [
       {
         name: "bienvenida",
         constructor: () =>
-          new BienvenidaHttpDriver2(),
+          new BienvenidaCypressHttpDriver(),
       }
     ],
     adapters: [],
@@ -47,17 +47,16 @@ const lineup = [
 ] satisfies Lineup
 
 before(function() {
-
     const assembly = lineup.find((a) => a.name === Cypress.env('ASSEMBLY_NAME'));
-      if (!assembly) {
-        throw new Error(
-          `Assembly not found. Available assemblies: ${lineup
-            .map((a) => a.name)
-            .join(", ")}`
-        );
-      }
+    if (!assembly) {
+      throw new Error(
+        `Assembly not found. Available assemblies: ${lineup
+          .map((a) => a.name)
+          .join(", ")}`
+      );
+    }
 
-      cy.task('log', `Using assembly: ${assembly.name}`);
+    cy.task('log', `Using assembly: ${assembly.name}`);
 
     const testAssembly = TestAssemblyFactory(assembly, {
         adaptersConstructorArgs: { adapter: [] },

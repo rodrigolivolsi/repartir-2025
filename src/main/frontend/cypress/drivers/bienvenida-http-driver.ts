@@ -1,6 +1,6 @@
 import { BienvenidaDriver } from "../../../../jsAdvancedAcceptanceTest/src/test-drivers/bienvenida-driver";
 
-export class BienvenidaHttpDriver2 implements BienvenidaDriver {
+export class BienvenidaCypressHttpDriver implements BienvenidaDriver {
 
     private inicio: any = undefined;
     private pedido: any = undefined;

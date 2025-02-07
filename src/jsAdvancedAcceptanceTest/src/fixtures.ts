@@ -93,4 +93,4 @@ const lineup = [
     ],
     adapters: [],
   }),
-] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
+] satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies

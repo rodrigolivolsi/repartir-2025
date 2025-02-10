@@ -8,6 +8,7 @@ import { GruposDriver } from "./grupos-driver";
 export class GruposPlaywrightDriver implements GruposDriver {
   private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
   private miembrosDeGrupoEsperados: Array<string> = [];
+  private grupoEsperado: Grupo = { nombre: '', miembros: []};
 
   constructor(private page: Page) {}
 

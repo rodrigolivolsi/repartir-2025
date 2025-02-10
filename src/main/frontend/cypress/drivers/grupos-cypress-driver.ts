@@ -3,7 +3,7 @@ import { Grupo } from "../../src/app/model/grupo";
 
 export class GruposCypressDriver implements GruposDriver {
 
-    private grupoEsperado: any;
+    private grupoEsperado: Grupo = { nombre: '', miembros: []};
     private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
     private miembrosDeGrupoEsperados: Array<string> = [];
 

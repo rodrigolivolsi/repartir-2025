@@ -30,7 +30,7 @@ export class GruposPlaywrightDriver implements GruposDriver {
   crearGrupo = async (
     nombre: string,
     miembros: Array<string>
-  ): Promise<Grupo> => {
+  ): Promise<void> => {
     this.nombreDeGrupoEsperado = nombre;
     const gruposAntesDeCrearUnoNuevo = await this.page
       .locator("app-grupos table tr")
@@ -64,7 +64,8 @@ export class GruposPlaywrightDriver implements GruposDriver {
       nombre: nombre,
       miembros,
     };
-    return grupoCreado;
+
+    this.grupoEsperado = grupoCreado;
   };
 
   validarNombreDeGrupo = async (): Promise<void> => {
@@ -95,11 +96,10 @@ export class GruposPlaywrightDriver implements GruposDriver {
   };
 
   validarMontoTotal = async (
-    montoEsperado: string,
-    grupo: Grupo
+    montoEsperado: string
   ): Promise<void> => {
     const filaConGrupoId = await this.page.locator("app-grupos table tr", {
-      hasText: grupo.nombre,
+      hasText: this.grupoEsperado.nombre,
     });
     let monto = await filaConGrupoId.locator("td:nth-child(3)");
 

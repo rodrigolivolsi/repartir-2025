@@ -48,7 +48,7 @@ Then(
 );
 
 Then("debería visualizar dentro del listado el grupo con total $ {string}", function (this: CustomContext, montoEsperado: string) {
-  this.assembly.grupos.validarMontoTotal(montoEsperado, {nombre: 'vacio', miembros: []});
+  this.assembly.grupos.validarMontoTotal(montoEsperado);
 });
 
 function generarNombreUnico(nombre: string) {

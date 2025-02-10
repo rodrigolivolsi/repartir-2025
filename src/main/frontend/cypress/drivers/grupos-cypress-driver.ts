@@ -62,8 +62,15 @@ export class GruposCypressDriver implements GruposDriver {
         });
     }
 
-    validarMontoTotal(montoEsperado: string, grupo: Grupo): Promise<void> {
-        throw new Error("Method not implemented.");
+    async validarMontoTotal(montoEsperado: string, grupo: Grupo): Promise<void> {
+        cy.get('table tbody tr').filter((index, element) => {
+            return Cypress.$(element).text().includes(this.grupoEsperado.nombre);
+        }).then((grupo) => {
+            expect(grupo).to.exist;
+            let montoEnString = grupo.find('td').eq(2).text().trim().replace(/\s+/g, ' ').match(/\d+/);
+            let monto = montoEnString ? montoEnString[0] : undefined;
+            expect(monto).to.equal(montoEsperado);
+        });
+
     }
-    
 }

@@ -23,6 +23,10 @@ When(
   }
 );
 
+When("el usuario crea un grupo", function (this: CustomContext) {
+  this.assembly.grupos.crearGrupo(generarNombreUnico("Grupo de 4"),["Guido", "Laura", "Mariano", "Juan Cruz"]);
+});
+
 Then(
   "debería visualizar dentro del listado el grupo con el nombre indicado",
   function (this: CustomContext) {
@@ -42,6 +46,10 @@ Then(
     this.assembly.grupos.validarMensajeDeAlMenosDosMiembros();
   }
 );
+
+Then("debería visualizar dentro del listado el grupo con total $ {string}", function (this: CustomContext, montoEsperado: string) {
+  this.assembly.grupos.validarMontoTotal(montoEsperado, {nombre: 'vacio', miembros: []});
+});
 
 function generarNombreUnico(nombre: string) {
   const fecha = new Date();

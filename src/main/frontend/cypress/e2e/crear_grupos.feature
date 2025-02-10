@@ -20,3 +20,10 @@ Característica: Crear Grupo para repartir gastos
       Cuando el usuario intenta crear un grupo indicando un único miembro
       Entonces no debería crear el grupo con un único miembro
       Y debería ser informado que necesita tener al menos dos miembros
+
+  Regla: Los grupos tienen un estado inicial
+
+    Escenario: El total inicial del grupo es $ 0
+      Dado que el usuario inició Repartir
+      Cuando el usuario crea un grupo
+      Entonces debería visualizar dentro del listado el grupo con total $ '0'

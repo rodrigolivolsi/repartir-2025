@@ -22,6 +22,7 @@ import './commands'
 import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driver";
 import { BienvenidaCypressHttpDriver } from 'cypress/drivers/bienvenida-http-driver';
 import { createAssembly, Lineup, TestAssembly, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
+import { GruposCypressDriver } from '../drivers/grupos-cypress-driver';
 
 const lineup = [
   createAssembly("e2e", {
@@ -30,6 +31,11 @@ const lineup = [
         name: "bienvenida",
         constructor: () =>
           new BienvenidaCypressDriver(),
+      },
+      {
+        name: "grupos",
+        constructor: () =>
+          new GruposCypressDriver(),
       }
     ],
     adapters: [],
@@ -60,7 +66,7 @@ before(function() {
 
     const testAssembly = TestAssemblyFactory(assembly, {
         adaptersConstructorArgs: { adapter: [] },
-        driversConstructorArgs: { bienvenida: [] },
+        driversConstructorArgs: { bienvenida: [], grupos: [] },
     });
 
     Object.assign(this, new CustomContext(testAssembly));

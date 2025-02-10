@@ -32,8 +32,11 @@ export class GruposCypressDriver implements GruposDriver {
         return grupoCreado;
     }
 
-    crearConUnUnicoMiembro(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async crearConUnUnicoMiembro(): Promise<void> {
+        cy.get("#crearGruposButton").click();
+        cy.get("#nombreGrupoNuevoInput").type('Grupo inválido');
+        cy.get("#miembrosGrupoNuevoInput").type('Oscar{enter}');
+        cy.get("#guardarGrupoNuevoButton").click();
     }
 
     async validarNombreDeGrupo(): Promise<void> {
@@ -53,9 +56,12 @@ export class GruposCypressDriver implements GruposDriver {
             }
         })
     }
-    validarMensajeDeAlMenosDosMiembros(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async validarMensajeDeAlMenosDosMiembros(): Promise<void> {
+        cy.get('[role=alert]').then((elemento) => {
+            expect(elemento.text()).to.contain('Error')
+        });
     }
+
     validarMontoTotal(montoEsperado: string, grupo: Grupo): Promise<void> {
         throw new Error("Method not implemented.");
     }

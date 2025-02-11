@@ -23,6 +23,7 @@ import { BienvenidaCypressDriver } from "cypress/drivers/bienvenida-cypress-driv
 import { BienvenidaCypressHttpDriver } from 'cypress/drivers/bienvenida-http-driver';
 import { createAssembly, Lineup, TestAssembly, TestAssemblyFactory } from "packages/assembly-runner/src/assembly";
 import { GruposCypressDriver } from '../drivers/grupos-cypress-driver';
+import { LoggerAdapter } from '../adapters/logger-adapter';
 
 const lineup = [
   createAssembly("e2e", {
@@ -38,7 +39,13 @@ const lineup = [
           new GruposCypressDriver(),
       }
     ],
-    adapters: [],
+    adapters: [
+      {
+      name: "logger",
+      constructor: () => 
+        new LoggerAdapter(),
+    }
+  ],
   }),
   createAssembly("backend", {
     drivers: [
@@ -65,7 +72,7 @@ before(function() {
     cy.task('log', `Using assembly: ${assembly.name}`);
 
     const testAssembly = TestAssemblyFactory(assembly, {
-        adaptersConstructorArgs: { adapter: [] },
+        adaptersConstructorArgs: { logger: [] },
         driversConstructorArgs: { bienvenida: [], grupos: [] },
     });
 

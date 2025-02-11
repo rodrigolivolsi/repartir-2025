@@ -36,7 +36,7 @@ export class GruposHttpDriver implements GruposDriver {
   crearGrupo = async (
     nombre: string,
     miembros: Array<string>
-  ): Promise<void> => {
+  ): Promise<Grupo> => {
     let nuevoGrupo: Grupo = {
       nombre,
       miembros,
@@ -52,6 +52,7 @@ export class GruposHttpDriver implements GruposDriver {
     this.idGrupo = grupoCreado.id;
     this.nombreGrupo = nuevoGrupo.nombre;
     this.miembrosGrupo = nuevoGrupo.miembros;
+    return grupoCreado;
   };
 
   private async buscarNuevoGrupoEnListado(): Promise<Grupo | undefined> {
@@ -75,7 +76,8 @@ export class GruposHttpDriver implements GruposDriver {
   };
 
   validarMontoTotal = async (
-    montoEsperado: string
+    montoEsperado: string,
+    grupo: Grupo
   ): Promise<void> => {
     let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
     expect(nuevoGrupo?.total?.toString()).toEqual(montoEsperado);

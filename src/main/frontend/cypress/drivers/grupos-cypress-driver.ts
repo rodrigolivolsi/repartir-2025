@@ -4,6 +4,7 @@ import { Grupo } from "../../src/app/model/grupo";
 export class GruposCypressDriver implements GruposDriver {
 
     private grupoEsperado: Grupo = { nombre: '', miembros: []};
+    private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
     private miembrosDeGrupoEsperados: Array<string> = [];
 
     async iniciar(): Promise<void> {
@@ -12,7 +13,8 @@ export class GruposCypressDriver implements GruposDriver {
         cy.get('#iniciarBienvenidaButton').click();
     }
 
-    async crearGrupo(nombre: string, miembros: Array<string>): Promise<void> {
+    async crearGrupo(nombre: string, miembros: Array<string>): Promise<Grupo> {
+        this.nombreDeGrupoEsperado = nombre;
         cy.get("#crearGruposButton").click();
         cy.get("#nombreGrupoNuevoInput").type(nombre);
         
@@ -27,6 +29,7 @@ export class GruposCypressDriver implements GruposDriver {
         };
 
         this.grupoEsperado = grupoCreado;
+        return grupoCreado;
     }
 
     async crearConUnUnicoMiembro(): Promise<void> {
@@ -59,7 +62,7 @@ export class GruposCypressDriver implements GruposDriver {
         });
     }
 
-    async validarMontoTotal(montoEsperado: string): Promise<void> {
+    async validarMontoTotal(montoEsperado: string, grupo: Grupo): Promise<void> {
         cy.get('table tbody tr').filter((index, element) => {
             return Cypress.$(element).text().includes(this.grupoEsperado.nombre);
         }).then((grupo) => {

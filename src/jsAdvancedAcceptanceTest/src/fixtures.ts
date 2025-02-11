@@ -37,7 +37,9 @@ export const test = base.extend<{
     use(testAssembly);
   },
   world: async ({}, use) => {
-    const world: World = {};
+    const world: World = {
+      grupo: {nombre: "SIN ESPECIFICAR", miembros: []}
+    };
     use(world);
   },
 });

@@ -39,12 +39,12 @@ When("el usuario crea un grupo", function (this: CustomContext) {
 Then(
   "debería visualizar dentro del listado el grupo con el nombre indicado",
   function (this: CustomContext) {
-    this.assembly.grupos.validarNombreDeGrupo();
+    this.assembly.grupos.validarNombreDeGrupo(grupo);
   }
 );
 
 Then("visualiza dentro del listado el grupo con los miembros indicados", function (this: CustomContext) {
-  this.assembly.grupos.validarMiembrosDeGrupo();
+  this.assembly.grupos.validarMiembrosDeGrupo(grupo);
 });
 
 Then("no debería crear el grupo con un único miembro", function () { });

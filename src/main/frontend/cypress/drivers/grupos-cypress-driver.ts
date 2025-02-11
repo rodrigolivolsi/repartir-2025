@@ -3,10 +3,6 @@ import { Grupo } from "../../src/app/model/grupo";
 
 export class GruposCypressDriver implements GruposDriver {
 
-    private grupoEsperado: Grupo = { nombre: '', miembros: []};
-    private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
-    private miembrosDeGrupoEsperados: Array<string> = [];
-
     async iniciar(): Promise<void> {
         cy.visit("/");
         cy.get('#usuarioInput').type("julian");
@@ -14,22 +10,18 @@ export class GruposCypressDriver implements GruposDriver {
     }
 
     async crearGrupo(nombre: string, miembros: Array<string>): Promise<Grupo> {
-        this.nombreDeGrupoEsperado = nombre;
         cy.get("#crearGruposButton").click();
         cy.get("#nombreGrupoNuevoInput").type(nombre);
-        
+
         for (let i = 0; i < miembros.length; i++) {
             cy.get("#miembrosGrupoNuevoInput").type(`${miembros[i]}{enter}`);
-            this.miembrosDeGrupoEsperados.push(miembros[i]);
         }
         cy.get("#guardarGrupoNuevoButton").click();
-        const grupoCreado: Grupo = {
-            nombre: nombre,
-            miembros,
-        };
 
-        this.grupoEsperado = grupoCreado;
-        return grupoCreado;
+        return {
+            nombre: nombre,
+            miembros: miembros,
+        };
     }
 
     async crearConUnUnicoMiembro(): Promise<void> {
@@ -39,20 +31,20 @@ export class GruposCypressDriver implements GruposDriver {
         cy.get("#guardarGrupoNuevoButton").click();
     }
 
-    async validarNombreDeGrupo(): Promise<void> {
+    async validarNombreDeGrupo(grupo: Grupo): Promise<void> {
         cy.get('table tbody tr').filter((_, element) => {
-            return Cypress.$(element).text().includes(this.grupoEsperado.nombre);
-        }).then((grupo) => {
-            expect(grupo).to.exist;
+            return Cypress.$(element).text().includes(grupo.nombre);
+        }).then((grupoEncontrado) => {
+            expect(grupoEncontrado).to.exist;
         })
     }
 
-    async validarMiembrosDeGrupo(): Promise<void> {
+    async validarMiembrosDeGrupo(grupo: Grupo): Promise<void> {
         cy.get('table tbody tr').filter((_, element) => {
-            return Cypress.$(element).text().includes(this.grupoEsperado.nombre);
-        }).then((grupo) => {
-            for (let i = 0; i < this.grupoEsperado.miembros.length; i++) {
-                cy.wrap(grupo).find('p-chip').contains(this.grupoEsperado.miembros[i]).should('exist');
+            return Cypress.$(element).text().includes(grupo.nombre);
+        }).then((grupoEncontrado) => {
+            for (let i = 0; i < grupo.miembros.length; i++) {
+                cy.wrap(grupoEncontrado).find('p-chip').contains(grupo.miembros[i]).should('exist');
             }
         })
     }
@@ -65,12 +57,11 @@ export class GruposCypressDriver implements GruposDriver {
     async validarMontoTotal(montoEsperado: string, grupo: Grupo): Promise<void> {
         cy.get('table tbody tr').filter((index, element) => {
             return Cypress.$(element).text().includes(grupo.nombre);
-        }).then((grupo) => {
-            expect(grupo).to.exist;
-            let montoEnString = grupo.find('td').eq(2).text().trim().replace(/\s+/g, ' ').match(/\d+/);
+        }).then((grupoEncontrado) => {
+            expect(grupoEncontrado).to.exist;
+            let montoEnString = grupoEncontrado.find('td').eq(2).text().trim().replace(/\s+/g, ' ').match(/\d+/);
             let monto = montoEnString ? montoEnString[0] : undefined;
             expect(monto).to.equal(montoEsperado);
         });
-
     }
 }

@@ -6,9 +6,6 @@ import { Grupo } from "../../../main/frontend/src/app/model/grupo";
 import { GruposDriver } from "./grupos-driver";
 
 export class GruposPlaywrightDriver implements GruposDriver {
-  private nombreDeGrupoEsperado: string = "SIN ESPECIFICAR";
-  private miembrosDeGrupoEsperados: Array<string> = [];
-  private grupoEsperado: Grupo = { nombre: '', miembros: []};
 
   constructor(private page: Page) {}
 
@@ -31,7 +28,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
     nombre: string,
     miembros: Array<string>
   ): Promise<Grupo> => {
-    this.nombreDeGrupoEsperado = nombre;
     const gruposAntesDeCrearUnoNuevo = await this.page
       .locator("app-grupos table tr")
       .count();
@@ -42,7 +38,6 @@ export class GruposPlaywrightDriver implements GruposDriver {
     for (let i = 0; i < miembros.length; i++) {
       await this.page.locator("#miembrosGrupoNuevoInput").fill(miembros[i]);
       await this.page.keyboard.press("Enter");
-      this.miembrosDeGrupoEsperados.push(miembros[i]);
     }
 
     await this.page.locator("#guardarGrupoNuevoButton").click();
@@ -59,31 +54,30 @@ export class GruposPlaywrightDriver implements GruposDriver {
     });
     const grupoId = await grupoFila.locator("td:nth-child(1)").textContent();
 
-    const grupoCreado: Grupo = {
+    return  {
       id: grupoId ? parseInt(grupoId) : -1,
       nombre: nombre,
-      miembros,
-    };
-    return grupoCreado;
+      miembros: miembros,
+    }
   };
 
-  validarNombreDeGrupo = async (): Promise<void> => {
+  validarNombreDeGrupo = async (grupo: Grupo): Promise<void> => {
     await expect(this.page.getByRole("alert")).toContainText(
-      this.nombreDeGrupoEsperado
+      grupo.nombre
     );
   };
 
-  validarMiembrosDeGrupo = async (): Promise<void> => {
+  validarMiembrosDeGrupo = async (grupo: Grupo): Promise<void> => {
     let row = this.page
       .locator(
-        `app-grupos table tr:has(td:nth-child(2):text("${this.nombreDeGrupoEsperado}"))`
+        `app-grupos table tr:has(td:nth-child(2):text("${grupo.nombre}"))`
       )
       .last();
     let miembros = await row.locator("td:nth-child(4)");
 
-    for (let index = 0; index < this.miembrosDeGrupoEsperados.length; index++) {
+    for (let index = 0; index < grupo.miembros.length; index++) {
       await expect(miembros).toContainText(
-        this.miembrosDeGrupoEsperados[index]
+        grupo.miembros[index]
       );
     }
   };

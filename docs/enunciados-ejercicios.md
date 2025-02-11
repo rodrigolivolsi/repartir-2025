@@ -57,3 +57,4 @@ Se debe decidir que tipo de pruebas se quieren agregar para verificar la impleme
 Resolver el problema planteado en el ejercicio 1 con una prueba de aceptación que pueda ejecutarse en múltiples test assemblies (ver [Arquitectura avanzada de pruebas](arquitectura-de-pruebas.md)).
 
 Un camino posible: Agregar el escenario e implementar la prueba para el *Assembly Backend*. Cuando esté lista implementarla para el *Assembly E2E*. Por último para el *Assembly MockApi*.
+[Ver solución](https://gitlab.com/grupo-esfera/capacitacion/recursos/repartir/-/merge_requests/62/diffs)

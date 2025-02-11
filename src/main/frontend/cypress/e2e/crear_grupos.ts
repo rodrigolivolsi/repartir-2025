@@ -1,5 +1,8 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import { CustomContext } from "../support/e2e";
+import { Grupo } from "../../src/app/model/grupo";
+
+let grupo: Grupo = { nombre: '', miembros: []};
 
 When("que el usuario inició Repartir", function (this: CustomContext) {
   this.assembly.grupos.iniciar();
@@ -8,12 +11,16 @@ When("que el usuario inició Repartir", function (this: CustomContext) {
 When(
   "el usuario crea un grupo indicando el nombre {string}",
   function (this: CustomContext, nombre: string) {
-    this.assembly.grupos.crearGrupo(generarNombreUnico(nombre), ["Victor", "Brenda"]);
+    this.assembly.grupos.crearGrupo(generarNombreUnico(nombre), ["Victor", "Brenda"]).then((grupoDevuelto) => {
+      grupo = grupoDevuelto
+    });
   }
 );
 
 When("el usuario crea un grupo indicando que sus miembros son {string} y {string}", function (this: CustomContext, primerMiembro: string, segundoMiembro: string) {
-  this.assembly.grupos.crearGrupo(generarNombreUnico("NombreDeGrupoValido"), [primerMiembro, segundoMiembro]);
+  this.assembly.grupos.crearGrupo(generarNombreUnico("NombreDeGrupoValido"), [primerMiembro, segundoMiembro]).then((grupoDevuelto) => {
+    grupo = grupoDevuelto
+  });
 });
 
 When(
@@ -24,7 +31,9 @@ When(
 );
 
 When("el usuario crea un grupo", function (this: CustomContext) {
-  this.assembly.grupos.crearGrupo(generarNombreUnico("Grupo de 4"),["Guido", "Laura", "Mariano", "Juan Cruz"]);
+  this.assembly.grupos.crearGrupo(generarNombreUnico("Grupo de 4"),["Guido", "Laura", "Mariano", "Juan Cruz"]).then((grupoDevuelto) => {
+    grupo = grupoDevuelto
+  });
 });
 
 Then(
@@ -48,7 +57,7 @@ Then(
 );
 
 Then("debería visualizar dentro del listado el grupo con total $ {string}", function (this: CustomContext, montoEsperado: string) {
-  this.assembly.grupos.validarMontoTotal(montoEsperado, {nombre: 'vacio', miembros: []});
+  this.assembly.grupos.validarMontoTotal(montoEsperado, grupo);
 });
 
 function generarNombreUnico(nombre: string) {

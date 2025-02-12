@@ -22,7 +22,8 @@
       "@angular/*": ["node_modules/@angular/*"],
       "primeng/*": ["node_modules/primeng/*"],
       "@types/*": ["node_modules/@types/*"],
-      "rxjs": ["node_modules/rxjs"]
+      "rxjs": ["node_modules/rxjs"],
+      "@badeball/cypress-cucumber-preprocessor/*": ["./node_modules/@badeball/cypress-cucumber-preprocessor/dist/subpath-entrypoints/*"]
     }
   },
   "angularCompilerOptions": {

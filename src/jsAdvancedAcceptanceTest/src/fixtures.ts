@@ -37,7 +37,9 @@ export const test = base.extend<{
     use(testAssembly);
   },
   world: async ({}, use) => {
-    const world: World = {};
+    const world: World = {
+      grupo: {nombre: "SIN ESPECIFICAR", miembros: []}
+    };
     use(world);
   },
 });
@@ -93,4 +95,4 @@ const lineup = [
     ],
     adapters: [],
   }),
-] as const satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies
+] satisfies Lineup; // IMPORTANTISIMO!!!!!!! tiene que ser satisfies

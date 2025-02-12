@@ -17,8 +17,8 @@ When(
 
 When(
   "el usuario crea un grupo indicando que sus miembros son {string} y {string}",
-  async ({ assembly }, miembro1, miembro2) => {  
-    await assembly.grupos.crearGrupo(generarNombreUnico("Grupo de Prueba"),[miembro1, miembro2]);
+  async ({ assembly, world }, miembro1, miembro2) => {
+    world.grupo = await assembly.grupos.crearGrupo(generarNombreUnico("Grupo de Prueba"),[miembro1, miembro2]);
   }
 );
 
@@ -54,15 +54,15 @@ Then("no debería crear el grupo con un único miembro", async ({ page }) => {})
 
 Then(
   "debería visualizar dentro del listado el grupo con el nombre indicado",
-  async ({ assembly }) => {
-    await assembly.grupos.validarNombreDeGrupo();
+  async ({ assembly, world}) => {
+    await assembly.grupos.validarNombreDeGrupo(world.grupo);
   }
 );
 
 Then(
   "visualiza dentro del listado el grupo con los miembros indicados",
-  async ({ assembly }) => {
-    await assembly.grupos.validarMiembrosDeGrupo();
+  async ({ assembly, world }) => {
+    await assembly.grupos.validarMiembrosDeGrupo(world.grupo);
   }
 );
 

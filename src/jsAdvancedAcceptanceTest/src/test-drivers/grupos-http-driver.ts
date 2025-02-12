@@ -8,10 +8,6 @@ import { GruposDriver } from "./grupos-driver";
 export class GruposHttpDriver implements GruposDriver {
   constructor(private request: APIRequestContext) {}
 
-  private nombreGrupo: string = "";
-  private idGrupo: number | undefined;
-  private miembrosGrupo: string[] = [];
-
   iniciar = async (): Promise<void> => {
     await this.request.get("/api/grupos");
     await this.request.get("/api/usuarios/julian");
@@ -28,9 +24,9 @@ export class GruposHttpDriver implements GruposDriver {
     expect(respuestaCrear.ok()).toBeFalsy();
   };
 
-  validarNombreDeGrupo = async (): Promise<void> => {
-    let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
-    expect(nuevoGrupo?.nombre).toBe(this.nombreGrupo);
+  validarNombreDeGrupo = async (grupo: Grupo): Promise<void> => {
+    let nuevoGrupo = await this.buscarNuevoGrupoEnListado(grupo);
+    expect(nuevoGrupo?.nombre).toBe(grupo.nombre);
   };
 
   crearGrupo = async (
@@ -49,26 +45,12 @@ export class GruposHttpDriver implements GruposDriver {
     let grupoCreado = (await respuestaCrear.json()) as Grupo;
     expect(grupoCreado.id).toBeTruthy();
 
-    this.idGrupo = grupoCreado.id;
-    this.nombreGrupo = nuevoGrupo.nombre;
-    this.miembrosGrupo = nuevoGrupo.miembros;
     return grupoCreado;
   };
 
-  private async buscarNuevoGrupoEnListado(): Promise<Grupo | undefined> {
-    const listado = await this.request.get("/api/grupos");
-    expect(listado.ok()).toBeTruthy();
-
-    let grupos = (await listado.json()) as Grupo[];
-    let nuevoGrupo = grupos.find((x) => x.id == this.idGrupo);
-
-    expect(nuevoGrupo).toBeTruthy();
-    return nuevoGrupo;
-  }
-
-  validarMiembrosDeGrupo = async (): Promise<void> => {
-    let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
-    expect(nuevoGrupo?.miembros).toEqual(this.miembrosGrupo);
+  validarMiembrosDeGrupo = async (grupo: Grupo): Promise<void> => {
+    let nuevoGrupo = await this.buscarNuevoGrupoEnListado(grupo);
+    expect(nuevoGrupo?.miembros).toEqual(grupo.miembros);
   };
 
   validarMensajeDeAlMenosDosMiembros = async (): Promise<void> => {
@@ -79,7 +61,21 @@ export class GruposHttpDriver implements GruposDriver {
     montoEsperado: string,
     grupo: Grupo
   ): Promise<void> => {
-    let nuevoGrupo = await this.buscarNuevoGrupoEnListado();
+    let nuevoGrupo = await this.buscarNuevoGrupoEnListado(grupo);
     expect(nuevoGrupo?.total?.toString()).toEqual(montoEsperado);
   };
+
+  private async buscarNuevoGrupoEnListado(grupo: Grupo): Promise<Grupo | undefined> {
+
+    expect(grupo.id).toBeDefined();
+
+    const listado = await this.request.get("/api/grupos");
+    expect(listado.ok()).toBeTruthy();
+
+    let grupos = (await listado.json()) as Grupo[];
+    let nuevoGrupo = grupos.find((x) => x.id == grupo.id);
+
+    expect(nuevoGrupo).toBeTruthy();
+    return nuevoGrupo;
+  }
 }

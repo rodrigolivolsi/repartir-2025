@@ -18,7 +18,6 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 @DisplayName("Compuestos por al menos dos miembros")
@@ -80,15 +79,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
 
     @Y("debería ser informado que necesita tener al menos dos miembros")
     public void deberiaSerInformadoQueNecesitaTenerAlMenosDosMiembros() {
-
-        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
-        var mensajesToast = wait.withMessage("Mostro Toast")
-                .until(visibilityOfElementLocated(By.id("mensajesToast")));
-        wait.withMessage("Título del Toast es 'Error'")
-                .until(textToBePresentInElement(mensajesToast, "Error"));
-        assertThat(mensajesToast.getText())
-                .as("Descripción del Toast")
-                .isNotBlank();
+        shouldShowAnError("El grupo debe estar formado por al menos 2 miembros");
     }
 
     private @NotNull List<WebElement> obtenerGrupo() {

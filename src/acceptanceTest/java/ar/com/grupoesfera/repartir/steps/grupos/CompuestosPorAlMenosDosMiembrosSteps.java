@@ -73,8 +73,7 @@ public class CompuestosPorAlMenosDosMiembrosSteps extends CucumberSteps {
 
     @Entonces("no debería crear el grupo con un único miembro")
     public void noDeberiaCrearElGrupoConUnUnicoMiembro() {
-
-        // TODO
+        shouldShowAnError("El grupo debe estar formado por al menos 2 miembros");
     }
 
     @Y("debería ser informado que necesita tener al menos dos miembros")

@@ -9,8 +9,9 @@ import java.math.BigDecimal;
 
 @Service
 public class MontosService {
-
-    private static final BigDecimal LIMITE_TOTAL = new BigDecimal("10000.00");
+    //fijo el maximo de presupuesto que puede tener un grupo
+    //en este caso $ 100.000
+    private static final BigDecimal LIMITE_TOTAL = new BigDecimal("100000");
 
     public void inicializarTotal(Grupo grupo) {
 

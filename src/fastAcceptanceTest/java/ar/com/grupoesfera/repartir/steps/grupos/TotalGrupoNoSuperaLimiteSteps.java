@@ -62,9 +62,10 @@ public class TotalGrupoNoSuperaLimiteSteps {
         assertThat(gastoAgregado).isFalse();
     }
 
-    @Entonces("debería ser informado que el total del grupo no puede superar $ 10.000,00")
+    @Entonces("debería ser informado que el total del grupo no puede superar $ 100.000")
     public void deberia_ser_informado_limite() {
-        assertThat(mensajeError).isEqualTo("El total del grupo no puede superar $ 10.000,00");
+        //mensaje de la excepcion "LimiteDeGastoExcedidoException"
+        assertThat(mensajeError).isEqualTo("El total del grupo no puede superar $ 100.000");
     }
 
     @Entonces("el total del grupo debería ser $ {double}")

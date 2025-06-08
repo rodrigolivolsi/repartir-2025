@@ -4,14 +4,12 @@ import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import org.springframework.stereotype.Service;
 import ar.com.grupoesfera.repartir.exceptions.LimiteDeGastoExcedidoException;
+import ar.com.grupoesfera.repartir.config.LimitesDeGrupo;
 
 import java.math.BigDecimal;
 
 @Service
 public class MontosService {
-    //fijo el maximo de presupuesto que puede tener un grupo
-    //en este caso $ 100.000
-    private static final BigDecimal LIMITE_TOTAL = new BigDecimal("100000");
 
     public void inicializarTotal(Grupo grupo) {
 
@@ -22,7 +20,9 @@ public class MontosService {
 
         BigDecimal total = grupo.getTotal();
         BigDecimal nuevoTotal = total.add(gasto.getMonto());
-        if (nuevoTotal.compareTo(LIMITE_TOTAL) > 0) {
+        //utilizo la constante de LIMITE_TOTAL para ver si fue superado
+        //si el nuevo total es mayor al limite, lanzo la excepcion
+        if (nuevoTotal.compareTo(LimitesDeGrupo.LIMITE_TOTAL) > 0) {
             throw new LimiteDeGastoExcedidoException();
         
     }

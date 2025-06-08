@@ -7,7 +7,9 @@ import ar.com.grupoesfera.repartir.exceptions.LimiteDeGastoExcedidoException;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
-
+import ar.com.grupoesfera.repartir.config.LimitesDeGrupo;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.*;
@@ -62,10 +64,14 @@ public class TotalGrupoNoSuperaLimiteSteps {
         assertThat(gastoAgregado).isFalse();
     }
 
-    @Entonces("debería ser informado que el total del grupo no puede superar $ 100.000")
-    public void deberia_ser_informado_limite() {
-        //mensaje de la excepcion "LimiteDeGastoExcedidoException"
-        assertThat(mensajeError).isEqualTo("El total del grupo no puede superar $ 100.000");
+    //verifica que se haya lanzado la excepcion de limite excedido
+    //MANUAL: modificar el valor del limite en el feature con separador de miles (ya que es documentacion y especificacion de comportamiento para las pruebas)
+    //para que represente el limite configurado en la constante LIMITE_TOTAL
+    @Entonces("debería ser informado que el total del grupo no puede superar $ {double}")
+    public void deberia_ser_informado_limite(Double limite) {
+        String esperado = "El total del grupo no puede superar $ " + 
+                          NumberFormat.getInstance(new Locale("es", "AR")).format(LimitesDeGrupo.LIMITE_TOTAL);
+        assertThat(mensajeError).isEqualTo(esperado);
     }
 
     @Entonces("el total del grupo debería ser $ {double}")
